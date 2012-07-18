@@ -72,7 +72,7 @@ function __warmill_env {
   alias devserv='python2 ~/src/google_appengine.py/dev_appserver.py'
 }
 
-
+tag() { alias $1="cd $PWD"; }
 
 __aliases
 __common_env

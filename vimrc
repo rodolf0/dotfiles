@@ -15,7 +15,7 @@
   "Bundle 'Mustang2'
   "Bundle 'pydoc.vim'
   Bundle 'AutoComplPop'
-	Bundle 'ZoomWin'
+  Bundle 'ZoomWin'
   Bundle 'Conque-Shell'
   Bundle 'Lokaltog/vim-powerline'
   Bundle 'PySmell'
