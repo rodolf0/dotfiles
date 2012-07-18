@@ -1,0 +1,7 @@
+[user]
+	name = Rodolfo Granata
+	email = warlock.cc@gmail.com
+[color]
+	diff = auto
+[diff]
+	tool = vimdiff
