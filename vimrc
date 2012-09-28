@@ -25,7 +25,7 @@
   Bundle 'TaskList.vim'
   Bundle 'The-NERD-Commenter'
   Bundle 'The-NERD-tree'
-  Bundle 'artm/vim-autoclose'
+  Bundle 'Townk/vim-autoclose'
   Bundle 'colorv.vim'
   Bundle 'ctrlp.vim'
   Bundle 'dbext.vim'
