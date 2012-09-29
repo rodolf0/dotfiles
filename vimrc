@@ -12,41 +12,38 @@
   set rtp+=~/.vim/bundle/vundle
   call vundle#rc()
 
-  "Bundle 'Mustang2'
-  "Bundle 'pydoc.vim'
-  Bundle 'AutoComplPop'
-  Bundle 'ZoomWin'
-  Bundle 'Conque-Shell'
-  Bundle 'Lokaltog/vim-powerline'
-  Bundle 'PySmell'
-  Bundle 'Rip-Rip/clang_complete'
-  Bundle 'SuperTab-continued.'
-  Bundle 'Tabular'
-  Bundle 'TaskList.vim'
-  Bundle 'The-NERD-Commenter'
-  Bundle 'The-NERD-tree'
-  Bundle 'Townk/vim-autoclose'
-  Bundle 'colorv.vim'
-  Bundle 'ctrlp.vim'
-  Bundle 'dbext.vim'
-  "Bundle 'easytags.vim'
   Bundle 'gmarik/vundle'
-  Bundle 'jellybeans.vim'
-  Bundle 'jnwhiteh/vim-golang'
-  Bundle 'matchit.zip'
-  Bundle 'paster.vim'
+
+  " languages
+  "Bundle 'pydoc.vim'
+  Bundle 'PySmell'
   Bundle 'pep8'
   Bundle 'pyflakes'
-  Bundle 'taglist-plus'
-  Bundle 'utl.vim'
-  Bundle 'vcscommand.vim'
-  Bundle 'vim-orgmode'
+  Bundle 'jnwhiteh/vim-golang'
+  Bundle 'Rip-Rip/clang_complete'
 
-  " Snip mate
-  Bundle "MarcWeber/vim-addon-mw-utils"
-  Bundle "tomtom/tlib_vim"
-  Bundle 'honza/snipmate-snippets'
-  Bundle 'garbas/vim-snipmate'
+  " interface
+  Bundle 'jellybeans.vim'
+  Bundle 'Lokaltog/vim-powerline'
+  Bundle 'AutoComplPop'
+  Bundle 'SuperTab-continued.'
+  Bundle 'The-NERD-Commenter'
+  Bundle 'The-NERD-tree'
+  Bundle 'ctrlp.vim'
+  Bundle 'taglist-plus'
+  Bundle 'matchit.zip'
+  Bundle 'utl.vim'
+
+  Bundle 'dbext.vim'
+  Bundle 'vcscommand.vim'
+  Bundle 'colorv.vim'
+
+  " text formatting
+  Bundle 'Tabular'
+  Bundle 'Townk/vim-autoclose'
+  Bundle 'vim-orgmode'
+  Bundle 'UltiSnips'
+  "Bundle 'easytags.vim'
 
   " Enable filetype plugin: detect file type
   filetype plugin indent on
@@ -119,7 +116,7 @@
   "set whichwrap=b,s,h,l,<,>,[,]  " backspace and cursor keys wrap to
   "set winminheight=10    " min win height
   set winminwidth=10    " minimum window width
-  set completeopt=menu,menuone, "preview,longest   " what to show on omnicompletion
+  set completeopt=menu  "menuone,preview,longest   " what to show on omnicompletion
 
   " No sound on errors
   set noerrorbells
@@ -295,9 +292,7 @@
   " }
 
   " * auto close {
-    " don't auto-close <>
-    autocmd FileType cpp,c,h,hh,hpp,go,py,cc,sh
-              \ let b:AutoClosePairs = AutoClose#DefaultPairsModified("", "<")
+    let g:AutoClosePumvisible = {"ENTER": "\<C-Y>", "ESC": "\<ESC>"}
   " }
 
   " * supertab {
