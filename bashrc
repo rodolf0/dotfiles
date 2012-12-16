@@ -40,7 +40,7 @@ function __common_env {
   export PS1='\[\e[01;32m\]\u \[\e[01;34m\]\W \$ \[\e[00m\]'
   export HISTSIZE=1000
   export EDITOR=vim
-  export DE=xfce # for xdg-open to work correctly
+  #export DE=xfce # for xdg-open to work correctly
   export TERM=xterm-256color
 
   for s in ~/Source/shlibs/*.lib.sh; do source $s; done

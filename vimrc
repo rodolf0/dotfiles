@@ -53,6 +53,7 @@
 " * General {
   set history=3000    " Sets how many lines of history VIM has to remember
   set mouse=a         " automatically enable mouse usage
+  set ttymouse=xterm2 " automatically enable mouse usage
   set autoread        " Auto read when a file is changed from the outside
   set autochdir       " Always switch to the current file directory
   set shortmess+=filmnrxoOtT  " abbrev. of messages (avoids 'hit enter')
@@ -287,6 +288,7 @@
   " * clang complete {
     "let g:clang_library_path = '/usr/lib/llvm'
     let g:clang_use_library = 1
+    let g:clang_auto_select = 1
     "let g:clang_user_options = '|| exit 0'
     map <F6> :call g:ClangUpdateQuickFix()<CR>
   " }
@@ -351,7 +353,7 @@ if has("autocmd") && !exists("autocommands_loaded")
       highlight WhitespaceEOL ctermbg=red guibg=red
       match WhitespaceEOL '\(\s\+$\|\(^.\{80,\}\)\@<=.\)'
     endfu
-    au BufNewFile,BufReadPost *.c,*.h,*.crush,*.sh,*.pl,*.java,*.cc,*.py call ShowWhiteSpace()
+    "au BufNewFile,BufReadPost *.c,*.h,*.crush,*.sh,*.pl,*.java,*.cc,*.py call ShowWhiteSpace()
 
 
     " Makefile template
