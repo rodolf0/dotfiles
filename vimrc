@@ -323,7 +323,7 @@ if has("autocmd") && !exists("autocommands_loaded")
   au VimEnter * nohls       " turn off hilighting uppon start
 
   " remove whitespace on save
-  au BufWrite *.cc,*.go,*.h,*.crush,*.cpp,*.java,*.py,*.sh mark ' | silent! %s/\s\+$// | norm ''
+  au BufWrite *.cc,*.go,*.h,*.crush,*.cpp,*.java,*.py,*.sh,*.c mark ' | silent! %s/\s\+$// | norm ''
 
   " Jump to the last known cursor position.
   autocmd BufReadPost *

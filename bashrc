@@ -42,6 +42,8 @@ function __common_env {
   export EDITOR=vim
   #export DE=xfce # for xdg-open to work correctly
   export TERM=xterm-256color
+  export CC=clang
+  export CXX=clang++
 
   for s in ~/Source/shlibs/*.lib.sh; do source $s; done
 
