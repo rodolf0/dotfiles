@@ -1,3 +1,6 @@
 [submodule "vim/bundle/vundle"]
 	path = vim/bundle/vundle
 	url = https://github.com/gmarik/vundle.git
+[submodule "emacs.d/el-get/el-get"]
+	path = emacs.d/el-get/el-get
+	url = https://github.com/dimitri/el-get.git

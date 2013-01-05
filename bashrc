@@ -17,7 +17,7 @@ function __aliases {
   alias bs='ssh warlock@warzone3.com.ar'
   alias tvoff="bs -t -x 'sudo -i -u xbmc xset -display :0 dpms force off'"
   alias tvon="bs -t -x 'sudo -i -u xbmc xset -display :0 dpms force on'"
-  alias e='emacsclient -t'
+  alias e='emacs -nw'
 }
 
 
