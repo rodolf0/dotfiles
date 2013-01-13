@@ -1,0 +1,6 @@
+(:name auto-complete-clang-async
+       :description "An emacs plugin to complete C and C++ code using libclang"
+       :type github
+       :pkgname "Golevka/emacs-clang-complete-async"
+       :build ("make")
+       )
