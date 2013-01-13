@@ -1,3 +1,5 @@
+;; http://cx4a.org/software/auto-complete/manual.html
+
 (require 'el-get-setup)
 
 ;; start with default config from auto-complete-config
@@ -18,6 +20,5 @@
 										 "clang-complete"))
 	     (ac-clang-launch-completion-process)))
 (add-hook 'auto-complete-mode-hook 'ac-common-setup)
-
 
 (provide 'init-auto-complete)
