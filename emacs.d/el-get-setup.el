@@ -9,11 +9,11 @@
      (eval-print-last-sexp))))
 
 (setq my-packages
-      '(zenburn-theme
-	color-theme-solarized
-	popup fuzzy auto-complete
-	auto-complete-clang-async
-	go-mode go-autocomplete))
+      '(color-theme-solarized
+        rainbow-delimiters
+        popup fuzzy auto-complete
+        auto-complete-clang-async
+        go-mode go-autocomplete))
 
 (add-to-list 'el-get-recipe-path "~/.emacs.d/recipes")
 (el-get 'sync my-packages)
