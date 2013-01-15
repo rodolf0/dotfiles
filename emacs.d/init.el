@@ -7,10 +7,11 @@
 	(setq custom-file "~/.emacs.d/custom.el")
 	(load custom-file))
 
-
 ;; code asistance
 (require 'init-auto-complete)
 
+;; plugin config
+(add-hook 'before-save-hook 'gofmt-before-save)
 
 ;; tunning interface
 (require 'rainbow-delimiters)

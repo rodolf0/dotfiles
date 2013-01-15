@@ -21,4 +21,7 @@
 	     (ac-clang-launch-completion-process)))
 (add-hook 'auto-complete-mode-hook 'ac-common-setup)
 
+;; bind toggle-key
+(define-key ac-mode-map (kbd "C-c C-c") 'auto-complete)
+
 (provide 'init-auto-complete)
