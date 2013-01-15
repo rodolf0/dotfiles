@@ -14,7 +14,9 @@
 
 ;; tunning interface
 (require 'rainbow-delimiters)
-(setq default-tab-width 2)
-(defalias 'yes-or-no-p 'y-or-n-p) ; just y/n
 (load-theme 'solarized-dark)
 (global-rainbow-delimiters-mode)
+(setq default-tab-width 2)
+(defalias 'yes-or-no-p 'y-or-n-p) ; just y/n
+(xterm-mouse-mode)
+(mouse-wheel-mode t)
