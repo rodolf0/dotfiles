@@ -15,6 +15,7 @@
 
 ;; tunning interface
 (require 'rainbow-delimiters)
+(require 'ergoemacs)
 (load-theme 'solarized-dark)
 (global-rainbow-delimiters-mode)
 (setq default-tab-width 2)

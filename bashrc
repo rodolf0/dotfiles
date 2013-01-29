@@ -81,3 +81,10 @@ __common_env
 [ $(hostname -s) = 'stronghold' ] && __stronghold_env
 [ $(hostname -s) = 'warmill' ]    && __warmill_env
 [[ "$-" =~ i ]] && cal
+
+# if [ -z "$TMUX" ] && [[ $- == *i* ]]; then
+#   __tmux_ses=$(hostname -s)
+# 	tmux has-session -t $__tmux_ses &&
+#     tmux -2 -u attach-session -t $__tmux_ses ||
+#     tmux -2 -u new-session -s $__tmux_ses
+# fi

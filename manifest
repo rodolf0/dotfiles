@@ -3,3 +3,4 @@ gitconfig
 pythonrc
 vim
 vimrc
+tmux.conf

@@ -33,6 +33,7 @@
   Bundle 'taglist-plus'
   Bundle 'matchit.zip'
   Bundle 'utl.vim'
+  Bundle 'EasyMotion'
 
   Bundle 'dbext.vim'
   Bundle 'vcscommand.vim'
