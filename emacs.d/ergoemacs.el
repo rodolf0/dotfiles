@@ -11,12 +11,6 @@
 (global-set-key (kbd "<C-prior>") 'previous-buffer) ; Ctrl+PageUp
 (global-set-key (kbd "<C-next>") 'next-buffer) ; Ctrl+PageDown
 
-;; keep vi's home row
-(global-set-key (kbd "M-j") 'next-line)
-(global-set-key (kbd "M-k") 'previous-line)
-(global-set-key (kbd "M-l") 'forward-char)
-(global-set-key (kbd "M-h") 'backward-char)
-
 ;; use ibuffer instead of the default (C-x C-b)
 (defalias 'list-buffers 'ibuffer)
 ;; nicer buffer switching for C-x b

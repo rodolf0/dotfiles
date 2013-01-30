@@ -14,10 +14,8 @@
 (add-hook 'before-save-hook 'gofmt-before-save)
 
 ;; tunning interface
-(require 'rainbow-delimiters)
+(require 'jellybeans-theme)
 (require 'ergoemacs)
-(load-theme 'solarized-dark)
-(global-rainbow-delimiters-mode)
 (setq default-tab-width 2)
 (defalias 'yes-or-no-p 'y-or-n-p) ; just y/n
 (xterm-mouse-mode)

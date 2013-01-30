@@ -9,9 +9,7 @@
      (eval-print-last-sexp))))
 
 (setq my-packages
-      '(color-theme-solarized
-        rainbow-delimiters
-        popup fuzzy auto-complete
+      '(popup fuzzy auto-complete
         auto-complete-clang-async
         go-mode go-autocomplete))
 
