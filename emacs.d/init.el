@@ -16,6 +16,10 @@
 ;; tunning interface
 (require 'jellybeans-theme)
 (require 'ergoemacs)
+;; go back to the the last point we were when opening a file
+(require 'saveplace)
+(setq-default save-place t)
+;; misc
 (setq default-tab-width 2)
 (defalias 'yes-or-no-p 'y-or-n-p) ; just y/n
 (xterm-mouse-mode)
