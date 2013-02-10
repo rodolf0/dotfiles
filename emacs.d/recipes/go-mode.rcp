@@ -1,0 +1,6 @@
+(:name go-mode
+       :description "An improved Go mode for emacs"
+       :type http
+       :url "https://raw.github.com/dominikh/go-mode.el/master/go-mode.el"
+       :features go-mode
+       :post-init (add-to-list 'auto-mode-alist '("\\.go\\'" . go-mode)))
