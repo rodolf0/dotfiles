@@ -21,6 +21,7 @@
   Bundle 'pyflakes'
   Bundle 'jnwhiteh/vim-golang'
   Bundle 'Rip-Rip/clang_complete'
+  Bundle 'Syntastic'
 
   " interface
   Bundle 'jellybeans.vim'

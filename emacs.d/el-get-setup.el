@@ -11,7 +11,9 @@
 (setq my-packages
       '(popup fuzzy auto-complete
         auto-complete-clang-async
-        go-mode go-autocomplete))
+        go-mode go-autocomplete
+;;				highlight-parentheses
+				rainbow-delimiters))
 
 (add-to-list 'el-get-recipe-path "~/.emacs.d/recipes")
 (el-get 'sync my-packages)
