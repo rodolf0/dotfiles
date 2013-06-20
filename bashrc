@@ -18,24 +18,29 @@ function __aliases {
   alias e='emacsclient -nw'
   alias eserver='emacs --daemon'
   alias a=aparser
+  alias tmux='tmux -2 -u'
 }
 __aliases
 
 
 function __common_env {
-  export PATH=$HOME/bin:$PATH:/usr/local/bin:/opt/bin
-  export PYTHONSTARTUP=~/.pythonrc
-  export PS1='\[\e[01;32m\]\u \[\e[01;34m\]\W \$ \[\e[00m\]'
-  export HISTSIZE=5000
-  export EDITOR=vim
-  export TERM=xterm-256color
+  umask 0022
+  shopt -s extglob
+  shopt -s checkwinsize
 
   for s in ~/Source/shlibs/*.lib.sh; do source $s; done
 
-  shopt -s extglob
-  umask 0022
+  export EDITOR=vim
+  export TERM=xterm-256color
+  export PATH=$HOME/bin:$PATH:/usr/local/bin:/opt/bin
+  export PYTHONSTARTUP=~/.pythonrc
+  export HISTSIZE=5000
+  export PS1='\[\e[01;32m\]\u \[\e[01;34m\]\W \$ \[\e[00m\]'
 }
 __common_env
 
 
-[ -z "$TMUX" ] && type -path tmux &>/dev/null && exec tmux -2 -u
+function __setup_go {
+  export GOPATH=~/go
+}
+__setup_go
