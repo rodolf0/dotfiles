@@ -14,38 +14,38 @@
 
   Bundle 'gmarik/vundle'
 
-  " languages
-  "Bundle 'pydoc.vim'
-  Bundle 'PySmell'
+  " Integration
+  Bundle 'Valloric/YouCompleteMe'
+  " run code through external syntax checkers
+  Bundle 'scrooloose/syntastic'
+  " text snippets
+  Bundle 'UltiSnips'
+  " code styling
   Bundle 'pep8'
+  " error detection
   Bundle 'pyflakes'
+  " Go
   Bundle 'jnwhiteh/vim-golang'
-  Bundle 'Rip-Rip/clang_complete'
-  Bundle 'Syntastic'
+  " access databases
+  Bundle 'dbext.vim'
+  " source control management
+  Bundle 'vcscommand.vim'
 
   " interface
   Bundle 'jellybeans.vim'
-  Bundle 'Lokaltog/vim-powerline'
-  Bundle 'AutoComplPop'
-  Bundle 'SuperTab-continued.'
+  " extended matching for %
+  Bundle 'matchit.zip'
+  " jump around
+  Bundle 'EasyMotion'
+  Bundle 'Lokaltog/powerline'
   Bundle 'The-NERD-Commenter'
   Bundle 'The-NERD-tree'
+  " full path fuzzy finder
   Bundle 'ctrlp.vim'
-  Bundle 'taglist-plus'
-  Bundle 'matchit.zip'
-  Bundle 'utl.vim'
-  Bundle 'EasyMotion'
-
-  Bundle 'dbext.vim'
-  Bundle 'vcscommand.vim'
-  Bundle 'colorv.vim'
-
-  " text formatting
+  " text aligning
   Bundle 'Tabular'
+  " automatically close ([...
   Bundle 'Townk/vim-autoclose'
-  Bundle 'vim-orgmode'
-  Bundle 'UltiSnips'
-  "Bundle 'easytags.vim'
 
   " Enable filetype plugin: detect file type
   filetype plugin indent on
@@ -287,21 +287,8 @@
     nmap <C-F12> :call BuildMyTags()<CR>
   " }
 
-  " * clang complete {
-    "let g:clang_library_path = '/usr/lib/llvm'
-    let g:clang_use_library = 1
-    let g:clang_auto_select = 1
-    "let g:clang_user_options = '|| exit 0'
-    map <F6> :call g:ClangUpdateQuickFix()<CR>
-  " }
-
   " * auto close {
     let g:AutoClosePumvisible = {"ENTER": "\<C-Y>", "ESC": "\<ESC>"}
-  " }
-
-  " * supertab {
-    "let g:SuperTabDefaultCompletionType = "<C-X><C-O>"
-    let g:SuperTabDefaultCompletionType = "context"
   " }
 
   " * dbext {
