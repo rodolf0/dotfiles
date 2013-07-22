@@ -35,12 +35,14 @@ function __common_env {
   export PATH=$HOME/bin:$PATH:/usr/local/bin:/opt/bin
   export PYTHONSTARTUP=~/.pythonrc
   export HISTSIZE=5000
-  export PS1='\[\e[01;32m\]\u \[\e[01;34m\]\W \$ \[\e[00m\]'
+  export PROMPT_DIRTRIM=3
+  export PS1="\[\e[0;34m\]\u \[\e[1;34m\]\w \$(__r=\$?; [ \$__r = 0 ] && echo '\[\e[0;32m\]' || echo '\[\e[0;31m\]')\${PIPESTATUS[@]} \$\[\e[0m\] "
 }
 __common_env
 
 
 function __setup_go {
   export GOPATH=~/go
+  export PATH=$PATH:~/go/bin
 }
 __setup_go
