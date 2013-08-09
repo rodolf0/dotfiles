@@ -1,4 +1,3 @@
-
 " Modeline and Notes {
 " vim: set foldmarker={,} foldlevel=0 foldmethod=marker spell:
 "
@@ -19,7 +18,7 @@
   " run code through external syntax checkers
   Bundle 'scrooloose/syntastic'
   " text snippets
-  Bundle 'UltiSnips'
+  Bundle 'SirVer/ultisnips'
   " code styling
   Bundle 'pep8'
   " error detection
@@ -59,7 +58,7 @@
   set autoread        " Auto read when a file is changed from the outside
   set autochdir       " Always switch to the current file directory
   set shortmess+=filmnrxoOtT  " abbrev. of messages (avoids 'hit enter')
-  " set spell         " spell checking on
+  set spell           " spell checking on
   set ffs=unix,dos,mac "Default file types
 
   " Directories setup: backups, undo {
@@ -69,9 +68,6 @@
     set viewdir=~/.vimviews,~/tmp,/tmp
 
     "" Creating directories if they don't exist
-    "silent execute '!mkdir -p $HOME/.vimbackups'
-    "silent execute '!mkdir -p $HOME/.vimswap'
-    "silent execute '!mkdir -p $HOME/.vimviews'
     au BufWinLeave * silent! mkview  "make vim save view (state) (folds, cursor, etc)
     au BufWinEnter * silent! loadview "make vim load view (state) (folds, cursor, etc)
 
@@ -86,8 +82,6 @@
   " With a map leader it's possible to do extra key combinations
   let mapleader = ","
   let g:mapleader = ","
-  " When vimrc is edited, reload it
-  "autocmd! bufwritepost .vimrc source ~/.vimrc
 " }
 
 
@@ -117,7 +111,6 @@
 
   set backspace=indent,eol,start " backspace config
   "set whichwrap=b,s,h,l,<,>,[,]  " backspace and cursor keys wrap to
-  "set winminheight=10    " min win height
   set winminwidth=10    " minimum window width
   set completeopt=menu  "menuone,preview,longest   " what to show on omnicompletion
 
@@ -171,17 +164,9 @@
     nmap <silent> t% :tabedit %<CR>
     nmap <silent> <leader>vd :VCSVimDiff<CR>
     nmap <silent> <leader>ts :set invspell<CR>
-    " Map space to / (search)
-    noremap <space> /
     " Use tab to go to next buffer
     noremap <Tab> <C-W>w
     noremap <S-Tab> <C-W>W
-
-    noremap <C-t> :tabnew<cr>
-    noremap <C-x> :close<cr>
-    noremap <C-b> :ConqueTermVSplit bash<cr>
-    map <C-F9> :exe ':mkses! ~/.vim/session-' . hostname() . '.vim'<cr>
-    map <S-F9> :exe 'so ~/.vim/session-' . hostname() . '.vim'<cr>
   " }
 
   " Improve navigation {
@@ -191,12 +176,6 @@
     " use ' to jump back to column instead of line
     nnoremap ' `
     nnoremap ` '
-
-    " Buffer Switching
-    noremap <C-J> <C-W>j
-    noremap <C-K> <C-W>k
-    noremap <C-L> <C-W>l
-    noremap <C-H> <C-W>h
 
     " <home> toggles between start of line and start of text {
       imap <khome> <home>
@@ -239,7 +218,6 @@
   " Bash like keys for the command line
   cnoremap <C-A>      <Home>
   cnoremap <C-E>      <End>
-  cnoremap <C-K>      <C-U>
 
   " Text Editing {
     "Move a line of text
@@ -250,7 +228,7 @@
     " Change selected text from NameLikeThis to name_like_this.
     vnoremap <leader>u :s/\<\@!\([A-Z]\)/\_\l\1/g<CR>gul
     " Change selected text from name_like_this to NameLikeThis.
-    vnoremap ,c :s/_\([a-z]\)/\u\1/g<CR>gUl
+    vnoremap <leader>c :s/_\([a-z]\)/\u\1/g<CR>gUl
     " format a json file to look nice
     com FormatJson :%!python2 -m json.tool
   " }
@@ -264,27 +242,10 @@
 " * Plugin Configs  {
 
   map <F2> :NERDTreeToggle<CR>
-  map <F3> :TlistToggle<CR>
-  map <F4> <Plug>TaskList
-
-  let g:dbext_default_usermaps = 1
 
   " * NERD commenter  {
     let g:NERDCreateDefaultMappings = 0 " too polluting
     map # <Plug>NERDCommenterToggle
-  " }
-
-  " * Easytags  {
-    " don't let easytags work when you stop typing... try if slow
-    "let g:easytags_on_cursorhold = 0
-    let g:easytags_updatetime_autodisable = 1
-    let g:easytags_by_filetype = "~/.vimtags.d/"
-    set tags+=~/.myctags
-    " build tags for current dir and append them to ~/.myctags
-    function BuildMyTags()
-      :!ctags -R --sort=yes --C-kinds=+pl --C++-kinds=+pl --fields=+iaSl --extra=+q -a -f ~/.myctags .
-    endfunction
-    nmap <C-F12> :call BuildMyTags()<CR>
   " }
 
   " * auto close {
@@ -292,6 +253,7 @@
   " }
 
   " * dbext {
+    let g:dbext_default_usermaps = 1
     let g:dbext_default_profile_PROD = 'type=ORA:user=***********:passwd=******:srvname=PROD'
     let g:dbext_default_profile_PDW = 'type=ORA:user=***********:passwd=******:srvname=PDW'
     let g:dbext_default_profile_DW = 'type=ORA:user=***********:passwd=******:srvname=DW'
@@ -300,6 +262,12 @@
     com Pdw :DBSetOption profile='PDW'
     com Prod :DBSetOption profile='PROD'
     com Dw :DBSetOption profile='DW'
+  " }
+
+  " * Ultisnips {
+    let g:UltiSnipsExpandTrigger = "<C-J>"
+    let g:UltiSnipsJumpForwardTrigger = "<C-J>"
+    "let g:UltiSnipsJumpBackwardTrigger
   " }
 
 " }
@@ -344,21 +312,8 @@ if has("autocmd") && !exists("autocommands_loaded")
     endfu
     "au BufNewFile,BufReadPost *.c,*.h,*.crush,*.sh,*.pl,*.java,*.cc,*.py call ShowWhiteSpace()
 
-
-    " Makefile template
-    au BufNewFile Makefile,*.mak 0put = 'TARGET='|
-        \ $put ='all: $(TARGET)'|
-        \ $put ='' |
-        \ $put ='clean:'|
-        \ $put ='	rm -f *.o $(TARGET)'|
-        \ norm gg$
-
     " use real tabs in makefiles and gocode
     au BufEnter,BufNewFile,BufRead Makefile*,*.mk,*.go set noexpandtab
-
-    " for .crush files, use the custom syntax file
-    au BufEnter,BufNewFile,BufRead *.crush* setf crush
-    au! Syntax crush source $HOME/.vim/syntax/crush.vim
 
     " let text files be a little narrower to allow comments with no wrapping
     au FileType text setlocal textwidth=78
