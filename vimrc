@@ -44,7 +44,7 @@
   " text aligning
   Bundle 'Tabular'
   " automatically close ([...
-  Bundle 'Townk/vim-autoclose'
+  Bundle 'Raimondi/delimitMate'
 
   " Enable filetype plugin: detect file type
   filetype plugin indent on
@@ -243,6 +243,8 @@
 
   map <F2> :NERDTreeToggle<CR>
 
+  let g:ycm_extra_conf_globlist = ['~/Source/*']
+
   " * NERD commenter  {
     let g:NERDCreateDefaultMappings = 0 " too polluting
     map # <Plug>NERDCommenterToggle
@@ -303,7 +305,10 @@ if has("autocmd") && !exists("autocommands_loaded")
         \ set sw=2 sts=2 et tw=80 | norm 2G
 
     " re format go code on save
-    "au BufWrite *.go :Fmt
+    au BufEnter *.go map <F3> :Fmt<CR>
+    au BufEnter *.cc,*.c,*.C,*.cpp,*.c++,*.h,*.hh,*.H map <F3> :%!clang-format<CR>
+    au BufLeave *.go,*.cc,*.c,*.C,*.cpp,*.c++,*.h,*.hh,*.H unmap <F3>
+
 
     " Mark 80 columns
     fu! ShowWhiteSpace()
