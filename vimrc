@@ -19,8 +19,6 @@
   Bundle 'scrooloose/syntastic'
   " text snippets
   Bundle 'SirVer/ultisnips'
-  " code styling
-  Bundle 'pep8'
   " error detection
   Bundle 'pyflakes'
   " Go
@@ -45,8 +43,8 @@
   Bundle 'Tabular'
   " automatically close ([...
   Bundle 'Raimondi/delimitMate'
-  " fast file opening with minimal keystrokes
-  Bundle 'wincent/Command-T'
+  " user vim buffers as term
+  Bundle 'nicoraffo/conque'
 
   " Enable filetype plugin: detect file type
   filetype plugin indent on
