@@ -232,6 +232,8 @@ if has("autocmd") && !exists("autocommands_loaded")
         \ $put = '# vim: set sw=2 sts=2 : #' |
         \ set sw=2 sts=2 et tw=80 | norm 2G
 
+    au Filetype conque_term se nospell
+
   augroup END
 
 endif " has("autocmd")
