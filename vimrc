@@ -37,8 +37,8 @@
   Bundle 'Lokaltog/powerline'
   Bundle 'The-NERD-Commenter'
   Bundle 'The-NERD-tree'
-  " full path fuzzy finder
-  Bundle 'ctrlp.vim'
+  " fuzzy finder
+  Bundle 'kien/ctrlp.vim'
   " text aligning
   Bundle 'Tabular'
   " automatically close ([...
@@ -98,6 +98,8 @@
   set wildmenu                                                           " show list instead of just completing
   set wildmode=full                                                      " open wildmenu matching first element
   set winminwidth=10                                                     " minimum window width
+  set lines=55                                                           " set win height
+  set columns=100                                                        " set win width
   syntax on                                                              " use syntax hilighting
 
   " No sound on errors
@@ -161,6 +163,12 @@
   nnoremap ` '
   cnoremap <C-a> <Home>
   cnoremap <C-e> <End>
+
+  " resize windows
+  noremap <C-l> :verti resize +3<CR>
+  noremap <C-h> :verti resize -3<CR>
+  noremap <C-k> :resize +3<CR>
+  noremap <C-j> :resize -3<CR>
 
   " formatting: switch between camel-case and underscores
   vnoremap <leader>fu :s/\<\@!\([A-Z]\)/\_\l\1/g<CR>gul
