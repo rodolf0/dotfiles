@@ -1,8 +1,4 @@
-" Modeline and Notes {
 " vim: set foldmarker={,} foldlevel=0 foldmethod=marker spell:
-"
-" warlock's vimrc file
-" }
 
 
 " * Vundle {
@@ -86,7 +82,6 @@
   set smartcase                                                          " case sensitive when uc present
   set smartindent
   set smarttab
-  set spell                                                              " spell checking on
   set splitright
   set splitbelow
   set synmaxcol=800                                                      " stop syntax interpretation at 800 cols
@@ -226,7 +221,7 @@ if has("autocmd") && !exists("autocommands_loaded")
 
     " let text files be a little narrower to allow comments with no wrapping
     au FileType python set foldmethod=indent
-    au FileType text setlocal textwidth=78
+    au FileType text setlocal textwidth=78 | set spell
 
     " add shebang line for scripts
     au BufNewFile *.sh 0put = '#!/usr/bin/env bash' | norm G
