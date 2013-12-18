@@ -19,6 +19,7 @@ function __aliases {
   alias eserver='emacs --daemon'
   alias a=aparser
   alias tmux='tmux -2 -u'
+  alias webshare='python -m SimpleHTTPServer'
 }
 __aliases
 

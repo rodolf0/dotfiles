@@ -25,7 +25,7 @@
   Bundle 'vcscommand.vim'
 
   " interface
-  Bundle 'jellybeans.vim'
+  Bundle 'tomasr/molokai'
   " extended matching for %
   Bundle 'matchit.zip'
   " jump around
@@ -111,7 +111,7 @@
     if ! has("gui_running")
       set t_Co=256      " number of colors
     endif
-    colorscheme jellybeans
+    colorscheme molokai
     set encoding=utf8   " Language and encoding
     try
       lang es_AR
