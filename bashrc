@@ -17,6 +17,7 @@ function __aliases {
   alias bs='ssh warlock@warzone3.com.ar'
   alias e='emacsclient -nw'
   alias eserver='emacs --daemon'
+	alias em='emacs -nw'
   alias a=aparser
   alias tmux='tmux -2 -u'
   alias webshare='python -m SimpleHTTPServer'
