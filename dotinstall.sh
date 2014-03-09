@@ -1,9 +1,8 @@
 #!/usr/bin/env bash
-
 set -e
 
-dotdir="$(dirname "$(readlink -f "$0")")"
-dotbak="$(readlink -f ~/.dotbak-$(date +%F))"
+dotdir=$(cd "$(dirname $0)"; pwd)
+dotbak=~/.dotbak-$(date +%F)
 mkdir -p "$dotbak"
 
 while read f; do
@@ -15,6 +14,3 @@ while read f; do
   echo "Symlinking $dst"
   ln -s "$dotdir/$f" "$dst"
 done < "$dotdir/manifest"
-
-
-# vim: set sw=2 sts=2 : #

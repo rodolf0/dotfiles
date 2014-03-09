@@ -10,7 +10,6 @@ function __aliases {
   alias rm="rm -i"
   alias mv="mv -i"
   alias cp="cp -i"
-  alias ls="ls --color=tty"
   alias grep="grep --color=auto"
   alias pinfo='ps -o pid,state,command -C'
   alias f='find . | grep'
@@ -21,6 +20,11 @@ function __aliases {
   alias a=aparser
   alias tmux='tmux -2 -u'
   alias webshare='python -m SimpleHTTPServer'
+  if [ $(uname) = Darwin ]; then
+    alias ls="ls -G"
+  else
+    alias ls="ls --color=tty"
+  fi
 }
 __aliases
 
