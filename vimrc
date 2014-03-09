@@ -61,7 +61,7 @@
   set hlsearch                                                           " highlight search terms
   set ignorecase                                                         " case insensitive search
   set incsearch                                                          " find as you type search
-  set list
+  set nolist
   set listchars=tab:▸\ ,trail:•,extends:❯,precedes:❮
   set magic                                                              " set magic on, for regular expressions
   set mat=2                                                              " How many tenths of a second to blink
@@ -93,8 +93,6 @@
   set wildmenu                                                           " show list instead of just completing
   set wildmode=full                                                      " open wildmenu matching first element
   set winminwidth=10                                                     " minimum window width
-  set lines=55                                                           " set win height
-  set columns=100                                                        " set win width
   syntax on                                                              " use syntax hilighting
 
   " No sound on errors
@@ -203,8 +201,8 @@ if has("autocmd") && !exists("autocommands_loaded")
     \ | exe "normal g`\"" | endif
 
   " no trailing chars on insert mode
-  au InsertEnter * :set listchars-=trail:•
-  au InsertLeave * :set listchars+=trail:•
+  au InsertEnter * :set list
+  au InsertLeave * :set nolist
 
   augroup Coding
     au!
