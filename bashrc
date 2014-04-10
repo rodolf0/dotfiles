@@ -38,7 +38,7 @@ function __common_env {
 
   export EDITOR=vim
   export TERM=xterm-256color
-  export PATH=$HOME/bin:$PATH:/usr/local/bin:/opt/bin
+  export PATH=$HOME/bin:/usr/local/bin:$PATH:/opt/bin
   export PYTHONSTARTUP=~/.pythonrc
   export HISTSIZE=5000
   export LESS='-r'
