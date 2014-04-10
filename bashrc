@@ -22,7 +22,6 @@ function __aliases {
   alias webshare='python -m SimpleHTTPServer'
   if [ $(uname) = Darwin ]; then
     alias ls="ls -G"
-    alias vim='/usr/local/Cellar/macvim/7.4-72/bin/mvim -v'
   else
     alias ls="ls --color=tty"
   fi
