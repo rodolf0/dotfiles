@@ -166,9 +166,6 @@
   " formatting: switch between camel-case and underscores
   vnoremap <leader>fu :s/\<\@!\([A-Z]\)/\_\l\1/g<CR>gul
   vnoremap <leader>fc :s/_\([a-z]\)/\u\1/g<CR>gUl
-  " format json and xml files
-  nmap <silent> <leader>fj :%!python2 -m json.tool<CR>
-  nmap <silent> <leader>fx :%!xmllint --format --recover - 2>/dev/null<CR>
 
   " move around whole lines
   nmap <C-Up> mz:m-2<cr>`z
@@ -204,27 +201,30 @@ if has("autocmd") && !exists("autocommands_loaded")
   au InsertEnter * :set list
   au InsertLeave * :set nolist
 
+  " let text files be a little narrower to allow comments with no wrapping
+  au FileType text setlocal textwidth=78 | set spell
+
   augroup Coding
     au!
     " remove whitespace on save
     au BufWrite *.c,*.cc,*.cpp,*.cxx,*.c++,*.h,*.hh,*.hpp,*.go,*.py,*.sh mark ' | silent! %s/\s\+$// | norm ''
 
     " add formatting tools when entering a buffer
-    au BufEnter *.go map <F3> :Fmt<CR>
-    au BufEnter *.cc,*.c,*.C,*.cpp,*.c++,*.h,*.hh,*.H map <F3> :%!clang-format<CR>
-    au BufLeave *.go,*.cc,*.c,*.C,*.cpp,*.c++,*.h,*.hh,*.H unmap <F3>
+    au BufEnter *.go nnoremap <F3> :Fmt<CR>
+    au BufEnter *.cc,*.c,*.C,*.cpp,*.c++,*.h,*.hh,*.H,*.hpp nnoremap <F3> :%!clang-format<CR>
+    au BufEnter *.xml nnoremap <F3> :%!xmllint --format --recover - 2>/dev/null<CR>
+    au BufEnter *.json nnoremap <F3> :%!python2 -m json.tool<CR>
+    au BufLeave *.go,*.cc,*.c,*.C,*.cpp,*.c++,*.h,*.hh,*.H,*.hpp,*.xml,*.json nunmap <F3>
 
     " use real tabs in makefiles and gocode
     au BufEnter,BufNewFile,BufRead Makefile*,*.mk,*.go set noexpandtab
 
-    " let text files be a little narrower to allow comments with no wrapping
+    " python specific
     au FileType python set foldmethod=indent
-    au FileType text setlocal textwidth=78 | set spell
 
     " add shebang line for scripts
     au BufNewFile *.sh 0put = '#!/usr/bin/env bash' | norm G
     au BufNewFile *.py 0put = '#!/usr/bin/env python' | norm G
-
     " set a nice modeline for our new code files
     au BufNewFile *.h,*.hh,*.c,*.cpp,*.cc,*.java 0put = '' |
         \ $put = '/* vim: set sw=2 sts=2 : */' |

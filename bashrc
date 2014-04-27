@@ -6,7 +6,6 @@
 function __aliases {
   alias diff=colordiff
   alias which="type -path"
-  alias cal="cal -3"
   alias rm="rm -i"
   alias mv="mv -i"
   alias cp="cp -i"
@@ -24,6 +23,7 @@ function __aliases {
     alias ls="ls -G"
   else
     alias ls="ls --color=tty"
+    alias cal="cal -3"
   fi
 }
 __aliases
