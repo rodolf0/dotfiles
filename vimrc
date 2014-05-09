@@ -211,10 +211,10 @@ if has("autocmd") && !exists("autocommands_loaded")
 
     " add formatting tools when entering a buffer
     au BufEnter *.go nnoremap <F3> :Fmt<CR>
-    au BufEnter *.cc,*.c,*.C,*.cpp,*.c++,*.h,*.hh,*.H,*.hpp nnoremap <F3> :%!clang-format<CR>
+    au BufEnter *.cc,*.c,*.cpp,*.c++,*.h,*.hh,*.hpp nnoremap <F3> :%!clang-format<CR>
     au BufEnter *.xml nnoremap <F3> :%!xmllint --format --recover - 2>/dev/null<CR>
     au BufEnter *.json nnoremap <F3> :%!python2 -m json.tool<CR>
-    au BufLeave *.go,*.cc,*.c,*.C,*.cpp,*.c++,*.h,*.hh,*.H,*.hpp,*.xml,*.json nunmap <F3>
+    au BufLeave *.go,*.cc,*.c,*.cpp,*.c++,*.h,*.hh,*.hpp,*.xml,*.json nunmap <F3>
 
     " use real tabs in makefiles and gocode
     au BufEnter,BufNewFile,BufRead Makefile*,*.mk,*.go set noexpandtab
