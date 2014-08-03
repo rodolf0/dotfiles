@@ -19,6 +19,8 @@
   Bundle 'pyflakes'
   " Go
   Bundle 'jnwhiteh/vim-golang'
+  " Rust
+  Bundle 'wting/rust.vim'
   " access databases
   Bundle 'dbext.vim'
   " source control management
