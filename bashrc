@@ -4,27 +4,19 @@
 # /etc/profile will have already being loaded by bash
 
 function __aliases {
-  alias diff=colordiff
-  alias which="type -path"
-  alias rm="rm -i"
-  alias mv="mv -i"
-  alias cp="cp -i"
-  alias grep="grep --color=auto"
-  alias pinfo='ps -o pid,state,command -C'
-  alias f='find . | grep'
-  alias bs='ssh warlock@warzone3.com.ar'
-  alias e='emacsclient -nw'
-  alias eserver='emacs --daemon'
-	alias em='emacs -nw'
-  alias a=aparser
-  alias tmux='tmux -2 -u'
-  alias webshare='python -m SimpleHTTPServer'
-  if [ $(uname) = Darwin ]; then
-    alias ls="ls -G"
-  else
+    alias diff=colordiff
+    alias which="type -path"
+    alias rm="rm -i"
+    alias mv="mv -i"
+    alias cp="cp -i"
+    alias grep="grep --color=auto"
+    alias pinfo='ps -o pid,state,command -C'
+    alias f='find . | grep'
+    alias bs='ssh warlock@warzone3.com.ar'
+    alias a=aparser
+    alias tmux='tmux -2 -u'
+    alias webshare='python -m SimpleHTTPServer'
     alias ls="ls --color=tty"
-    alias cal="cal -3"
-  fi
 }
 __aliases
 
@@ -34,11 +26,19 @@ function __common_env {
   shopt -s extglob
   shopt -s checkwinsize
 
+  export PATH="$HOME/bin:/usr/local/bin:$PATH:/opt/bin"
+  # gnu-mac
+  export PATH="/usr/local/opt/coreutils/libexec/gnubin:$PATH"
+  export PATH="/usr/local/opt/gnu-sed/libexec/gnubin:$PATH"
+  export PATH="/usr/local/opt/gnu-tar/libexec/gnubin:$PATH"
+  export MANPATH="/usr/local/opt/coreutils/libexec/gnuman:$MANPATH"
+  export MANPATH="/usr/local/opt/gnu-sed/libexec/gnuman:$MANPATH"
+  export MANPATH="/usr/local/opt/gnu-tar/libexec/gnuman:$MANPATH"
+
   for s in ~/Source/shlibs/*.lib.sh; do source $s; done
 
   export EDITOR=vim
   export TERM=xterm-256color
-  export PATH=$HOME/bin:/usr/local/bin:$PATH:/opt/bin
   export PYTHONSTARTUP=~/.pythonrc
   export HISTSIZE=5000
   export LESS='-r'
