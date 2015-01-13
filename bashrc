@@ -17,6 +17,7 @@ function __aliases {
     alias tmux='tmux -2 -u'
     alias webshare='python -m SimpleHTTPServer'
     alias ls="ls --color=tty"
+    alias rustup='curl -s https://static.rust-lang.org/rustup.sh | sudo sh'
 }
 __aliases
 

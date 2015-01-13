@@ -4,45 +4,45 @@
 " * Vundle {
   set nocompatible    " Must be first: don't imitate VI
   filetype off
-  set rtp+=~/.vim/bundle/vundle
+  set rtp+=~/.vim/bundle/Vundle.vim
   call vundle#rc()
 
-  Bundle 'gmarik/vundle'
+  Plugin 'gmarik/Vundle.vim'
 
   " Integration
-  Bundle 'Valloric/YouCompleteMe'
+  Plugin 'Valloric/YouCompleteMe'
   " run code through external syntax checkers
-  Bundle 'scrooloose/syntastic'
+  Plugin 'scrooloose/syntastic'
   " text snippets
-  Bundle 'SirVer/ultisnips'
+  Plugin 'SirVer/ultisnips'
   " error detection
-  Bundle 'pyflakes'
+  Plugin 'pyflakes'
   " Go
-  Bundle 'jnwhiteh/vim-golang'
+  Plugin 'jnwhiteh/vim-golang'
   " Rust
-  Bundle 'wting/rust.vim'
+  Plugin 'wting/rust.vim'
   " access databases
-  Bundle 'dbext.vim'
+  Plugin 'dbext.vim'
   " source control management
-  Bundle 'vcscommand.vim'
+  Plugin 'vcscommand.vim'
 
   " interface
-  Bundle 'tomasr/molokai'
+  Plugin 'tomasr/molokai'
   " extended matching for %
-  Bundle 'matchit.zip'
+  Plugin 'matchit.zip'
   " jump around
-  Bundle 'EasyMotion'
-  Bundle 'Lokaltog/powerline'
-  Bundle 'The-NERD-Commenter'
-  Bundle 'The-NERD-tree'
+  Plugin 'EasyMotion'
+  Plugin 'Lokaltog/powerline'
+  Plugin 'The-NERD-Commenter'
+  Plugin 'The-NERD-tree'
   " fuzzy finder
-  Bundle 'kien/ctrlp.vim'
+  Plugin 'kien/ctrlp.vim'
   " text aligning
-  Bundle 'Tabular'
+  Plugin 'Tabular'
   " automatically close ([...
-  Bundle 'Raimondi/delimitMate'
+  Plugin 'Raimondi/delimitMate'
   " user vim buffers as term
-  Bundle 'nicoraffo/conque'
+  Plugin 'nicoraffo/conque'
 
   " Enable filetype plugin: detect file type
   filetype plugin indent on
