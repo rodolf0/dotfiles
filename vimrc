@@ -27,7 +27,9 @@
   Bundle 'vcscommand.vim'
 
   " interface
-  Bundle 'tomasr/molokai'
+  "Bundle 'tomasr/molokai'
+  "Bundle 'Solarized'
+  Bundle 'jellybeans.vim'
   " extended matching for %
   Bundle 'matchit.zip'
   " jump around
@@ -111,7 +113,7 @@
     if ! has("gui_running")
       set t_Co=256      " number of colors
     endif
-    colorscheme molokai
+    colorscheme jellybeans
     set encoding=utf8   " Language and encoding
     try
       lang es_AR
@@ -209,13 +211,13 @@ if has("autocmd") && !exists("autocommands_loaded")
   augroup Coding
     au!
     " remove whitespace on save
-    au BufWrite *.c,*.cc,*.cpp,*.cxx,*.c++,*.h,*.hh,*.hpp,*.go,*.py,*.sh mark ' | silent! %s/\s\+$// | norm ''
+    au BufWrite *.rs,*.c,*.cc,*.cpp,*.cxx,*.c++,*.h,*.hh,*.hpp,*.go,*.py,*.sh mark ' | silent! %s/\s\+$// | norm ''
 
     " add formatting tools when entering a buffer
-    au BufEnter *.go nnoremap <F3> :Fmt<CR>
-    au BufEnter *.cc,*.c,*.cpp,*.c++,*.h,*.hh,*.hpp nnoremap <F3> :%!clang-format<CR>
-    au BufEnter *.xml nnoremap <F3> :%!xmllint --format --recover - 2>/dev/null<CR>
-    au BufEnter *.json nnoremap <F3> :%!python -m json.tool<CR>
+    au BufEnter *.go nnoremap <F3> mp :%!gofmt<CR> 'p
+    au BufEnter *.cc,*.c,*.cpp,*.c++,*.h,*.hh,*.hpp nnoremap <F3> mp :%!clang-format<CR> 'p
+    au BufEnter *.xml nnoremap <F3> mp :%!xmllint --format --recover - 2>/dev/null<CR> 'p
+    au BufEnter *.json nnoremap <F3> mp :%!python -m json.tool<CR> 'p
     au BufLeave *.go,*.cc,*.c,*.cpp,*.c++,*.h,*.hh,*.hpp,*.xml,*.json nunmap <F3>
 
     " use real tabs in makefiles and gocode

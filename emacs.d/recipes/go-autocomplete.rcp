@@ -1,5 +1,0 @@
-(:name go-autocomplete
-       :description "autocomplete for go code using github.com/nsf/gocode"
-       :type http
-       :url "https://raw.github.com/nsf/gocode/master/emacs/go-autocomplete.el"
-       :depends (auto-complete))
