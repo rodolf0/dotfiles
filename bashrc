@@ -2,6 +2,7 @@
 
 # ~/.bashrc is only sourced for interactive non-login shells
 # /etc/profile will have already being loaded by bash
+[ -f ~/.bashrc.priv ] && source ~/.bashrc.priv
 
 function __aliases {
     alias diff=colordiff
@@ -39,12 +40,11 @@ function __common_env {
   for s in ~/Source/shlibs/*.lib.sh; do source $s; done
 
   export EDITOR=vim
-  export TERM=xterm-256color
   export PYTHONSTARTUP=~/.pythonrc
   export HISTSIZE=5000
   export LESS='-r'
   export PROMPT_DIRTRIM=3
-  export PS1="\[\e[0;34m\]\u \[\e[1;34m\]\w \$(__r=\$?; [ \$__r = 0 ] && echo '\[\e[0;32m\]' || echo '\[\e[0;31m\]')\${PIPESTATUS[@]} \$\[\e[0m\] "
+  export PS1="\[\e[0;33m\]\t \[\e[1;33m\]@\[\e[0;33m\]\h \[\e[1;34m\]\w \$(__r=\$?; [ \$__r = 0 ] && echo '\[\e[0;32m\]' || echo '\[\e[0;31m\]')\${PIPESTATUS[@]} \$\[\e[0m\] "
   export SDL_MOUSE_RELATIVE=0
   export SDL_VIDEO_X11_MOUSEACCEL=6/1/0
 }
