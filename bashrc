@@ -44,7 +44,7 @@ function __common_env {
   export HISTSIZE=5000
   export LESS='-r'
   export PROMPT_DIRTRIM=3
-  export PS1="\[\e[0;33m\]\t \[\e[1;33m\]@\[\e[0;33m\]\h \[\e[1;34m\]\w \$(__r=\$?; [ \$__r = 0 ] && echo '\[\e[0;32m\]' || echo '\[\e[0;31m\]')\${PIPESTATUS[@]} \$\[\e[0m\] "
+  export PS1="\[\e[0;33m\]\t \[\e[1;31m\]@\[\e[0;31m\]\h \[\e[1;34m\]\w \$(__r=\$?; [ \$__r = 0 ] && echo '\[\e[0;32m\]' || echo '\[\e[0;31m\]')\${PIPESTATUS[@]} \$\[\e[0m\] "
   export SDL_MOUSE_RELATIVE=0
   export SDL_VIDEO_X11_MOUSEACCEL=6/1/0
 }
