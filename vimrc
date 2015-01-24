@@ -72,9 +72,9 @@
   set nowrap                                                             " don't wrap lines
   set ruler                                                              " always show cursor position
   set scrolloff=5                                                        " when moving outside viewport, give more context
-  set shiftwidth=4                                                       " tabular a 2 espacios
-  set tabstop=4                                                          " indentacion cada 2 columnas
-  set softtabstop=4                                                      " para cuando usamos tabs, considerar estos espacios
+  set shiftwidth=2                                                       " tabular a 2 espacios
+  set tabstop=2                                                          " indentacion cada 2 columnas
+  set softtabstop=2                                                      " para cuando usamos tabs, considerar estos espacios
   set shortmess+=filmnrxoOtT                                             " abbrev. of messages (avoids 'hit enter')
   set showbreak=↪\
   set showcmd                                                            " show partial commands on status line
@@ -179,7 +179,11 @@
 
 " * Plugin Config  {
   " YCM
-  let g:ycm_extra_conf_globlist = ['~/Source/*']
+  let g:ycm_extra_conf_globlist = ['~/Source/*', '/data/users/rudolph/fbcode-hg/*']
+  let g:ycm_min_num_identifier_candidate_chars = 4
+  let g:ycm_error_symbol = 'x'
+  let g:ycm_warning_symbol = '!'
+  nnoremap <leader>gd :YcmCompleter GoToDefinitionElseDeclaration<CR>
   " NERDTree
   map <F2> :NERDTreeToggle<CR>
   " NERDCommenter
@@ -227,13 +231,6 @@ if has("autocmd") && !exists("autocommands_loaded")
     " add shebang line for scripts
     au BufNewFile *.sh 0put = '#!/usr/bin/env bash' | norm G
     au BufNewFile *.py 0put = '#!/usr/bin/env python' | norm G
-    " set a nice modeline for our new code files
-    au BufNewFile *.h,*.hh,*.c,*.cpp,*.cc,*.java 0put = '' |
-        \ $put = '/* vim: set sw=2 sts=2 : */' |
-        \ set sw=2 sts=2 et tw=80 | norm gg
-    au BufNewFile *.sh,*.py
-        \ $put = '# vim: set sw=2 sts=2 : #' |
-        \ set sw=2 sts=2 et tw=80 | norm 2G
 
     au Filetype conque_term se nospell
 

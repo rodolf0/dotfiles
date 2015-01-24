@@ -1,24 +1,24 @@
 #!/bin/bash
 
+[ -f /etc/bashrc ] && source /etc/bashrc
+
 # ~/.bashrc is only sourced for interactive non-login shells
 # /etc/profile will have already being loaded by bash
-[ -f ~/.bashrc.priv ] && source ~/.bashrc.priv
 
 function __aliases {
-    alias diff=colordiff
-    alias which="type -path"
-    alias rm="rm -i"
-    alias mv="mv -i"
-    alias cp="cp -i"
-    alias grep="grep --color=auto"
-    alias pinfo='ps -o pid,state,command -C'
-    alias f='find . | grep'
-    alias bs='ssh warlock@warzone3.com.ar'
-    alias a=aparser
-    alias tmux='tmux -2 -u'
-    alias webshare='python -m SimpleHTTPServer'
-    alias ls="ls --color=tty"
-    alias rustup='curl -s https://static.rust-lang.org/rustup.sh | sudo sh'
+  alias diff=colordiff
+  alias which="type -path"
+  alias rm="rm -i"
+  alias mv="mv -i"
+  alias cp="cp -i"
+  alias grep="grep --color=auto"
+  alias pinfo='ps -o pid,state,command -C'
+  alias f='find . | grep'
+  alias bs='ssh warlock@warzone3.com.ar'
+  alias a=aparser
+  alias webshare='python -m SimpleHTTPServer'
+  alias ls="ls --color=tty"
+  alias rustup='curl -s https://static.rust-lang.org/rustup.sh | sudo sh'
 }
 __aliases
 
@@ -40,6 +40,7 @@ function __common_env {
   for s in ~/Source/shlibs/*.lib.sh; do source $s; done
 
   export EDITOR=vim
+  [ -z "$TMUX" ] && export TERM=xterm-256color
   export PYTHONSTARTUP=~/.pythonrc
   export HISTSIZE=5000
   export LESS='-r'
@@ -56,3 +57,11 @@ function __setup_go {
   export PATH=$PATH:~/go/bin
 }
 __setup_go
+
+function tux {
+  __tmuxsesid=$USER_$(hostname -s)
+  tmux -2 -u new-session -AD -s $__tmuxsesid
+}
+
+# stuff not to be tracked by git goes here
+[ -f ~/.bashrc.priv ] && source ~/.bashrc.priv
