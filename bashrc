@@ -1,9 +1,10 @@
 #!/bin/bash
-
-[ -f /etc/bashrc ] && source /etc/bashrc
-
 # ~/.bashrc is only sourced for interactive non-login shells
 # /etc/profile will have already being loaded by bash
+
+[ -f /etc/bashrc ] && source /etc/bashrc
+# stuff not to be tracked by git goes here
+[ -f ~/.bashrc.priv ] && source ~/.bashrc.priv
 
 function __aliases {
   alias diff=colordiff
@@ -64,4 +65,4 @@ function tux {
 }
 
 # stuff not to be tracked by git goes here
-[ -f ~/.bashrc.priv ] && source ~/.bashrc.priv
+[ -f ~/.bashrc.priv.post ] && source ~/.bashrc.priv.post
