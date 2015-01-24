@@ -1,4 +1,4 @@
-source ~/.bashrc
+[ -f ~/.bashrc ] && source ~/.bashrc
 
 if false && [ -z "$TMUX" ]; then
     __tmuxsesid=$USER_$(hostname -s)
