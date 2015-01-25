@@ -226,7 +226,7 @@ if has("autocmd") && !exists("autocommands_loaded")
     au BufEnter,BufNewFile,BufRead Makefile*,*.mk,*.go set noexpandtab
 
     " python specific
-    au FileType python set foldmethod=indent
+    au FileType python setlocal foldmethod=indent tabstop=4 shiftwidth=4 softtabstop=4
 
     " add shebang line for scripts
     au BufNewFile *.sh 0put = '#!/usr/bin/env bash' | norm G
