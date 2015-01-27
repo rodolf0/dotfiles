@@ -13,8 +13,6 @@
   Plugin 'Valloric/YouCompleteMe'
   " run code through external syntax checkers
   Plugin 'scrooloose/syntastic'
-  " text snippets
-  Plugin 'SirVer/ultisnips'
   " error detection
   Plugin 'pyflakes'
   " Go
@@ -34,15 +32,13 @@
   Plugin 'EasyMotion'
   Plugin 'Lokaltog/powerline'
   Plugin 'The-NERD-Commenter'
-  Plugin 'The-NERD-tree'
   " fuzzy finder
-  Plugin 'kien/ctrlp.vim'
+  Plugin 'Shougo/unite.vim'
+  Plugin 'Shougo/neomru.vim'
   " text aligning
   Plugin 'Tabular'
   " automatically close ([...
   Plugin 'Raimondi/delimitMate'
-  " user vim buffers as term
-  Plugin 'nicoraffo/conque'
 
   " Enable filetype plugin: detect file type
   filetype plugin indent on
@@ -184,14 +180,19 @@
   let g:ycm_error_symbol = 'x'
   let g:ycm_warning_symbol = '!'
   nnoremap <leader>gd :YcmCompleter GoToDefinitionElseDeclaration<CR>
-  " NERDTree
-  map <F2> :NERDTreeToggle<CR>
   " NERDCommenter
   let g:NERDCreateDefaultMappings = 0 " too polluting
   map # <Plug>NERDCommenterToggle
-  " UltiSnips
-  let g:UltiSnipsExpandTrigger = "<C-J>"
-  let g:UltiSnipsJumpForwardTrigger = "<C-J>"
+  " Unite
+  call unite#filters#matcher_default#use(['matcher_fuzzy'])
+  nnoremap <leader>ff :Unite -no-split -start-insert -buffer-name=any file buffer<CR>
+  nnoremap <leader>fr :Unite -no-split -start-insert -buffer-name=mru file_mru<CR>
+  autocmd FileType unite call s:unite_settings()
+  function! s:unite_settings()
+    " Enable navigation with control-j and control-k in insert mode
+    imap <buffer> <C-j>   <Plug>(unite_select_next_line)
+    imap <buffer> <C-k>   <Plug>(unite_select_previous_line)
+  endfunction
 " }
 
 
