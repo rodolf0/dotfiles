@@ -20,6 +20,7 @@ function __aliases {
   alias webshare='python -m SimpleHTTPServer'
   alias ls="ls --color=tty"
   alias rustup='curl -s https://static.rust-lang.org/rustup.sh | sudo sh'
+  alias nvimup='brew update; brew reinstall --HEAD neovim'
 }
 __aliases
 

@@ -184,8 +184,9 @@
   let g:NERDCreateDefaultMappings = 0 " too polluting
   map # <Plug>NERDCommenterToggle
   " Unite
-  call unite#filters#matcher_default#use(['matcher_fuzzy'])
+  "call unite#filters#matcher_default#use(['matcher_fuzzy'])
   nnoremap <leader>ff :Unite -no-split -start-insert -buffer-name=any file buffer<CR>
+  nnoremap <leader>fb :Unite -no-split -start-insert -buffer-name=any buffer<CR>
   nnoremap <leader>fr :Unite -no-split -start-insert -buffer-name=mru file_mru<CR>
   autocmd FileType unite call s:unite_settings()
   function! s:unite_settings()
@@ -204,9 +205,10 @@ if has("autocmd") && !exists("autocommands_loaded")
   au BufReadPost * if &filetype !~ '^git\c' && line("'\"") > 0 && line("'\"") <= line("$")
     \ | exe "normal g`\"" | endif
 
-  " no trailing chars on insert mode
-  au InsertEnter * :set list
-  au InsertLeave * :set nolist
+  " no trailing chars on insert mode (if not in unite mode)
+  au InsertEnter * if !exists("b:in_unite") | :set list | endif
+  au InsertLeave * if !exists("b:in_unite") | :set nolist | endif
+  au Filetype unite :let b:in_unite=1
 
   " let text files be a little narrower to allow comments with no wrapping
   au FileType text setlocal textwidth=78 | set spell
@@ -232,8 +234,6 @@ if has("autocmd") && !exists("autocommands_loaded")
     " add shebang line for scripts
     au BufNewFile *.sh 0put = '#!/usr/bin/env bash' | norm G
     au BufNewFile *.py 0put = '#!/usr/bin/env python' | norm G
-
-    au Filetype conque_term se nospell
 
   augroup END
 
