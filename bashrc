@@ -41,6 +41,8 @@ function __common_env {
 
   for s in ~/Source/shlibs/*.lib.sh; do source $s; done
 
+  export HISTSIZE=130000
+  export HISTFILESIZE=-1
   export EDITOR=vim
   [ -z "$TMUX" ] && export TERM=xterm-256color
   export PYTHONSTARTUP=~/.pythonrc

@@ -5,3 +5,4 @@ pythonrc
 vim
 vimrc
 tmux.conf
+gdbinit
