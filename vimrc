@@ -185,15 +185,9 @@
   map # <Plug>NERDCommenterToggle
   " Unite
   "call unite#filters#matcher_default#use(['matcher_fuzzy'])
-  nnoremap <leader>ff :Unite -no-split -start-insert -buffer-name=any file buffer<CR>
-  nnoremap <leader>fb :Unite -no-split -start-insert -buffer-name=any buffer<CR>
-  nnoremap <leader>fr :Unite -no-split -start-insert -buffer-name=mru file_mru<CR>
-  autocmd FileType unite call s:unite_settings()
-  function! s:unite_settings()
-    " Enable navigation with control-j and control-k in insert mode
-    imap <buffer> <C-j>   <Plug>(unite_select_next_line)
-    imap <buffer> <C-k>   <Plug>(unite_select_previous_line)
-  endfunction
+  nnoremap <leader>ff :Unite -start-insert -buffer-name=any file buffer<CR>
+  nnoremap <leader>fb :Unite -start-insert -buffer-name=any buffer<CR>
+  nnoremap <leader>fr :Unite -start-insert -buffer-name=mru file_mru<CR>
 " }
 
 
