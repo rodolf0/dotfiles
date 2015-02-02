@@ -6,3 +6,4 @@ vim
 vimrc
 tmux.conf
 gdbinit
+inputrc
