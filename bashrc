@@ -49,7 +49,12 @@ function __common_env {
   export HISTSIZE=5000
   export LESS='-r'
   export PROMPT_DIRTRIM=3
-  export PS1='\e[1;30m\t \e[1;34m@\e[1;30m\h \e[1;34m\w $([ $? = 0 ] && echo "\e[0;32m" || echo "\e[0;31m")${PIPESTATUS[@]} \$\e[0m '
+  # the \[ braketing needs to be there so readline can calculate line length
+  export PS1='\[\e[1;30m\]\t ' # time
+  export PS1=$PS1'$(((SHLVL>1)) && echo "\[\e[1;34m\]@\[\e[1;30m\]\h ")' # show hostname if nested shell (maybe ssh/mosh)
+  export PS1=$PS1'\[\e[1;34m\]\w ' # working dir
+  export PS1=$PS1'$([ $? = 0 ] && echo "\[\e[0;32m\]" || echo "\[\e[0;31m\]")${PIPESTATUS[@]} ' # exit code
+  export PS1=$PS1'\$\[\e[m\] ' # prompt and color reset
   export SDL_MOUSE_RELATIVE=0
   export SDL_VIDEO_X11_MOUSEACCEL=6/1/0
 }
