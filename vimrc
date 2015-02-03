@@ -184,7 +184,7 @@
   let g:NERDCreateDefaultMappings = 0 " too polluting
   map # <Plug>NERDCommenterToggle
   " Unite
-  "call unite#filters#matcher_default#use(['matcher_fuzzy'])
+  call unite#filters#matcher_default#use(['matcher_fuzzy'])
   nnoremap <leader>ff :Unite -start-insert -buffer-name=any file buffer<CR>
   nnoremap <leader>fb :Unite -start-insert -buffer-name=any buffer<CR>
   nnoremap <leader>fr :Unite -start-insert -buffer-name=mru file_mru<CR>
