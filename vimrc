@@ -150,6 +150,7 @@
   noremap <S-Tab> <C-W>W
   noremap j gj
   noremap k gk
+  noremap 0 g0
   nnoremap ' `
   nnoremap ` '
   cnoremap <C-a> <Home>
@@ -164,6 +165,9 @@
   " formatting: switch between camel-case and underscores
   vnoremap <leader>fu :s/\<\@!\([A-Z]\)/\_\l\1/g<CR>gul
   vnoremap <leader>fc :s/_\([a-z]\)/\u\1/g<CR>gUl
+
+  " fancy date for logs
+  nnoremap <silent> <leader>wd "=strftime("%B %d, %Y")<CR>P
 
   " move around whole lines
   nmap <C-Up> mz:m-2<cr>`z
