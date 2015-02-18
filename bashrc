@@ -69,10 +69,10 @@ function __setup_go {
 }
 __setup_go
 
-function tux {
-  __tmuxsesid=$USER_$(hostname -s)
-  tmux -2 -u new-session -AD -s $__tmuxsesid
+function __info {
+  tmux list-sessions 2> /dev/null
 }
+__info
 
 # stuff not to be tracked by git goes here
 [ -f ~/.bashrc.priv.post ] && source ~/.bashrc.priv.post
