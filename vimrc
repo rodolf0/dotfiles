@@ -150,7 +150,6 @@
   noremap <S-Tab> <C-W>W
   noremap j gj
   noremap k gk
-  noremap 0 g0
   nnoremap ' `
   nnoremap ` '
   cnoremap <C-a> <Home>
