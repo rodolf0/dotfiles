@@ -1,26 +1,49 @@
-set editing-mode vi
-set blink-matching-paren on
-set print-completions-horizontally on
-set completion-ignore-case on
 set bell-style visible
+
 # enable 8th bit input
 set meta-flag on
 set input-meta on
-set convert-meta off
 set output-meta on
+set convert-meta off
 
-set keymap vi-command
-"gg": beginning-of-history
-"G": end-of-history
-"\C-e": vi-append-eol
-"\C-a": vi-insert-beg
-"\C-p": history-search-backward
-"\C-n": history-search-forward
-"'": vi-goto-mark
+# List immediately, don't bell if ambigous.
+set show-all-if-unmodified on
 
-set keymap vi-insert
-"\C-e": end-of-line
-"\C-a": beginning-of-line
-"\C-p": history-search-backward
-"\C-n": history-search-forward
-"\C-l": clear-screen
+set editing-mode vi
+
+$if mode=vi
+  set keymap vi-insert
+  "jj": vi-movement-mode
+  Control-a: beginning-of-line
+  Control-e: end-of-line
+  Control-b: backward-char
+  Control-f: forward-char
+  Control-n: next-history
+  Control-p: previous-history
+  Control-L: clear-screen
+  Control-d: delete-char
+  Control-k: kill-line
+  Control-w: backward-kill-line
+
+  set keymap vi-command
+  Control-e: vi-append-eol
+  Control-a: vi-insert-beg
+  "gg": beginning-of-history
+  "G": end-of-history
+  "?": reverse-search-history
+  "/": forward-search-history
+
+  # need dw/db because diw breaks them
+  "D":kill-line
+  "dw": kill-word
+  "dd": kill-whole-line
+  "db": backward-kill-word
+  "cc": "ddi"
+  "cw": "dwi"
+  "cb": "dbi"
+  "diw": "lbdw"
+  "yiw": "lbyw"
+  "ciw": "lbcw"
+$endif
+
+set keymap vi
