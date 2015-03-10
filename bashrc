@@ -42,6 +42,12 @@ function __common_env {
   export MANPATH="/usr/local/opt/gnu-tar/libexec/gnuman:$MANPATH"
 
   for s in ~/Source/shlibs/*.lib.sh; do source $s; done
+  # setup some crush.py aliases
+  alias reorder='~/Source/shlibs/crush.py reorder'
+  alias addfield='~/Source/shlibs/crush.py addfield'
+  alias grepfield='~/Source/shlibs/crush.py grep'
+  alias split='~/Source/shlibs/crush.py split'
+  alias calcfield='~/Source/shlibs/crush.py calc'
 
   export HISTSIZE=130000
   export HISTFILESIZE=-1
