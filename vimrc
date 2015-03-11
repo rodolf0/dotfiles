@@ -207,8 +207,8 @@ if has("autocmd") && !exists("autocommands_loaded")
   au InsertLeave * if !exists("b:in_unite") | :set nolist | endif
   au Filetype unite :let b:in_unite=1
 
-  " let text files be a little narrower to allow comments with no wrapping
-  au FileType text setlocal textwidth=78 | set spell
+  " toggle spell on text files
+  au FileType text set spell
 
   augroup Coding
     au!
