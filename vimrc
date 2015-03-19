@@ -71,7 +71,7 @@
   set shiftwidth=2                                                       " tabular a 2 espacios
   set tabstop=2                                                          " indentacion cada 2 columnas
   set softtabstop=2                                                      " para cuando usamos tabs, considerar estos espacios
-  set shortmess=a                                                        " avoid annoying prompts
+  set shortmess+=filmnrxoOtT                                             " avoid annoying prompts
   set showbreak=↪\
   set showcmd                                                            " show partial commands on status line
   set showmatch                                                          " show matching brackets/parenthesis
