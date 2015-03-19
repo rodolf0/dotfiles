@@ -116,13 +116,13 @@
   " }
 
   " Directories setup: backups, undo {
-    set backup            " backups are nice ...
-    set backupdir=~/.vimbackups,~/tmp,/tmp
-    set directory=~/.vimswap,~/tmp,/tmp
-    set viewdir=~/.vimviews,~/tmp,/tmp
+    set backup
+    set backupdir=~/.vimfiles
+    set directory=~/.vimfiles
+    set viewdir=~/.vimfiles
     "Persistent undo
     if has('undodir')
-      set undodir=~/.vimundo,~/tmp,/tmp
+      set undodir=~/.vimfiles
       set undofile
     endif
   " }
