@@ -62,7 +62,7 @@ function __common_env {
   export PS1='\[\e[1;30m\]\t ' # time
   export PS1=$PS1'\[\e[1;34m\]\w ' # working dir
   # exit code needs to be checked before any command to avoid loosing it
-  export PS1=$PS1'$([ $? = 0 ] && echo "\[\e[0;32m\]" || echo "\[\e[0;31m\]")${PIPESTATUS[@]} '
+  export PS1=$PS1'$([[ ${PIPESTATUS[*]} =~ ^0( 0)*$ ]] && echo "\[\e[0;32m\]" || echo "\[\e[0;31m\]")${PIPESTATUS[*]} '
   export PS1=$PS1'\$\[\e[m\] ' # prompt and color reset
   export SDL_MOUSE_RELATIVE=0
   export SDL_VIDEO_X11_MOUSEACCEL=6/1/0
@@ -83,3 +83,5 @@ __info
 
 # stuff not to be tracked by git goes here
 [ -f ~/.bashrc.priv.post ] && source ~/.bashrc.priv.post
+
+true
