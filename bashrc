@@ -15,7 +15,7 @@ function __aliases {
   alias grep="grep --color=auto"
   alias pinfo='ps -o pid,state,command -C'
   alias f='find . | grep'
-  alias bs='ssh warlock@warzone3.com.ar'
+  alias bs='ssh warlock@wz4.noip.me'
   alias a=aparser
   alias webshare='python -m SimpleHTTPServer'
   alias ls="ls --color=tty"
