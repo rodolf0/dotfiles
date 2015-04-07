@@ -13,11 +13,9 @@
   Plugin 'Valloric/YouCompleteMe'
   " run code through external syntax checkers
   Plugin 'scrooloose/syntastic'
-  " error detection
+  " Lang stuff
   Plugin 'pyflakes'
-  " Go
   Plugin 'jnwhiteh/vim-golang'
-  " Rust
   Plugin 'wting/rust.vim'
   " access databases
   Plugin 'dbext.vim'
@@ -39,6 +37,8 @@
   Plugin 'Tabular'
   " automatically close ([...
   Plugin 'Raimondi/delimitMate'
+  " keep session stuff
+  Plugin 'tpope/vim-obsession.git'
 
   " Enable filetype plugin: detect file type
   filetype plugin indent on
