@@ -90,7 +90,6 @@
   set wildignore+=*.o,*~,*.so,.svn,CVS,.git,*.a,*.class,*.obj,*.la,*.swp
   set wildmenu                                                           " show list instead of just completing
   set wildmode=full                                                      " open wildmenu matching first element
-  set winminwidth=10                                                     " minimum window width
   syntax on                                                              " use syntax hilighting
 
   " No sound on errors
