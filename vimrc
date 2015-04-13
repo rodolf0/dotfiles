@@ -14,7 +14,7 @@
   " run code through external syntax checkers
   Plugin 'scrooloose/syntastic'
   " Lang stuff
-  Plugin 'pyflakes'
+  Plugin 'nvie/vim-flake8'
   Plugin 'jnwhiteh/vim-golang'
   Plugin 'wting/rust.vim'
   " access databases
