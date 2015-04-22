@@ -19,6 +19,7 @@ function __aliases {
   alias a=aparser
   alias webshare='python -m SimpleHTTPServer'
   alias ls="ls --color=tty"
+  alias pgrep="pgrep -fl"
 
   alias rustup='curl -s https://static.rust-lang.org/rustup.sh | sudo sh'
   alias nvimup='brew update; brew reinstall --HEAD neovim'
