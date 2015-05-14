@@ -16,15 +16,13 @@ function __aliases {
   alias pinfo='ps -o pid,state,command -C'
   alias f='find . | grep'
   alias bs='ssh warlock@wz4.noip.me'
-  alias a=aparser
   alias webshare='python -m SimpleHTTPServer'
   alias ls="ls --color=tty"
   alias pgrep="pgrep -fl"
   alias jobs='jobs -l'
-
-  alias rustup='curl -s https://static.rust-lang.org/rustup.sh | sudo sh'
-  alias nvimup='brew update; brew reinstall --HEAD neovim'
   alias hl=highlight
+  alias o=xdg-open
+  alias a=tox
 }
 __aliases
 
@@ -37,12 +35,14 @@ function __common_env {
 
   export PATH="$HOME/bin:/usr/local/bin:$PATH:/opt/bin"
   # gnu-mac
+: <<IF0
   export PATH="/usr/local/opt/coreutils/libexec/gnubin:$PATH"
   export PATH="/usr/local/opt/gnu-sed/libexec/gnubin:$PATH"
   export PATH="/usr/local/opt/gnu-tar/libexec/gnubin:$PATH"
   export MANPATH="/usr/local/opt/coreutils/libexec/gnuman:$MANPATH"
   export MANPATH="/usr/local/opt/gnu-sed/libexec/gnuman:$MANPATH"
   export MANPATH="/usr/local/opt/gnu-tar/libexec/gnuman:$MANPATH"
+IF0
 
   for s in ~/Source/shlibs/*.lib.sh; do source $s; done
   # setup some crush.py aliases

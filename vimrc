@@ -17,6 +17,7 @@
   Plugin 'nvie/vim-flake8'
   Plugin 'jnwhiteh/vim-golang'
   Plugin 'wting/rust.vim'
+	Plugin 'nsf/gocode', {'rtp': 'vim/'}
   " access databases
   Plugin 'dbext.vim'
   " source control management
@@ -24,6 +25,7 @@
 
   " interface
   Plugin 'jellybeans.vim'
+  Plugin 'zhaocai/GoldenView.Vim'
   " extended matching for %
   Plugin 'matchit.zip'
   " jump around
@@ -190,6 +192,8 @@
   nnoremap <leader>ff :Unite -start-insert -buffer-name=any file buffer<CR>
   nnoremap <leader>fb :Unite -start-insert -buffer-name=any buffer<CR>
   nnoremap <leader>fr :Unite -start-insert -buffer-name=mru file_mru<CR>
+  " GoldenView
+  let g:goldenview__enable_default_mapping = 0
 " }
 
 
