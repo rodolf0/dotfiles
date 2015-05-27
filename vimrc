@@ -25,7 +25,6 @@
 
   " interface
   Plugin 'jellybeans.vim'
-  Plugin 'zhaocai/GoldenView.Vim'
   " extended matching for %
   Plugin 'matchit.zip'
   " jump around

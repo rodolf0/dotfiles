@@ -35,14 +35,12 @@ function __common_env {
 
   export PATH="$HOME/bin:/usr/local/bin:$PATH:/opt/bin"
   # gnu-mac
-: <<IF0
   export PATH="/usr/local/opt/coreutils/libexec/gnubin:$PATH"
   export PATH="/usr/local/opt/gnu-sed/libexec/gnubin:$PATH"
   export PATH="/usr/local/opt/gnu-tar/libexec/gnubin:$PATH"
   export MANPATH="/usr/local/opt/coreutils/libexec/gnuman:$MANPATH"
   export MANPATH="/usr/local/opt/gnu-sed/libexec/gnuman:$MANPATH"
   export MANPATH="/usr/local/opt/gnu-tar/libexec/gnuman:$MANPATH"
-IF0
 
   for s in ~/Source/shlibs/*.lib.sh; do source $s; done
   # setup some crush.py aliases
