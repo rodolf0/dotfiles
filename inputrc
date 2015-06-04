@@ -16,22 +16,16 @@ $if mode=vi
 # "jj": vi-movement-mode
   Control-a: beginning-of-line
   Control-e: end-of-line
-  Control-b: backward-char
-  Control-f: forward-char
   Control-n: next-history
   Control-p: previous-history
   Control-L: clear-screen
-  Control-d: delete-char
   Control-k: kill-line
-  Control-w: backward-kill-line
+  Control-w: unix-word-rubout
 
   set keymap vi-command
   Control-e: vi-append-eol
   Control-a: vi-insert-beg
-  "gg": beginning-of-history
-  "G": end-of-history
-  "?": reverse-search-history
-  "/": forward-search-history
+  Control-w: unix-word-rubout
 $endif
 
 set keymap vi

@@ -12,17 +12,12 @@ function __aliases {
   alias rm="rm -i"
   alias mv="mv -i"
   alias cp="cp -i"
-  alias grep="grep --color=auto"
+  alias grep="grep --perl-regexp --color=auto"
   alias pinfo='ps -o pid,state,command -C'
-  alias f='find . | grep'
-  alias bs='ssh warlock@wz4.noip.me'
-  alias webshare='python -m SimpleHTTPServer'
   alias ls="ls --color=tty"
   alias pgrep="pgrep -fl"
   alias jobs='jobs -l'
   alias hl=highlight
-  alias o=xdg-open
-  alias a=tox
 }
 __aliases
 
