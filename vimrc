@@ -1,45 +1,30 @@
-" vim: set foldmarker={,} foldlevel=0 foldmethod=marker spell:
-
+" vim: set foldmarker={,} foldlevel=0 foldmethod=marker:
 
 " * Vundle {
   set nocompatible    " Must be first: don't imitate VI
   filetype off
   set rtp+=~/.vim/bundle/Vundle.vim
   call vundle#rc()
-
   Plugin 'gmarik/Vundle.vim'
 
-  " Integration
-  Plugin 'Valloric/YouCompleteMe'
-  " run code through external syntax checkers
-  Plugin 'scrooloose/syntastic'
+  Plugin 'Valloric/YouCompleteMe' " semantic auto-completion
+  Plugin 'scrooloose/syntastic'   " syntax checks
   " Lang stuff
   Plugin 'nvie/vim-flake8'
   Plugin 'jnwhiteh/vim-golang'
   Plugin 'wting/rust.vim'
 	Plugin 'nsf/gocode', {'rtp': 'vim/'}
-  " access databases
-  Plugin 'dbext.vim'
-  " source control management
-  Plugin 'vcscommand.vim'
-
   " interface
   Plugin 'jellybeans.vim'
-  " extended matching for %
-  Plugin 'matchit.zip'
-  " jump around
-  Plugin 'EasyMotion'
-  Plugin 'Lokaltog/powerline'
+  Plugin 'matchit.zip'              " match fancier tags with %
+  Plugin 'terryma/vim-expand-region'
+  Plugin 'bling/vim-airline'
   Plugin 'The-NERD-Commenter'
-  " fuzzy finder
-  Plugin 'Shougo/unite.vim'
+  Plugin 'Shougo/unite.vim'         " fuzzy file opener
   Plugin 'Shougo/neomru.vim'
-  " text aligning
-  Plugin 'Tabular'
-  " automatically close ([...
-  Plugin 'Raimondi/delimitMate'
-  " keep session stuff
-  Plugin 'tpope/vim-obsession.git'
+  Plugin 'Tabular'                  " text aligning
+  Plugin 'Raimondi/delimitMate'     " automatically close ([...
+  Plugin 'tpope/vim-obsession.git'  " session management
 
   " Enable filetype plugin: detect file type
   filetype plugin indent on
@@ -130,28 +115,35 @@
 
 
 " * Key Mappings {
-  let mapleader = ","
-  let g:mapleader = ","
+  let mapleader = "\<Space>"
+  let g:mapleader = "\<Space>"
+
+  " copy/pasting to clipboard with <space>p/y
+  vmap <Leader>y "+y
+  vmap <Leader>d "+d
+  vmap <Leader>p "+p
+  vmap <Leader>P "+P
+  nmap <Leader>p "+p
+  nmap <Leader>P "+P
+
+  " save files easier
+  nnoremap <silent> <Leader>w :w<CR>
 
   " feature toggling
-  nmap <silent> <leader>th :set invhlsearch<CR>
-  nmap <silent> <leader>tl :set invlist<CR>
   nmap <silent> <leader>tp :set invpaste<CR>
   nmap <silent> <leader>tc :set invcursorline invcursorcolumn<CR>
   nmap <silent> <leader>ts :set invspell<CR>
 
-  " toggle current fold with <space>
-  nnoremap <Space> za
   " clear seach highlight on return
   nnoremap <CR> :nohlsearch<CR>
 
   " motion
-  noremap <Tab> <C-W>w
-  noremap <S-Tab> <C-W>W
   noremap j gj
   noremap k gk
   nnoremap ' `
   nnoremap ` '
+  noremap <Tab> <C-W>w
+  noremap <S-Tab> <C-W>W
   cnoremap <C-a> <Home>
   cnoremap <C-e> <End>
 
@@ -160,19 +152,6 @@
   noremap <C-h> :verti resize -3<CR>
   noremap <C-k> :resize +3<CR>
   noremap <C-j> :resize -3<CR>
-
-  " formatting: switch between camel-case and underscores
-  vnoremap <leader>fu :s/\<\@!\([A-Z]\)/\_\l\1/g<CR>gul
-  vnoremap <leader>fc :s/_\([a-z]\)/\u\1/g<CR>gUl
-
-  " fancy date for logs
-  nnoremap <silent> <leader>wd "=strftime("%B %d, %Y")<CR>P
-
-  " move around whole lines
-  nmap <C-Up> mz:m-2<cr>`z
-  nmap <C-Down> mz:m+<cr>`z
-  vmap <C-Down> :m'>+<cr>`<my`>mzgv`yo`z
-  vmap <C-Up> :m'<-2<cr>`>my`<mzgv`yo`z
 " }
 
 
@@ -191,8 +170,9 @@
   nnoremap <leader>ff :Unite -start-insert -buffer-name=any file buffer<CR>
   nnoremap <leader>fb :Unite -start-insert -buffer-name=any buffer<CR>
   nnoremap <leader>fr :Unite -start-insert -buffer-name=mru file_mru<CR>
-  " GoldenView
-  let g:goldenview__enable_default_mapping = 0
+  " vim-expand-region
+  vmap v <Plug>(expand_region_expand)
+  vmap <C-v> <Plug>(expand_region_shrink)
 " }
 
 
@@ -211,6 +191,9 @@ if has("autocmd") && !exists("autocommands_loaded")
 
   " toggle spell on text files
   au FileType text set spell
+
+  au BufEnter * set number
+  au BufLeave * set nonumber
 
   augroup Coding
     au!
