@@ -142,16 +142,19 @@
   noremap k gk
   nnoremap ' `
   nnoremap ` '
-  noremap <Tab> <C-W>w
-  noremap <S-Tab> <C-W>W
+  noremap <Tab> <C-w>w
+  noremap <S-Tab> <C-w>W
+  noremap <C-h> <C-w>h
+  noremap <C-j> <C-w>j
+  noremap <C-k> <C-w>k
+  noremap <C-l> <C-w>l
+
+  noremap <Leader><C-h> :verti resize -5<CR>
+  noremap <Leader><C-j> :resize -5<CR>
+  noremap <Leader><C-k> :resize +5<CR>
+  noremap <Leader><C-l> :verti resize +5<CR>
   cnoremap <C-a> <Home>
   cnoremap <C-e> <End>
-
-  " resize windows
-  noremap <C-l> :verti resize +3<CR>
-  noremap <C-h> :verti resize -3<CR>
-  noremap <C-k> :resize +3<CR>
-  noremap <C-j> :resize -3<CR>
 " }
 
 
