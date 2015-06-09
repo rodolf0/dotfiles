@@ -192,8 +192,8 @@ if has("autocmd") && !exists("autocommands_loaded")
   " toggle spell on text files
   au FileType text set spell
 
-  au BufEnter * set number
-  au BufLeave * set nonumber
+  au WinEnter * set number
+  au WinLeave * set nonumber
 
   augroup Coding
     au!
