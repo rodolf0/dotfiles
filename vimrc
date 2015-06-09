@@ -144,17 +144,24 @@
   nnoremap ` '
   noremap <Tab> <C-w>w
   noremap <S-Tab> <C-w>W
-  noremap <C-h> <C-w>h
-  noremap <C-j> <C-w>j
-  noremap <C-k> <C-w>k
-  noremap <C-l> <C-w>l
-
-  noremap <Leader><C-h> :verti resize -5<CR>
-  noremap <Leader><C-j> :resize -5<CR>
-  noremap <Leader><C-k> :resize +5<CR>
-  noremap <Leader><C-l> :verti resize +5<CR>
   cnoremap <C-a> <Home>
   cnoremap <C-e> <End>
+
+  function MapMove()
+    noremap <C-h> <C-w>h
+    noremap <C-j> <C-w>j
+    noremap <C-k> <C-w>k
+    noremap <C-l> <C-w>l
+  endfunction
+  function MapResize()
+    noremap <C-h> :verti resize -5<CR>
+    noremap <C-j> :resize -5<CR>
+    noremap <C-k> :resize +5<CR>
+    noremap <C-l> :verti resize +5<CR>
+  endfunction
+  noremap <Leader>tr :call MapResize()<CR>
+  noremap <Leader>tm :call MapMove()<CR>
+  :call MapResize()
 " }
 
 
