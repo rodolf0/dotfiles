@@ -147,21 +147,22 @@
   cnoremap <C-a> <Home>
   cnoremap <C-e> <End>
 
-  function MapMove()
-    noremap <C-h> <C-w>h
-    noremap <C-j> <C-w>j
-    noremap <C-k> <C-w>k
-    noremap <C-l> <C-w>l
+  function ToggleMoveResize()
+    let g:my_resizing_keys = exists("g:my_resizing_keys") ? !g:my_resizing_keys : 1
+    if g:my_resizing_keys
+      noremap <C-h> :verti resize -5<CR>
+      noremap <C-j> :resize -5<CR>
+      noremap <C-k> :resize +5<CR>
+      noremap <C-l> :verti resize +5<CR>
+    else
+      noremap <C-h> <C-w>h
+      noremap <C-j> <C-w>j
+      noremap <C-k> <C-w>k
+      noremap <C-l> <C-w>l
+    endif
   endfunction
-  function MapResize()
-    noremap <C-h> :verti resize -5<CR>
-    noremap <C-j> :resize -5<CR>
-    noremap <C-k> :resize +5<CR>
-    noremap <C-l> :verti resize +5<CR>
-  endfunction
-  noremap <Leader>tr :call MapResize()<CR>
-  noremap <Leader>tm :call MapMove()<CR>
-  :call MapResize()
+  noremap <Leader><Leader> :call ToggleMoveResize()<CR>
+  :call ToggleMoveResize()
 " }
 
 
