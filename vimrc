@@ -203,9 +203,6 @@ if has("autocmd") && !exists("autocommands_loaded")
   " toggle spell on text files
   au FileType text set spell
 
-  au WinEnter * set number
-  au WinLeave * set nonumber
-
   augroup Coding
     au!
     " remove whitespace on save
