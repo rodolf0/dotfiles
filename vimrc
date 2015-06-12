@@ -22,6 +22,7 @@
   Plugin 'The-NERD-Commenter'
   Plugin 'Shougo/unite.vim'         " fuzzy file opener
   Plugin 'Shougo/neomru.vim'
+  Plugin 'Shougo/vimfiler.vim'      " filesystem nav
   Plugin 'Tabular'                  " text aligning
   Plugin 'Raimondi/delimitMate'     " automatically close ([...
   Plugin 'tpope/vim-obsession.git'  " session management
@@ -32,7 +33,7 @@
 
 
 " * General {
-  set autochdir                                                          " Always switch to the current file directory
+  "set autochdir                                                         " Always switch to the current file directory
   set autoindent                                                         " always set auto-indenting on
   set autoread                                                           " Auto read when a file is changed from the outside
   set backspace=indent,eol,start                                         " backspace config
@@ -133,6 +134,7 @@
   nmap <silent> <leader>tp :set invpaste<CR>
   nmap <silent> <leader>tc :set invcursorline invcursorcolumn<CR>
   nmap <silent> <leader>ts :set invspell<CR>
+  nmap <silent> <leader>te :VimFilerExplorer<CR>
 
   " clear seach highlight on return
   nnoremap <CR> :nohlsearch<CR>
@@ -184,6 +186,8 @@
   " vim-expand-region
   vmap v <Plug>(expand_region_expand)
   vmap <C-v> <Plug>(expand_region_shrink)
+  " vimfiler
+  let g:vimfiler_as_default_explorer = 1
 " }
 
 
