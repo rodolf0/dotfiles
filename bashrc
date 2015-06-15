@@ -76,6 +76,13 @@ function __info {
 }
 __info
 
+function to_mpk {
+  tz_calc US/Pacific "$1" Europe/London
+}
+function from_mpk {
+  tz_calc Europe/London "$1" US/Pacific 
+}
+
 # stuff not to be tracked by git goes here
 [ -f ~/.bashrc.priv.post ] && source ~/.bashrc.priv.post
 
