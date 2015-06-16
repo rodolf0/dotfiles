@@ -23,6 +23,7 @@
   Plugin 'Shougo/unite.vim'         " fuzzy file opener
   Plugin 'Shougo/neomru.vim'
   Plugin 'Shougo/vimfiler.vim'      " filesystem nav
+  Plugin 't9md/vim-choosewin'       " move windows around
   Plugin 'Tabular'                  " text aligning
   Plugin 'Raimondi/delimitMate'     " automatically close ([...
   Plugin 'tpope/vim-obsession.git'  " session management
@@ -188,6 +189,8 @@
   vmap <C-v> <Plug>(expand_region_shrink)
   " vimfiler
   let g:vimfiler_as_default_explorer = 1
+  let g:choosewin_overlay_enable = 1
+  map - <Plug>(choosewin)
 " }
 
 
