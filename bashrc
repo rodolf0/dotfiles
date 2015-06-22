@@ -50,7 +50,6 @@ function __common_env {
   export EDITOR=vim
   [ -z "$TMUX" ] && export TERM=xterm-256color
   export PYTHONSTARTUP=~/.pythonrc
-  export HISTSIZE=5000
   export LESS='-r'
   export PROMPT_DIRTRIM=3
   # the \[ braketing needs to be there so readline can calculate line length
