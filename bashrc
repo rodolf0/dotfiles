@@ -12,7 +12,7 @@ function __aliases {
   alias rm="rm -i"
   alias mv="mv -i"
   alias cp="cp -i"
-  alias grep="grep --perl-regexp --color=auto"
+  alias grep="grep --color=auto"
   alias pinfo='ps -o pid,state,command -C'
   alias ls="ls --color=tty"
   alias pgrep="pgrep -fl"

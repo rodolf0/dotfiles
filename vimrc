@@ -187,10 +187,11 @@
   " vim-expand-region
   vmap v <Plug>(expand_region_expand)
   vmap <C-v> <Plug>(expand_region_shrink)
-  " vimfiler
+  " vimfiler/choosewin
   let g:vimfiler_as_default_explorer = 1
-  let g:choosewin_overlay_enable = 1
+  let g:choosewin_overlay_enable = 0
   map - <Plug>(choosewin)
+  noremap <Leader>- :ChooseWinSwap<CR>
 " }
 
 
