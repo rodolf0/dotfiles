@@ -136,6 +136,7 @@
   nmap <silent> <leader>tc :set invcursorline invcursorcolumn<CR>
   nmap <silent> <leader>ts :set invspell<CR>
   nmap <silent> <leader>te :VimFilerExplorer<CR>
+  nmap <silent> <leader>tn :set invnumber<CR>
 
   " clear seach highlight on return
   nnoremap <CR> :nohlsearch<CR>
