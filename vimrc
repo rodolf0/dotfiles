@@ -130,6 +130,10 @@
 
   " save files easier
   nnoremap <silent> <Leader>w :w<CR>
+  " switch to current file's dir
+  nnoremap <silent> <leader>cd :cd %:h<CR>
+  " clear search
+  nnoremap <CR> :nohlsearch<CR>
 
   " feature toggling
   nmap <silent> <leader>tp :set invpaste<CR>
@@ -137,9 +141,6 @@
   nmap <silent> <leader>ts :set invspell<CR>
   nmap <silent> <leader>te :VimFilerExplorer<CR>
   nmap <silent> <leader>tn :set invnumber<CR>
-
-  " clear seach highlight on return
-  nnoremap <CR> :nohlsearch<CR>
 
   " motion
   noremap j gj
