@@ -15,7 +15,7 @@ function __aliases {
   alias grep="grep --color=auto"
   alias pinfo='ps -o pid,state,command -C'
   alias ls="ls --color=tty"
-  alias pgrep="pgrep -fl"
+  alias pg="pgrep -fl"
   alias jobs='jobs -l'
   alias hl=highlight
 }
@@ -79,11 +79,6 @@ function __setup_go {
   export PATH=$PATH:~/go/bin
 }
 __setup_go
-
-function __info {
-  tmux list-sessions 2> /dev/null
-}
-__info
 
 function to_mpk {
   tz_calc US/Pacific "$1" Europe/London
