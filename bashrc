@@ -48,7 +48,6 @@ function __common_env {
   export HISTSIZE=130000
   export HISTFILESIZE=-1
   export EDITOR=vim
-  [ -z "$TMUX" ] && export TERM=xterm-256color
   export PYTHONSTARTUP=~/.pythonrc
   export LESS='-r'
   export PROMPT_DIRTRIM=3
