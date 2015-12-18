@@ -49,6 +49,7 @@
   set incsearch                                                          " find as you type search
   set nolist
   set listchars=tab:▸\ ,trail:•,extends:❯,precedes:❮
+  set fillchars+=vert:│
   set magic                                                              " set magic on, for regular expressions
   set mat=2                                                              " How many tenths of a second to blink
   set mouse=a                                                            " automatically enable mouse usage
