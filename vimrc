@@ -32,31 +32,6 @@
   filetype plugin indent on
 " }
 
-" * Plugin Config  {
-  " YCM
-  let g:ycm_extra_conf_globlist = ['~/Source/*']
-  let g:ycm_min_num_identifier_candidate_chars = 3
-  let g:ycm_error_symbol = 'x'
-  let g:ycm_warning_symbol = '!'
-  nnoremap <leader>gd :YcmCompleter GoToDefinitionElseDeclaration<CR>
-  " NERDCommenter
-  let g:NERDCreateDefaultMappings = 0 " too polluting
-  map # <Plug>NERDCommenterToggle
-  " Unite
-  "call unite#filters#matcher_default#use(['matcher_fuzzy'])
-  nnoremap <leader>ff :Unite -start-insert -buffer-name=any file buffer<CR>
-  nnoremap <leader>fb :Unite -start-insert -buffer-name=any buffer<CR>
-  nnoremap <leader>fr :Unite -start-insert -buffer-name=mru file_mru<CR>
-  " vim-expand-region
-  vmap v <Plug>(expand_region_expand)
-  vmap <C-v> <Plug>(expand_region_shrink)
-  " vimfiler/choosewin
-  let g:vimfiler_as_default_explorer = 1
-  let g:choosewin_overlay_enable = 0
-  map - <Plug>(choosewin)
-  noremap <Leader>- :ChooseWinSwap<CR>
-" }
-
 " * General {
   "set autochdir                                                         " Always switch to the current file directory
   set autoindent                                                         " always set auto-indenting on
@@ -192,6 +167,31 @@
   endfunction
   noremap <Leader><Leader> :call ToggleMoveResize()<CR>
   :call ToggleMoveResize()
+" }
+
+" * Plugin Config  {
+  " YCM
+  let g:ycm_extra_conf_globlist = ['~/Source/*']
+  let g:ycm_min_num_identifier_candidate_chars = 3
+  let g:ycm_error_symbol = 'x'
+  let g:ycm_warning_symbol = '!'
+  nnoremap <leader>gd :YcmCompleter GoToDefinitionElseDeclaration<CR>
+  " NERDCommenter
+  let g:NERDCreateDefaultMappings = 0 " too polluting
+  map # <Plug>NERDCommenterToggle
+  " Unite
+  "call unite#filters#matcher_default#use(['matcher_fuzzy'])
+  nnoremap <leader>ff :Unite -start-insert -buffer-name=any file buffer<CR>
+  nnoremap <leader>fb :Unite -start-insert -buffer-name=any buffer<CR>
+  nnoremap <leader>fr :Unite -start-insert -buffer-name=mru file_mru<CR>
+  " vim-expand-region
+  vmap v <Plug>(expand_region_expand)
+  vmap <C-v> <Plug>(expand_region_shrink)
+  " vimfiler/choosewin
+  let g:vimfiler_as_default_explorer = 1
+  let g:choosewin_overlay_enable = 0
+  map - <Plug>(choosewin)
+  noremap <Leader>- :ChooseWinSwap<CR>
 " }
 
 " * Auto Commands {
