@@ -13,9 +13,10 @@
   Plugin 'nvie/vim-flake8'
   Plugin 'jnwhiteh/vim-golang'
   Plugin 'wting/rust.vim'
-	Plugin 'nsf/gocode', {'rtp': 'vim/'}
+  Plugin 'nsf/gocode', {'rtp': 'vim/'}
   " interface
   Plugin 'jellybeans.vim'
+  Plugin 'robertmeta/nofrils'       " minimal colorscheme
   Plugin 'matchit.zip'              " match fancier tags with %
   Plugin 'terryma/vim-expand-region'
   Plugin 'bling/vim-airline'
@@ -94,7 +95,8 @@
     if ! has("gui_running")
       set t_Co=256      " number of colors
     endif
-    colorscheme jellybeans
+    colorscheme nofrils-dark
+      hi StatusLine ctermbg=7
     set encoding=utf8   " Language and encoding
     try
       lang es_AR
