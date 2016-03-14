@@ -28,6 +28,7 @@
   Plugin 'Tabular'                  " text aligning
   Plugin 'Raimondi/delimitMate'     " automatically close ([...
   Plugin 'tpope/vim-obsession.git'  " session management
+  Plugin 'wellle/targets.vim'
 
   " Enable filetype plugin: detect file type
   filetype plugin indent on
