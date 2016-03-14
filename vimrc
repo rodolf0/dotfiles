@@ -75,7 +75,9 @@
   set notimeout                                                          " don't timeout on key mappings
   set ttimeout                                                           " timeout on keys
   set ttimeoutlen=100
-  set ttymouse=xterm2                                                    " automatically enable mouse usage
+  if !has('nvim')
+    set ttymouse=xterm2
+  endif
   set wildignore+=*.o,*~,*.so,.svn,CVS,.git,*.a,*.class,*.obj,*.la,*.swp
   set wildmenu                                                           " show list instead of just completing
   set wildmode=full                                                      " open wildmenu matching first element

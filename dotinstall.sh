@@ -6,11 +6,11 @@ dotbak=~/.dotbak-$(date +%F)
 mkdir -p "$dotbak"
 
 while read f; do
-  dst=~/."$(basename "$f")"
+  dst=~/".$f"
   if [ -e "$dst" ]; then
     echo "Backing up $f to $dotbak"
     mv "$dst" "$dotbak"/
   fi
-  echo "Symlinking $dst"
+  echo "Symlinking $dst to $dotdir/$f"
   ln -s "$dotdir/$f" "$dst"
 done < "$dotdir/manifest"
