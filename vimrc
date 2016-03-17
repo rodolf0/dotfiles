@@ -100,6 +100,7 @@
     endif
     colorscheme nofrils-dark
       hi StatusLine ctermbg=7
+      hi String ctermfg=14
     set encoding=utf8   " Language and encoding
     try
       lang es_AR
