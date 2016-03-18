@@ -16,8 +16,9 @@ function __aliases {
   alias pinfo='ps -o pid,state,command -C'
   alias ls="ls --color=tty"
   alias pg="pgrep -fl"
-  alias jobs='jobs -l'
+  alias j='jobs -l'
   alias hl=highlight
+  alias notes='tmux -2 -u new-session -AD -s notes'
 }
 __aliases
 
