@@ -19,6 +19,7 @@ function __aliases {
   alias j='jobs -l'
   alias hl=highlight
   alias notes='tmux -2 -u new-session -AD -s notes'
+  function ts { date -d @"$1"; }
 }
 __aliases
 
