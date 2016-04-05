@@ -14,6 +14,7 @@
   Plugin 'jnwhiteh/vim-golang'
   Plugin 'wting/rust.vim'
   Plugin 'nsf/gocode', {'rtp': 'vim/'}
+  Plugin 'mhinz/vim-signify'
   " interface
   Plugin 'jellybeans.vim'
   Plugin 'robertmeta/nofrils'       " minimal colorscheme
