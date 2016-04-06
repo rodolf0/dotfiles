@@ -199,6 +199,8 @@
   let g:choosewin_overlay_enable = 0
   map - <Plug>(choosewin)
   noremap <Leader>- :ChooseWinSwap<CR>
+  " signify
+  let g:signify_disable_by_default = 1
 " }
 
 " * Auto Commands {
