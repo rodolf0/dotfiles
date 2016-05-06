@@ -99,7 +99,7 @@
     if ! has("gui_running")
       set t_Co=256      " number of colors
     endif
-    colorscheme nofrils-dark
+    colorscheme jellybeans
       hi StatusLine ctermbg=7
       hi String ctermfg=14
     set encoding=utf8   " Language and encoding
