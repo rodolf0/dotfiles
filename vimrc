@@ -84,6 +84,8 @@
   set wildmenu                                                           " show list instead of just completing
   set wildmode=full                                                      " open wildmenu matching first element
   syntax on                                                              " use syntax hilighting
+  set number
+  set relativenumber
 
   " No sound on errors
   set noerrorbells
@@ -161,15 +163,15 @@
   function ToggleMoveResize()
     let g:my_resizing_keys = exists("g:my_resizing_keys") ? !g:my_resizing_keys : 1
     if g:my_resizing_keys
-      noremap <C-h> :verti resize -5<CR>
-      noremap <C-j> :resize -5<CR>
-      noremap <C-k> :resize +5<CR>
-      noremap <C-l> :verti resize +5<CR>
+      noremap <c-h> :verti resize -5<CR>
+      noremap <c-j> :resize -5<CR>
+      noremap <c-k> :resize +5<CR>
+      noremap <c-l> :verti resize +5<CR>
     else
-      noremap <C-h> <C-w>h
-      noremap <C-j> <C-w>j
-      noremap <C-k> <C-w>k
-      noremap <C-l> <C-w>l
+      noremap <c-h> <C-w>h
+      noremap <c-j> <C-w>j
+      noremap <c-k> <C-w>k
+      noremap <c-l> <C-w>l
     endif
   endfunction
   noremap <Leader><Leader> :call ToggleMoveResize()<CR>
