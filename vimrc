@@ -148,7 +148,7 @@
   nmap <silent> <leader>tc :set invcursorline invcursorcolumn<CR>
   nmap <silent> <leader>ts :set invspell<CR>
   nmap <silent> <leader>te :VimFilerExplorer<CR>
-  nmap <silent> <leader>tn :set invnumber<CR>
+  nmap <silent> <leader>tn :set invnumber invrelativenumber<CR>
 
   " motion
   noremap j gj
