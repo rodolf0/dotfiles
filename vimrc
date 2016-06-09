@@ -84,8 +84,6 @@
   set wildmenu                                                           " show list instead of just completing
   set wildmode=full                                                      " open wildmenu matching first element
   syntax on                                                              " use syntax hilighting
-  set number
-  set relativenumber
 
   " No sound on errors
   set noerrorbells
