@@ -7,8 +7,8 @@
   call vundle#rc()
   Plugin 'gmarik/Vundle.vim'
 
+  Plugin 'scrooloose/syntastic'
   Plugin 'Valloric/YouCompleteMe' " semantic auto-completion
-  Plugin 'scrooloose/syntastic'   " syntax checks
   " Lang stuff
   Plugin 'nvie/vim-flake8'
   Plugin 'jnwhiteh/vim-golang'
