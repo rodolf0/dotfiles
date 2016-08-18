@@ -6,5 +6,6 @@ vim
 vimrc
 tmux.conf
 gdbinit
+stl-views.gdb
 inputrc
 config/nvim
