@@ -1,1 +1,0 @@
-/Users/warlock/go/src/github.com/nsf/gocode/vim/ftplugin/go/gocomplete.vim
