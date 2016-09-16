@@ -1,16 +1,14 @@
 #!/usr/bin/env bash
 set -e
-
 dotdir=$(cd "$(dirname $0)"; pwd)
-dotbak=~/.dotbak-$(date +%F)
-mkdir -p "$dotbak"
 
-while read f; do
-  dst=~/".$f"
-  if [ -e "$dst" ]; then
-    echo "Backing up $f to $dotbak"
-    mv "$dst" "$dotbak"/
+while read cfg; do
+  sfile="$(echo "$cfg" | sed 's/ *:.*$//; s/ *$//')"
+  dfile="$(echo "$cfg" | sed 's/^.*: *//; s/^ *//')"
+  if [ -e "$HOME/$dfile" ] && ! [[ "$@" =~ force ]]; then
+    echo "Already exists: '$dfile', bailing"
+    exit 1
   fi
-  echo "Symlinking $dst to $dotdir/$f"
-  ln -s "$dotdir/$f" "$dst"
+  echo "ln -s '$dotdir/$sfile' '~/$dfile'"
+  ln -fs "$dotdir/$sfile" "$HOME/$dfile"
 done < "$dotdir/manifest"

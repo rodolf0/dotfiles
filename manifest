@@ -1,10 +1,9 @@
-bashrc
-bash_profile
-gitconfig
-pythonrc
-vim
-vimrc
-tmux.conf
-gdbinit
-inputrc
-config/nvim
+bashrc       : .bashrc
+bash_profile : .bash_profile
+gitconfig    : .gitconfig
+pythonrc     : .pythonrc
+vimrc        : .vimrc
+vimrc        : .config/nvim/init.vim
+tmux.conf    : .tmux.conf
+gdbinit      : .gdbinit
+inputrc      : .inputrc
