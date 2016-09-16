@@ -1,5 +1,5 @@
 " vim: set foldmarker={,} foldlevel=0 foldmethod=marker:
-
+set nocompatible
 set autoindent                 " always set auto-indenting on
 set autoread                   " Auto read when a file is changed from the outside
 set backspace=indent,eol,start " backspace config
@@ -64,58 +64,59 @@ if has('undodir')
   set undodir=~/.vimfiles
   set undofile
 endif
+colorscheme torte
 
 " * Key Mappings {
-  let mapleader = "\<Space>"
-  let g:mapleader = "\<Space>"
+let mapleader = "\<Space>"
+let g:mapleader = "\<Space>"
 
-  " copy/pasting to clipboard with <space>p/y
-  vmap <Leader>y "+y
-  vmap <Leader>d "+d
-  vmap <Leader>p "+p
-  vmap <Leader>P "+P
-  nmap <Leader>p "+p
-  nmap <Leader>P "+P
+" copy/pasting to clipboard with <space>p/y
+vmap <Leader>y "+y
+vmap <Leader>d "+d
+vmap <Leader>p "+p
+vmap <Leader>P "+P
+nmap <Leader>p "+p
+nmap <Leader>P "+P
 
-  " save files easier
-  nnoremap <silent> <Leader>w :w<CR>
-  " switch to current file's dir
-  nnoremap <silent> <leader>cd :cd %:h<CR>
-  " clear search
-  nnoremap <CR> :nohlsearch<CR>
+" save files easier
+nnoremap <silent> <Leader>w :w<CR>
+" switch to current file's dir
+nnoremap <silent> <leader>cd :cd %:h<CR>
+" clear search
+nnoremap <CR> :nohlsearch<CR>
 
-  " feature toggling
-  nmap <silent> <leader>tp :set invpaste<CR>
-  nmap <silent> <leader>tc :set invcursorline invcursorcolumn<CR>
-  nmap <silent> <leader>ts :set invspell<CR>
-  nmap <silent> <leader>tn :set invnumber invrelativenumber<CR>
+" feature toggling
+nmap <silent> <leader>tp :set invpaste<CR>
+nmap <silent> <leader>tc :set invcursorline invcursorcolumn<CR>
+nmap <silent> <leader>ts :set invspell<CR>
+nmap <silent> <leader>tn :set invnumber invrelativenumber<CR>
 
-  " motion
-  noremap j gj
-  noremap k gk
-  nnoremap ' `
-  nnoremap ` '
-  noremap <Tab> <C-w>w
-  noremap <S-Tab> <C-w>W
-  cnoremap <C-a> <Home>
-  cnoremap <C-e> <End>
+" motion
+noremap j gj
+noremap k gk
+nnoremap ' `
+nnoremap ` '
+noremap <Tab> <C-w>w
+noremap <S-Tab> <C-w>W
+cnoremap <C-a> <Home>
+cnoremap <C-e> <End>
 
-  function ToggleMoveResize()
-    let g:my_resizing_keys = exists("g:my_resizing_keys") ? !g:my_resizing_keys : 1
-    if g:my_resizing_keys
-      noremap <c-h> :verti resize -5<CR>
-      noremap <c-j> :resize -5<CR>
-      noremap <c-k> :resize +5<CR>
-      noremap <c-l> :verti resize +5<CR>
-    else
-      noremap <c-h> <C-w>h
-      noremap <c-j> <C-w>j
-      noremap <c-k> <C-w>k
-      noremap <c-l> <C-w>l
-    endif
-  endfunction
-  noremap <Leader><Leader> :call ToggleMoveResize()<CR>
-  :call ToggleMoveResize()
+function ToggleMoveResize()
+  let g:my_resizing_keys = exists("g:my_resizing_keys") ? !g:my_resizing_keys : 1
+  if g:my_resizing_keys
+    noremap <c-h> :verti resize -5<CR>
+    noremap <c-j> :resize -5<CR>
+    noremap <c-k> :resize +5<CR>
+    noremap <c-l> :verti resize +5<CR>
+  else
+    noremap <c-h> <C-w>h
+    noremap <c-j> <C-w>j
+    noremap <c-k> <C-w>k
+    noremap <c-l> <C-w>l
+  endif
+endfunction
+noremap <Leader><Leader> :call ToggleMoveResize()<CR>
+:call ToggleMoveResize()
 " }
 
 " * Auto Commands {
