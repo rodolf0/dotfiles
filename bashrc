@@ -33,23 +33,16 @@ __shell_setup() {
 }
 __shell_setup
 
-function __common_env {
+__common_env() {
   umask 0022
   export PATH="$HOME/bin:/usr/local/bin:$PATH:/opt/bin"
-  # gnu-mac
-  export PATH="/usr/local/opt/coreutils/libexec/gnubin:$PATH"
-  export PATH="/usr/local/opt/gnu-sed/libexec/gnubin:$PATH"
-  export PATH="/usr/local/opt/gnu-tar/libexec/gnubin:$PATH"
-  export MANPATH="/usr/local/opt/coreutils/libexec/gnuman:$MANPATH"
-  export MANPATH="/usr/local/opt/gnu-sed/libexec/gnuman:$MANPATH"
-  export MANPATH="/usr/local/opt/gnu-tar/libexec/gnuman:$MANPATH"
   export EDITOR=vim
   export PYTHONSTARTUP=~/.pythonrc
   export LESS='-r'
 }
 __common_env
 
-function __pretty_less {
+__pretty_less() {
 	export LESS_TERMCAP_mb=$(printf "\e[1;31m")
 	export LESS_TERMCAP_md=$(printf "\e[1;31m")
 	export LESS_TERMCAP_me=$(printf "\e[0m")
@@ -60,21 +53,13 @@ function __pretty_less {
 }
 __pretty_less
 
-function __setup_go {
+__setup_go() {
   export GOPATH=~/go
   export PATH=$PATH:~/go/bin
 }
 __setup_go
 
 for s in ~/Source/shlibs/*.lib.sh; do source "$s"; done
-
-function to_mpk {
-  tz_calc US/Pacific "$1" Europe/London
-}
-
-function from_mpk {
-  tz_calc Europe/London "$1" US/Pacific 
-}
 
 # stuff not to be tracked by git goes here
 [ -f ~/.bashrc.priv.post ] && source ~/.bashrc.priv.post || true
