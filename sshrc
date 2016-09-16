@@ -4,43 +4,41 @@ set -e
 # Drop into '$dstrcdir' whatever you want transported to the remote server,
 # once there, use the 'sshrc' script to customize startup.
 # WARNING: bash cmdline length can only be so big, data has to fit there.
-encode() {
-  local DOTDIR=~/Source/dotfiles
-  local rcdirpat="$1"
-  local dstrcdir="/tmp/rudolphrc.$rcdirpat"
-  mkdir -p "$dstrcdir/bin"
+packenv() {
+  local dstrcdir="/tmp/rudolphrc.tmp"
+	mkdir -p "$dstrcdir"
   # setup bash remote environment
-  cat "$DOTDIR/bashrc" |
-    sed "s!~/Source/shlibs/!${dstrcdir}/!" \
-    > "$dstrcdir/bashrc"
-  cp "$DOTDIR/inputrc" "$dstrcdir/inputrc"
+  cat ~/Source/dotfiles/bashrc |
+    sed "s!~/Source/shlibs/!${dstrcdir}/!" > "$dstrcdir/bashrc"
+  cp ~/Source/dotfiles/inputrc "$dstrcdir/inputrc"
+  cp ~/Source/shlibs/*.lib.sh "$dstrcdir/" &>/dev/null
   # setup gdb
-  cat "$DOTDIR/gdbinit" |
-    sed "s!~/Source/dotfiles/!${dstrcdir}/!" \
-    > "$dstrcdir/gdbinit"
-  cp "$DOTDIR/stl-views.gdb" "$dstrcdir/stl-views.gdb"
+  cat ~/Source/dotfiles/gdbinit |
+    sed "s!~/Source/dotfiles/!${dstrcdir}/!" > "$dstrcdir/gdbinit"
+  cp ~/Source/dotfiles/stl-views.gdb "$dstrcdir/stl-views.gdb"
   # adjust vim files for remote environemnt
-  cat "$DOTDIR/vimrc" |
+	mkdir -p "$dstrcdir/vimfiles"
+  cat ~/Source/dotfiles/vimrc |
     sed -e "s!~/Source/dotfiles/!${dstrcdir}/!" \
         -e "s!~/.vimfiles!${dstrcdir}/vimfiles!" \
     > "$dstrcdir/vimrc"
   # copy some binaries
+  mkdir -p "$dstrcdir/bin"
   cp ~/Source/shlibs/csv2d \
      ~/Source/shlibs/d2fw \
      ~/Source/shlibs/l2f \
   "$dstrcdir/bin/"
   # remote startup script
   cat > "$dstrcdir/sshrc" <<-EOF
-		WARNPROMPT=1 source '$dstrcdir/bashrc'
+		HOSTPROMPT=1 source '$dstrcdir/bashrc'
 		export PATH="$dstrcdir/bin:\$PATH"
 		bind -f '$dstrcdir/inputrc'
-		mkdir '$dstrcdir/vimfiles'
 		alias vim='vim -u $dstrcdir/vimrc'
 		alias gdb='gdb -x $dstrcdir/gdbinit'
-		trap "rm -rf '/tmp/rudolphrc.$rcdirpat'; exit" 0
+		trap "rm -rf '/tmp/rudolphrc.tmp'; exit" 0
 EOF
-  cd /tmp/ &&
-    tar cJf - "rudolphrc.$rcdirpat" | openssl enc -base64 &&
+  cd /tmp/ && tar cJf - "rudolphrc.tmp" |
+    openssl enc -base64 &&
     rm -rf "$dstrcdir"
 }
 
@@ -49,12 +47,11 @@ function sshrc {
     echo 'Need openssl tool for base64' >&2
     exit 1
   }
-  local rcdirpat="$(mktemp -du XXXXX)"
   ssh -t "$@" "
     command -v openssl &>/dev/null || {
       echo 'Need openssl tool for base64' >&2; read; exit 1; }
-    echo '$(encode "$rcdirpat")' | openssl enc -d -base64 | tar xJf - -C /tmp
-    exec bash --rcfile '/tmp/rudolphrc.$rcdirpat/sshrc'"
+    echo '$(packenv)' | openssl enc -d -base64 | tar xJf - -C /tmp
+    exec bash --rcfile '/tmp/rudolphrc.tmp/sshrc'"
 }
 
 sshrc "$@"
