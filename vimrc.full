@@ -1,0 +1,83 @@
+" * Vundle {
+filetype off
+set rtp+=~/.vim/bundle/Vundle.vim
+if has('nvim')
+  let s:editor_root=expand("~/.nvim")
+else
+  let s:editor_root=expand("~/.vim")
+endif
+call vundle#begin(s:editor_root . '/bundle')
+Plugin 'gmarik/Vundle.vim'
+
+Plugin 'scrooloose/syntastic'
+Plugin 'Valloric/YouCompleteMe' " semantic auto-completion
+" Lang stuff
+Plugin 'nvie/vim-flake8'
+Plugin 'jnwhiteh/vim-golang'
+Plugin 'wting/rust.vim'
+Plugin 'nsf/gocode', {'rtp': 'vim/'}
+Plugin 'mhinz/vim-signify'
+" interface
+Plugin 'jellybeans.vim'
+Plugin 'robertmeta/nofrils'       " minimal colorscheme
+Plugin 'matchit.zip'              " match fancier tags with %
+Plugin 'terryma/vim-expand-region'
+Plugin 'bling/vim-airline'
+Plugin 'The-NERD-Commenter'
+Plugin 'Shougo/unite.vim'         " fuzzy file opener
+Plugin 'Shougo/neomru.vim'
+Plugin 'Shougo/vimfiler.vim'      " filesystem nav
+Plugin 't9md/vim-choosewin'       " move windows around
+Plugin 'Tabular'                  " text aligning
+Plugin 'Raimondi/delimitMate'     " automatically close ([...
+Plugin 'tpope/vim-obsession.git'  " session management
+Plugin 'wellle/targets.vim'
+
+call vundle#end()
+filetype plugin indent on
+" }
+
+" * Colors and Fonts {
+set gfn=Monospace\ 9  " Set font according to system
+set guioptions-=T
+set guioptions-=m
+set guioptions-=L
+set guioptions-=r
+if ! has("gui_running")
+  set t_Co=256      " number of colors
+endif
+colorscheme jellybeans
+  hi StatusLine ctermbg=7
+  hi String ctermfg=14
+try
+  lang es_AR
+catch
+endtry
+" }
+
+" * Plugin Config  {
+" YCM
+let g:ycm_extra_conf_globlist = ['~/Source/*']
+let g:ycm_min_num_identifier_candidate_chars = 3
+let g:ycm_error_symbol = 'x'
+let g:ycm_warning_symbol = '!'
+nnoremap <leader>gd :YcmCompleter GoToDefinitionElseDeclaration<CR>
+" NERDCommenter
+let g:NERDCreateDefaultMappings = 0 " too polluting
+map # <Plug>NERDCommenterToggle
+" Unite
+nnoremap <leader>ff :Unite -start-insert -buffer-name=any file buffer<CR>
+nnoremap <leader>fb :Unite -start-insert -buffer-name=any buffer<CR>
+nnoremap <leader>fr :Unite -start-insert -buffer-name=mru file_mru<CR>
+" vim-expand-region
+vmap v <Plug>(expand_region_expand)
+vmap <C-v> <Plug>(expand_region_shrink)
+" vimfiler/choosewin
+let g:vimfiler_as_default_explorer = 1
+nmap <silent> <leader>te :VimFilerExplorer<CR>
+let g:choosewin_overlay_enable = 0
+map - <Plug>(choosewin)
+noremap <Leader>- :ChooseWinSwap<CR>
+" signify
+let g:signify_disable_by_default = 1
+" }
