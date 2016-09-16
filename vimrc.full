@@ -9,7 +9,7 @@ endif
 call vundle#begin(s:editor_root . '/bundle')
 Plugin 'gmarik/Vundle.vim'
 
-Plugin 'scrooloose/syntastic'
+Plugin 'neomake/neomake'
 Plugin 'Valloric/YouCompleteMe' " semantic auto-completion
 " Lang stuff
 Plugin 'nvie/vim-flake8'
@@ -80,4 +80,9 @@ map - <Plug>(choosewin)
 noremap <Leader>- :ChooseWinSwap<CR>
 " signify
 let g:signify_disable_by_default = 1
+
+if has("autocmd") && !exists("autocommandsfull_loaded")
+  let autocommandsfull_loaded = 1
+  au! BufWritePost * Neomake
+endif
 " }
