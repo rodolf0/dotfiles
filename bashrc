@@ -1,4 +1,3 @@
-#!/bin/bash
 # ~/.bashrc is only sourced for interactive non-login shells
 # /etc/profile will have already being loaded by bash
 
@@ -59,7 +58,7 @@ __setup_go() {
 }
 __setup_go
 
-for s in ~/Source/shlibs/*.lib.sh; do source "$s"; done
+for s in ~/Source/shlibs/*.lib.sh; do [ -f "$s" ] && source "$s"; done
 
 # stuff not to be tracked by git goes here
 [ -f ~/.bashrc.priv.post ] && source ~/.bashrc.priv.post || true
