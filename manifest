@@ -7,3 +7,4 @@ vimrc        : .config/nvim/init.vim
 tmux.conf    : .tmux.conf
 gdbinit      : .gdbinit
 inputrc      : .inputrc
+sshrc        : bin/sshrc
