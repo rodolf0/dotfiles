@@ -37,20 +37,13 @@ packenv() {
 		alias gdb='gdb -x $dstrcdir/gdbinit'
 		trap "rm -rf '/tmp/rudolphrc.tmp'; exit" 0
 EOF
-  cd /tmp/ && tar cJf - "rudolphrc.tmp" |
-    openssl enc -base64 &&
+  cd /tmp/ && tar cJf - "rudolphrc.tmp" | base64 &&
     rm -rf "$dstrcdir"
 }
 
 function sshrc {
-  command -v openssl &>/dev/null || {
-    echo 'Need openssl tool for base64' >&2
-    exit 1
-  }
   ssh -t "$@" "
-    command -v openssl &>/dev/null || {
-      echo 'Need openssl tool for base64' >&2; read; exit 1; }
-    echo '$(packenv)' | openssl enc -d -base64 | tar xJf - -C /tmp
+    echo '$(packenv)' | base64 -d | tar xJf - -C /tmp
     exec bash --rcfile '/tmp/rudolphrc.tmp/sshrc'"
 }
 
