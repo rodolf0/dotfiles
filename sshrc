@@ -5,8 +5,9 @@ set -e
 # once there, use the 'sshrc' script to customize startup.
 # WARNING: bash cmdline length can only be so big, data has to fit there.
 packenv() {
-  local dstrcdir="/tmp/rudolphrc.tmp"
-	mkdir -p "$dstrcdir"
+  local TMPRCDIR="$1"
+  local dstrcdir="/tmp/$TMPRCDIR"
+  mkdir -p "$dstrcdir"
   # setup bash remote environment
   cat ~/Source/dotfiles/bashrc |
     sed "s!~/Source/shlibs/!${dstrcdir}/!" > "$dstrcdir/bashrc"
@@ -35,16 +36,17 @@ packenv() {
 		bind -f '$dstrcdir/inputrc'
 		alias vim='vim -u $dstrcdir/vimrc'
 		alias gdb='gdb -x $dstrcdir/gdbinit'
-		trap "rm -rf '/tmp/rudolphrc.tmp'; exit" 0
+		trap "rm -rf '/tmp/$TMPRCDIR'; exit" 0
 EOF
-  cd /tmp/ && tar cJf - "rudolphrc.tmp" | base64 &&
+  cd /tmp/ && tar cJf - "$TMPRCDIR" | base64 &&
     rm -rf "$dstrcdir"
 }
 
 function sshrc {
+  local TMPRCDIR="$(mktemp -ud "${USER}rc.XXXXXX")"
   ssh -t "$@" "
-    echo '$(packenv)' | base64 -d | tar xJf - -C /tmp
-    exec bash --rcfile '/tmp/rudolphrc.tmp/sshrc'"
+    echo '$(packenv "$TMPRCDIR")' | base64 -d | tar xJf - -C /tmp
+    exec bash --rcfile '/tmp/$TMPRCDIR/sshrc'"
 }
 
 sshrc "$@"
