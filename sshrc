@@ -12,13 +12,16 @@ packenv() {
   cat ~/Source/dotfiles/bashrc |
     sed "s!~/Source/shlibs/!${dstrcdir}/!" > "$dstrcdir/bashrc"
   cp ~/Source/dotfiles/inputrc "$dstrcdir/inputrc"
+  cat ~/Source/dotfiles/tmux.conf |
+    sed "s!default-command ''!default-command 'bash --rcfile $dstrcdir/sshrc'!" \
+    > "$dstrcdir/tmux.conf"
   cp ~/Source/shlibs/*.lib.sh "$dstrcdir/" &>/dev/null
   # setup gdb
   cat ~/Source/dotfiles/gdbinit |
     sed "s!~/Source/dotfiles/!${dstrcdir}/!" > "$dstrcdir/gdbinit"
   cp ~/Source/dotfiles/stl-views.gdb "$dstrcdir/stl-views.gdb"
   # adjust vim files for remote environemnt
-	mkdir -p "$dstrcdir/vimfiles"
+  mkdir -p "$dstrcdir/vimfiles"
   cat ~/Source/dotfiles/vimrc |
     sed -e "s!~/Source/dotfiles/!${dstrcdir}/!" \
         -e "s!~/.vimfiles!${dstrcdir}/vimfiles!" \
@@ -36,7 +39,9 @@ packenv() {
 		bind -f '$dstrcdir/inputrc'
 		alias vim='vim -u $dstrcdir/vimrc'
 		alias gdb='gdb -x $dstrcdir/gdbinit'
-		trap "rm -rf '/tmp/$TMPRCDIR'; exit" 0
+		tux() { tmux -2u -f "$dstrcdir/tmux.conf" new-session -AD -s "\$(hostname)"; }
+		# only cleanup if not inside tmux
+		trap "[ \$TMUX ] || rm -rf '/tmp/$TMPRCDIR'; exit" 0
 EOF
   cd /tmp/ && tar cJf - "$TMPRCDIR" | base64 &&
     rm -rf "$dstrcdir"
