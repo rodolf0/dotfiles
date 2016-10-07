@@ -83,7 +83,9 @@ nnoremap <silent> <Leader>w :w<CR>
 " switch to current file's dir
 nnoremap <silent> <leader>cd :cd %:h<CR>
 " clear search
-nnoremap <CR> :nohlsearch<CR>
+nnoremap <Leader><CR> :nohlsearch<CR>
+
+inoremap jj <ESC>
 
 " feature toggling
 nmap <silent> <leader>tp :set invpaste<CR>
