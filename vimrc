@@ -38,7 +38,6 @@ set splitright
 set splitbelow
 set synmaxcol=800       " stop syntax interpretation at 800 cols
 set notimeout           " don't timeout on key mappings
-set termguicolors       " enable true color
 set ttimeout            " timeout on keys
 set ttimeoutlen=100
 set wildignore+=*.o,*~,*.so,.svn,CVS,.git,*.a,*.class,*.obj,*.la,*.swp
@@ -51,6 +50,8 @@ set encoding=utf8   " Language and encoding
 set t_vb=           " visual bell
 if !has('nvim')
   set ttymouse=xterm2
+else
+  set termguicolors    " enable true color
 endif
 " Directories setup: backups, undo
 set backup
