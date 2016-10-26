@@ -18,7 +18,7 @@ Plugin 'wting/rust.vim'
 Plugin 'nsf/gocode', {'rtp': 'vim/'}
 Plugin 'mhinz/vim-signify'
 " interface
-Plugin 'jellybeans.vim'
+Plugin 'nanotech/jellybeans.vim'
 Plugin 'robertmeta/nofrils'       " minimal colorscheme
 Plugin 'matchit.zip'              " match fancier tags with %
 Plugin 'terryma/vim-expand-region'
@@ -38,21 +38,9 @@ filetype plugin indent on
 " }
 
 " * Colors and Fonts {
-set gfn=Monospace\ 9  " Set font according to system
-set guioptions-=T
-set guioptions-=m
-set guioptions-=L
-set guioptions-=r
-if ! has("gui_running")
-  set t_Co=256      " number of colors
-endif
+"let g:jellybeans_use_lowcolor_black = 0
+"let g:jellybeans_use_term_italics = 1
 colorscheme jellybeans
-  hi StatusLine ctermbg=7
-  hi String ctermfg=14
-try
-  lang es_AR
-catch
-endtry
 " }
 
 " * Plugin Config  {

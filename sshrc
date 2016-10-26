@@ -39,7 +39,7 @@ packenv() {
 		bind -f '$dstrcdir/inputrc'
 		alias vim='vim -u $dstrcdir/vimrc'
 		alias gdb='gdb -x $dstrcdir/gdbinit'
-		tux() { tmux -2u -f "$dstrcdir/tmux.conf" new-session -AD -s "\$(hostname)"; }
+		tux() { TERM=screen-256color tmux -2u -f "$dstrcdir/tmux.conf" new-session -AD -s "\$(hostname)"; }
 		# only cleanup if not inside tmux
 		trap "[ \$TMUX ] || rm -rf '/tmp/$TMPRCDIR'; exit" 0
 EOF
