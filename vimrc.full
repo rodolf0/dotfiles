@@ -18,8 +18,7 @@ Plugin 'wting/rust.vim'
 Plugin 'nsf/gocode', {'rtp': 'vim/'}
 Plugin 'mhinz/vim-signify'
 " interface
-Plugin 'nanotech/jellybeans.vim'
-Plugin 'robertmeta/nofrils'       " minimal colorscheme
+Plugin 'chriskempson/base16-vim'
 Plugin 'matchit.zip'              " match fancier tags with %
 Plugin 'terryma/vim-expand-region'
 Plugin 'bling/vim-airline'
@@ -38,9 +37,7 @@ filetype plugin indent on
 " }
 
 " * Colors and Fonts {
-"let g:jellybeans_use_lowcolor_black = 0
-"let g:jellybeans_use_term_italics = 1
-colorscheme jellybeans
+colorscheme base16-tomorrow-night
 " }
 
 " * Plugin Config  {

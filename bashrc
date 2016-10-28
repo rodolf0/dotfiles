@@ -53,11 +53,12 @@ __pretty_less() {
 }
 __pretty_less
 
-__setup_go() {
+__setup_langs() {
   export GOPATH=~/go
   export PATH=$PATH:~/go/bin
+  export PATH=$PATH:~/.cargo/bin
 }
-__setup_go
+__setup_langs
 
 for s in ~/Source/shlibs/*.lib.sh; do [ -f "$s" ] && source "$s"; done
 
