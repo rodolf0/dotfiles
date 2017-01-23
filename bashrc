@@ -57,6 +57,7 @@ __setup_langs() {
   export GOPATH=~/go
   export PATH=$PATH:~/go/bin
   export PATH=$PATH:~/.cargo/bin
+  export PATH=~/anaconda3/bin:$PATH
 }
 __setup_langs
 
