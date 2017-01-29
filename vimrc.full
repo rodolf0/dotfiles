@@ -31,6 +31,7 @@ Plugin 'Tabular'                  " text aligning
 Plugin 'Raimondi/delimitMate'     " automatically close ([...
 Plugin 'tpope/vim-obsession.git'  " session management
 Plugin 'wellle/targets.vim'
+Plugin 'easymotion/vim-easymotion'
 
 call vundle#end()
 filetype plugin indent on
@@ -65,6 +66,20 @@ map - <Plug>(choosewin)
 noremap <Leader>- :ChooseWinSwap<CR>
 " signify
 let g:signify_disable_by_default = 1
+""""" easy-motion
+" <Leader>f{char} to move to {char}
+map  <Leader>f <Plug>(easymotion-bd-f)
+nmap <Leader>f <Plug>(easymotion-overwin-f)
+" Move to word
+map  <Leader>w <Plug>(easymotion-bd-w)
+nmap <Leader>w <Plug>(easymotion-overwin-w)
+" Gif config
+map <Leader>l <Plug>(easymotion-lineforward)
+map <Leader>j <Plug>(easymotion-j)
+map <Leader>k <Plug>(easymotion-k)
+map <Leader>h <Plug>(easymotion-linebackward)
+let g:EasyMotion_startofline = 0 " keep cursor column when JK motion
+""""" easy-motion
 
 if has("autocmd") && !exists("autocommandsfull_loaded")
   let autocommandsfull_loaded = 1
