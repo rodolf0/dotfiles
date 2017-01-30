@@ -68,8 +68,8 @@ noremap <Leader>- :ChooseWinSwap<CR>
 let g:signify_disable_by_default = 1
 """"" easy-motion
 " <Leader>f{char} to move to {char}
-map  <Leader>f <Plug>(easymotion-bd-f)
-nmap <Leader>f <Plug>(easymotion-overwin-f)
+map f <Plug>(easymotion-bd-f)
+nmap f <Plug>(easymotion-overwin-f)
 " Move to word
 map  <Leader>w <Plug>(easymotion-bd-w)
 nmap <Leader>w <Plug>(easymotion-overwin-w)
