@@ -31,6 +31,7 @@ packenv() {
   cp ~/Source/shlibs/csv2d \
      ~/Source/shlibs/d2fw \
      ~/Source/shlibs/l2f \
+     ~/Source/shlibs/crush \
   "$dstrcdir/bin/"
   # remote startup script
   cat > "$dstrcdir/sshrc" <<-EOF

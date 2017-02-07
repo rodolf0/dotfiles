@@ -120,6 +120,16 @@ noremap <Leader><Leader> :call ToggleMoveResize()<CR>
 :call ToggleMoveResize()
 " }
 
+" Highlight column 80 (color set here because most themes don't specify it)
+if v:version >= 703
+		set cc=80
+		hi ColorColumn ctermbg=Gray ctermfg=Black guibg=#404040
+		if(!exists('vimrc_already_sourced'))
+				command Skinny set cc=73
+				command Wide set cc=80
+		endif
+endif
+
 " * Auto Commands {
 if has("autocmd") && !exists("autocommands_loaded")
   let autocommands_loaded = 1
