@@ -13,6 +13,7 @@ __aliases() {
   alias cp="cp -i"
   alias grep="grep --color=auto"
   alias ls="ls --color=tty"
+  alias vim=nvim
 }
 __aliases
 
@@ -36,7 +37,7 @@ __shell_setup
 __common_env() {
   umask 0022
   export PATH="$HOME/bin:/usr/local/bin:$PATH:/opt/bin"
-  export EDITOR=vim
+  which nvim &>/dev/null && export EDITOR=nvim || export EDITOR=vim
   export PYTHONSTARTUP=~/.pythonrc
   export LESS='-r'
 }
