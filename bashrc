@@ -36,7 +36,7 @@ __shell_setup
 
 __common_env() {
   umask 0022
-  export PATH="$HOME/bin:/usr/local/bin:$PATH:/opt/bin"
+  export PATH="$HOME/bin:$HOME/local/bin:/usr/local/bin:$PATH:/opt/bin"
   which nvim &>/dev/null && export EDITOR=nvim || export EDITOR=vim
   export PYTHONSTARTUP=~/.pythonrc
   export LESS='-r'
