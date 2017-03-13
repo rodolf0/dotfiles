@@ -39,6 +39,8 @@ filetype plugin indent on
 
 " * Colors and Fonts {
 colorscheme base16-tomorrow-night
+" make matching paren less disturbing
+hi MatchParen ctermfg=12 ctermbg=11 guifg=#b4b7b4 guibg=#575b61
 " }
 
 " * Plugin Config  {
