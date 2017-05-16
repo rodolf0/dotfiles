@@ -69,7 +69,9 @@ noremap <Leader>- :ChooseWinSwap<CR>
 " signify
 let g:signify_disable_by_default = 1
 """"" easy-motion
-" <Leader>f{char} to move to {char}
+" override easymotion killing my bindings
+noremap <Leader>e <Plug>(easymotion-prefix)
+" f{char} to move to {char}
 map f <Plug>(easymotion-bd-f)
 nmap f <Plug>(easymotion-overwin-f)
 " Move to word

@@ -17,6 +17,13 @@ __aliases() {
 }
 __aliases
 
+__crush_alias() {
+  alias cc='crush cut'
+  alias cag='crush aggr'
+  alias cca='crush calc'
+}
+__crush_alias
+
 __shell_setup() {
   shopt -s extglob
   shopt -s checkwinsize

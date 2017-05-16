@@ -69,6 +69,11 @@ colorscheme torte
 let mapleader = "\<Space>"
 let g:mapleader = "\<Space>"
 
+" escape the terminal with C-g
+if has('nvim')
+  tnoremap <C-g> <C-\><C-n>
+endif
+
 " copy/pasting to clipboard with <space>p/y
 vmap <Leader>y "+y
 vmap <Leader>d "+d
