@@ -14,7 +14,6 @@ set editing-mode vi
 $if mode=vi
   set keymap vi-insert
   "jk": vi-movement-mode
-  "kj": vi-movement-mode
   Control-a: beginning-of-line
   Control-e: end-of-line
   Control-n: next-history
