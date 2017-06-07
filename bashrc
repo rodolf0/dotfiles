@@ -43,7 +43,7 @@ __shell_setup
 
 __common_env() {
   umask 0022
-  export PATH="$HOME/bin:$HOME/local/bin:/usr/local/bin:$PATH:/opt/bin"
+  export PATH="$HOME/bin:$HOME/.local/bin:$HOME/local/bin:/usr/local/bin:$PATH:/opt/bin"
   which nvim &>/dev/null && export EDITOR=nvim || export EDITOR=vim
   export PYTHONSTARTUP=~/.pythonrc
   export LESS='-r'
@@ -65,7 +65,6 @@ __setup_langs() {
   export GOPATH=~/go
   export PATH=$PATH:~/go/bin
   export PATH=$PATH:~/.cargo/bin
-  export PATH=~/anaconda3/bin:$PATH
 }
 __setup_langs
 
