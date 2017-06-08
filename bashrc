@@ -14,6 +14,7 @@ __aliases() {
   alias grep="grep --color=auto"
   alias ls="ls --color=tty"
   alias vim=nvim
+  alias bpl="nc -l ${PIPEPORT:-27284}"  # back-pipe listen
 }
 __aliases
 
