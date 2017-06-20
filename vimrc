@@ -89,7 +89,7 @@ nnoremap <silent> <leader>cd :cd %:h<CR>
 " clear search
 nnoremap <Leader><CR> :nohlsearch<CR>
 
-inoremap jj <ESC>
+inoremap jk <ESC>
 
 " feature toggling
 nmap <silent> <leader>tp :set invpaste<CR>
