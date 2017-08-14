@@ -14,7 +14,7 @@ Plugin 'Valloric/YouCompleteMe' " semantic auto-completion
 " Lang stuff
 Plugin 'nvie/vim-flake8'
 Plugin 'jnwhiteh/vim-golang'
-Plugin 'wting/rust.vim'
+Plugin 'rust-lang/rust.vim'
 Plugin 'nsf/gocode', {'rtp': 'vim/'}
 Plugin 'mhinz/vim-signify'
 " interface
