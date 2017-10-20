@@ -9,19 +9,18 @@ endif
 call vundle#begin(s:editor_root . '/bundle')
 Plugin 'gmarik/Vundle.vim'
 
-Plugin 'neomake/neomake'
 Plugin 'Valloric/YouCompleteMe' " semantic auto-completion
+Plugin 'w0rp/ale'
 " Lang stuff
 Plugin 'nvie/vim-flake8'
 Plugin 'jnwhiteh/vim-golang'
 Plugin 'rust-lang/rust.vim'
 Plugin 'nsf/gocode', {'rtp': 'vim/'}
-Plugin 'mhinz/vim-signify'
 " interface
 Plugin 'chriskempson/base16-vim'
 Plugin 'matchit.zip'              " match fancier tags with %
 Plugin 'terryma/vim-expand-region'
-Plugin 'bling/vim-airline'
+Plugin 'itchyny/lightline.vim'
 Plugin 'The-NERD-Commenter'
 Plugin 'Shougo/unite.vim'         " fuzzy file opener
 Plugin 'Shougo/neomru.vim'
@@ -66,27 +65,13 @@ nmap <silent> <leader>te :VimFilerExplorer<CR>
 let g:choosewin_overlay_enable = 0
 map - <Plug>(choosewin)
 noremap <Leader>- :ChooseWinSwap<CR>
-" signify
-let g:signify_disable_by_default = 1
 """"" easy-motion
 " override easymotion killing my bindings
 noremap <Leader>e <Plug>(easymotion-prefix)
-" f{char} to move to {char}
-map f <Plug>(easymotion-bd-f)
-nmap f <Plug>(easymotion-overwin-f)
-" Move to word
-map  <Leader>w <Plug>(easymotion-bd-w)
-nmap <Leader>w <Plug>(easymotion-overwin-w)
-" Gif config
 map <Leader>l <Plug>(easymotion-lineforward)
 map <Leader>j <Plug>(easymotion-j)
 map <Leader>k <Plug>(easymotion-k)
 map <Leader>h <Plug>(easymotion-linebackward)
 let g:EasyMotion_startofline = 0 " keep cursor column when JK motion
 """"" easy-motion
-
-if has("autocmd") && !exists("autocommandsfull_loaded")
-  let autocommandsfull_loaded = 1
-  au! BufWritePost * Neomake
-endif
 " }
