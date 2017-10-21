@@ -8,3 +8,4 @@ tmux.conf    : .tmux.conf
 gdbinit      : .gdbinit
 inputrc      : .inputrc
 sshrc        : bin/sshrc
+npmrc        : .npmrc
