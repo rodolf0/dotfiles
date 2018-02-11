@@ -75,12 +75,12 @@ if has('nvim')
 endif
 
 " copy/pasting to clipboard with <space>p/y
-vmap <Leader>y "+y
-vmap <Leader>d "+d
-vmap <Leader>p "+p
-vmap <Leader>P "+P
-nmap <Leader>p "+p
-nmap <Leader>P "+P
+vnoremap <Leader>y "+y
+vnoremap <Leader>d "+d
+vnoremap <Leader>p "+p
+vnoremap <Leader>P "+P
+nnoremap <Leader>p "+p
+nnoremap <Leader>P "+P
 
 " save files easier
 nnoremap <silent> <Leader>w :w<CR>
@@ -92,10 +92,10 @@ nnoremap <Leader><CR> :nohlsearch<CR>
 inoremap jk <ESC>
 
 " feature toggling
-nmap <silent> <leader>tp :set invpaste<CR>
-nmap <silent> <leader>tc :set invcursorline invcursorcolumn<CR>
-nmap <silent> <leader>ts :set invspell<CR>
-nmap <silent> <leader>tn :set invnumber invrelativenumber<CR>
+nnoremap <silent> <leader>tp :set invpaste<CR>
+nnoremap <silent> <leader>tc :set invcursorline invcursorcolumn<CR>
+nnoremap <silent> <leader>ts :set invspell<CR>
+nnoremap <silent> <leader>tn :set invnumber invrelativenumber<CR>
 
 " motion
 noremap j gj

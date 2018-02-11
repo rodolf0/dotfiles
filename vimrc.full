@@ -54,27 +54,27 @@ let g:ale_sign_error = 'x'
 let g:ale_sign_warning = '!'
 " NERDCommenter
 let g:NERDCreateDefaultMappings = 0 " too polluting
-map # <Plug>NERDCommenterToggle
+noremap # <Plug>NERDCommenterToggle
 " Unite
 nnoremap <leader>ff :Unite -start-insert -buffer-name=any file buffer<CR>
 nnoremap <leader>fb :Unite -start-insert -buffer-name=any buffer<CR>
 nnoremap <leader>fr :Unite -start-insert -buffer-name=mru file_mru<CR>
 " vim-expand-region
-vmap v <Plug>(expand_region_expand)
-vmap <C-v> <Plug>(expand_region_shrink)
+vnoremap v <Plug>(expand_region_expand)
+vnoremap <C-v> <Plug>(expand_region_shrink)
 " vimfiler/choosewin
 let g:vimfiler_as_default_explorer = 1
-nmap <silent> <leader>te :VimFilerExplorer<CR>
+nnoremap <silent> <leader>te :VimFilerExplorer<CR>
 let g:choosewin_overlay_enable = 0
-map - <Plug>(choosewin)
+noremap - <Plug>(choosewin)
 noremap <Leader>- :ChooseWinSwap<CR>
 """"" easy-motion
 " override easymotion killing my bindings
 noremap <Leader>e <Plug>(easymotion-prefix)
-map <Leader>l <Plug>(easymotion-lineforward)
-map <Leader>j <Plug>(easymotion-j)
-map <Leader>k <Plug>(easymotion-k)
-map <Leader>h <Plug>(easymotion-linebackward)
+noremap <Leader>l <Plug>(easymotion-lineforward)
+noremap <Leader>j <Plug>(easymotion-j)
+noremap <Leader>k <Plug>(easymotion-k)
+noremap <Leader>h <Plug>(easymotion-linebackward)
 let g:EasyMotion_startofline = 0 " keep cursor column when JK motion
 """"" easy-motion
 " }
