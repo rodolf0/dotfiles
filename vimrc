@@ -97,6 +97,12 @@ nnoremap <silent> <leader>tc :set invcursorline invcursorcolumn<CR>
 nnoremap <silent> <leader>ts :set invspell<CR>
 nnoremap <silent> <leader>tn :set invnumber invrelativenumber<CR>
 
+" format selection
+nnoremap <silent> <leader>fg :%!gofmt<CR>
+nnoremap <silent> <leader>fc :%!clang-format<CR>
+nnoremap <silent> <leader>fx :%!xmllint --format --recover - 2>/dev/null<CR>
+nnoremap <silent> <leader>fj :%!python -m json.tool<CR>
+
 " motion
 noremap j gj
 noremap k gk
@@ -155,13 +161,6 @@ if has("autocmd") && !exists("autocommands_loaded")
     au!
     " remove whitespace on save
     au BufWrite *.rs,*.c,*.cc,*.cpp,*.cxx,*.c++,*.h,*.hh,*.hpp,*.go,*.py,*.sh mark ' | silent! %s/\s\+$// | norm ''
-
-    " add formatting tools when entering a buffer
-    au BufEnter *.go nnoremap <F3> mp :%!gofmt<CR> 'p
-    au BufEnter *.cc,*.c,*.cpp,*.c++,*.h,*.hh,*.hpp nnoremap <F3> mp :%!clang-format<CR> 'p
-    au BufEnter *.xml nnoremap <F3> mp :%!xmllint --format --recover - 2>/dev/null<CR> 'p
-    au BufEnter *.json nnoremap <F3> mp :%!python -m json.tool<CR> 'p
-    au BufLeave *.go,*.cc,*.c,*.cpp,*.c++,*.h,*.hh,*.hpp,*.xml,*.json nunmap <F3>
 
     " use real tabs in makefiles and gocode
     au BufEnter,BufNewFile,BufRead Makefile*,*.mk,*.go set noexpandtab
