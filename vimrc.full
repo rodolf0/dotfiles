@@ -7,7 +7,7 @@ else
   let s:editor_root=expand("~/.vim")
 endif
 call vundle#begin(s:editor_root . '/bundle')
-Plugin 'gmarik/Vundle.vim'
+Plugin 'VundleVim/Vundle.vim'
 
 Plugin 'w0rp/ale'
 Plugin 'Valloric/YouCompleteMe' " semantic auto-completion
