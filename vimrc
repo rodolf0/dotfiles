@@ -67,28 +67,17 @@ colorscheme torte
 
 " * Key Mappings {
 let mapleader = "\<Space>"
-let g:mapleader = "\<Space>"
+let maplocalleader = ","
 
 " escape the terminal with C-g
 if has('nvim')
   tnoremap <C-g> <C-\><C-n>
 endif
 
-" copy/pasting to clipboard with <space>p/y
-vnoremap <Leader>y "+y
-vnoremap <Leader>d "+d
-vnoremap <Leader>p "+p
-vnoremap <Leader>P "+P
-nnoremap <Leader>p "+p
-nnoremap <Leader>P "+P
-
-" save files easier
-nnoremap <silent> <Leader>w :w<CR>
 " switch to current file's dir
 nnoremap <silent> <leader>cd :cd %:h<CR>
 " clear search
 nnoremap <Leader><CR> :nohlsearch<CR>
-
 inoremap jk <ESC>
 
 " feature toggling
@@ -127,7 +116,7 @@ function ToggleMoveResize()
     noremap <c-l> <C-w>l
   endif
 endfunction
-noremap <Leader><Leader> :call ToggleMoveResize()<CR>
+noremap <Leader>w :call ToggleMoveResize()<CR>
 :call ToggleMoveResize()
 " }
 

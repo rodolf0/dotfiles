@@ -16,6 +16,7 @@ Plugin 'nvie/vim-flake8'
 Plugin 'jnwhiteh/vim-golang'
 Plugin 'rust-lang/rust.vim'
 Plugin 'nsf/gocode', {'rtp': 'vim/'}
+Plugin 'jceb/vim-orgmode'
 " interface
 Plugin 'chriskempson/base16-vim'
 Plugin 'matchit.zip'              " match fancier tags with %
@@ -61,16 +62,13 @@ nnoremap <leader>fb :Unite -start-insert -buffer-name=any buffer<CR>
 nnoremap <leader>fr :Unite -start-insert -buffer-name=mru file_mru<CR>
 " vim-expand-region
 vmap v <Plug>(expand_region_expand)
-vmap <C-v> <Plug>(expand_region_shrink)
 " vimfiler/choosewin
 let g:vimfiler_as_default_explorer = 1
 nnoremap <silent> <leader>te :VimFilerExplorer<CR>
 let g:choosewin_overlay_enable = 0
-noremap - <Plug>(choosewin)
 noremap <Leader>- :ChooseWinSwap<CR>
 """"" easy-motion
 " override easymotion killing my bindings
-map <Leader>e <Plug>(easymotion-prefix)
 map <Leader>l <Plug>(easymotion-lineforward)
 map <Leader>j <Plug>(easymotion-j)
 map <Leader>k <Plug>(easymotion-k)
