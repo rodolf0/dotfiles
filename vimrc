@@ -44,6 +44,7 @@ set wildignore+=*.o,*~,*.so,.svn,CVS,.git,*.a,*.class,*.obj,*.la,*.swp
 set wildmenu           " show list instead of just completing
 set wildmode=full      " open wildmenu matching first element
 syntax on              " use syntax hilighting
+set number
 set noerrorbells
 set novisualbell
 set encoding=utf8   " Language and encoding
@@ -84,7 +85,7 @@ inoremap jk <ESC>
 nnoremap <silent> <leader>tp :set invpaste<CR>
 nnoremap <silent> <leader>tc :set invcursorline invcursorcolumn<CR>
 nnoremap <silent> <leader>ts :set invspell<CR>
-nnoremap <silent> <leader>tn :set invnumber invrelativenumber<CR>
+nnoremap <silent> <leader>tn :set invnumber<CR>
 
 " format selection
 nnoremap <silent> <leader>fg :%!gofmt<CR>
