@@ -23,7 +23,7 @@ Plugin 'matchit.zip'              " match fancier tags with %
 Plugin 'terryma/vim-expand-region'
 Plugin 'itchyny/lightline.vim'
 Plugin 'The-NERD-Commenter'
-Plugin 'Shougo/unite.vim'         " fuzzy file opener
+Plugin 'Shougo/denite.nvim'
 Plugin 'Shougo/neomru.vim'
 Plugin 'Shougo/vimfiler.vim'      " filesystem nav
 Plugin 't9md/vim-choosewin'       " move windows around
@@ -57,9 +57,8 @@ let g:ale_sign_warning = '!'
 let g:NERDCreateDefaultMappings = 0 " too polluting
 map # <Plug>NERDCommenterToggle
 " Unite
-nnoremap <leader>ff :Unite -start-insert -buffer-name=any file buffer<CR>
-nnoremap <leader>fb :Unite -start-insert -buffer-name=any buffer<CR>
-nnoremap <leader>fr :Unite -start-insert -buffer-name=mru file_mru<CR>
+nnoremap <leader>ff :Denite -buffer-name=any file buffer<CR>
+nnoremap <leader>fr :Denite -buffer-name=mru file_mru<CR>
 " vim-expand-region
 vmap v <Plug>(expand_region_expand)
 " vimfiler/choosewin
