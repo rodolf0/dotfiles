@@ -25,7 +25,7 @@ Plugin 'itchyny/lightline.vim'
 Plugin 'The-NERD-Commenter'
 Plugin 'Shougo/denite.nvim'
 Plugin 'Shougo/neomru.vim'
-Plugin 'Shougo/vimfiler.vim'      " filesystem nav
+Plugin 'Shougo/defx.nvim'      " filesystem nav
 Plugin 't9md/vim-choosewin'       " move windows around
 Plugin 'Tabular'                  " text aligning
 Plugin 'Raimondi/delimitMate'     " automatically close ([...
@@ -56,9 +56,14 @@ let g:ale_sign_warning = '!'
 " NERDCommenter
 let g:NERDCreateDefaultMappings = 0 " too polluting
 map # <Plug>NERDCommenterToggle
-" Unite
+" Denite
 nnoremap <leader>ff :Denite -buffer-name=any file buffer<CR>
 nnoremap <leader>fr :Denite -buffer-name=mru file_mru<CR>
+call denite#custom#map(
+      \ 'insert', '<Down>', '<denite:move_to_next_line>', 'noremap')
+call denite#custom#map(
+      \ 'insert', '<Up>', '<denite:move_to_previous_line>', 'noremap')
+
 " vim-expand-region
 vmap v <Plug>(expand_region_expand)
 " vimfiler/choosewin
