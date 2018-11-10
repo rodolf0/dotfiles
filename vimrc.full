@@ -9,8 +9,21 @@ endif
 call vundle#begin(s:editor_root . '/bundle')
 Plugin 'VundleVim/Vundle.vim'
 
+" auto-completion
+"if has('nvim')
+  "Plugin 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
+"else
+  "Plugin 'Shougo/deoplete.nvim'
+  "Plugin 'roxma/nvim-yarp'
+  "Plugin 'roxma/vim-hug-neovim-rpc'
+"endif
+"Plugin 'Shougo/deoplete-clangx'
+"Plugin 'racer-rust/vim-racer'
+"let g:deoplete#enable_at_startup = 1
+
 Plugin 'w0rp/ale'
 Plugin 'Valloric/YouCompleteMe' " semantic auto-completion
+
 " Lang stuff
 Plugin 'nvie/vim-flake8'
 Plugin 'jnwhiteh/vim-golang'
@@ -23,9 +36,9 @@ Plugin 'matchit.zip'              " match fancier tags with %
 Plugin 'terryma/vim-expand-region'
 Plugin 'itchyny/lightline.vim'
 Plugin 'The-NERD-Commenter'
-Plugin 'Shougo/denite.nvim'
+Plugin 'Shougo/denite.nvim', {'do': ':UpdateRemotePlugins'}
 Plugin 'Shougo/neomru.vim'
-Plugin 'Shougo/defx.nvim'      " filesystem nav
+Plugin 'Shougo/defx.nvim'         " filesystem nav
 Plugin 't9md/vim-choosewin'       " move windows around
 Plugin 'Tabular'                  " text aligning
 Plugin 'Raimondi/delimitMate'     " automatically close ([...
@@ -63,6 +76,7 @@ call denite#custom#map(
       \ 'insert', '<Down>', '<denite:move_to_next_line>', 'noremap')
 call denite#custom#map(
       \ 'insert', '<Up>', '<denite:move_to_previous_line>', 'noremap')
+call denite#custom#source("_", "matchers", ["matcher/substring"])
 
 " vim-expand-region
 vmap v <Plug>(expand_region_expand)
