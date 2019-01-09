@@ -36,6 +36,7 @@ set smartindent
 set smarttab
 set splitright
 set splitbelow
+set winwidth=84         " keep windows visible as we jump to them
 set synmaxcol=800       " stop syntax interpretation at 800 cols
 set notimeout           " don't timeout on key mappings
 set ttimeout            " timeout on keys
