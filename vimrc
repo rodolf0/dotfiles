@@ -36,7 +36,6 @@ set smartindent
 set smarttab
 set splitright
 set splitbelow
-set winwidth=84         " keep windows visible as we jump to them
 set synmaxcol=800       " stop syntax interpretation at 800 cols
 set notimeout           " don't timeout on key mappings
 set ttimeout            " timeout on keys
@@ -101,6 +100,7 @@ nnoremap ' `
 nnoremap ` '
 noremap <Tab> <C-w>w
 noremap <S-Tab> <C-w>W
+noremap <C-w>. :verti resize 90<CR>
 cnoremap <C-a> <Home>
 cnoremap <C-e> <End>
 

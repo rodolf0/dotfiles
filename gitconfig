@@ -4,7 +4,7 @@
 [color]
 	diff = auto
 [diff]
-	tool = vimdiff
+	tool = vim -d
 [push]
 	default = matching
 
