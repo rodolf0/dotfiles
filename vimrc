@@ -18,6 +18,7 @@ set fillchars+=vert:│
 set magic               " set magic on, for regular expressions
 set mat=2               " How many tenths of a second to blink
 set mouse=a             " automatically enable mouse usage
+set clipboard=unnamedplus " use system clipboard
 set nolazyredraw        " don't redraw while executing macros
 set nowrap              " don't wrap lines
 set ruler               " always show cursor position
