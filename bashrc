@@ -17,6 +17,7 @@ __aliases() {
   alias bpl="nc -l ${PIPEPORT:-27284}"  # back-pipe listen
   alias o=xdg-open
   alias dm1='du --max-depth=1 -m'
+  alias d.='du -sh .'
   f1() { find "${*:-.}" -mindepth 1 -maxdepth 1; }
   f1f() { find "${*:-.}" -mindepth 1 -maxdepth 1 -type f; }
   f1d() { find "${*:-.}" -mindepth 1 -maxdepth 1 -type d; }
