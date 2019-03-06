@@ -1,96 +1,88 @@
-" * Vundle {
+" Need to toggle custom filetype detections (required for Vundle)
 filetype off
-set rtp+=~/.vim/bundle/Vundle.vim
-if has('nvim')
-  let s:editor_root=expand("~/.nvim")
-else
-  let s:editor_root=expand("~/.vim")
-endif
-call vundle#begin(s:editor_root . '/bundle')
+
+
+" Setup Vundle plugin manager
+set rtp+=~/.nvim/bundle/Vundle.vim,~/.vim/bundle/Vundle.vim
+call vundle#begin(has('nvim') ? expand("~/.nvim/bundle")
+                            \ : expand("~/.vim/bundle"))
 Plugin 'VundleVim/Vundle.vim'
-
-" auto-completion
-"if has('nvim')
-  "Plugin 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
-"else
-  "Plugin 'Shougo/deoplete.nvim'
-  "Plugin 'roxma/nvim-yarp'
-  "Plugin 'roxma/vim-hug-neovim-rpc'
-"endif
-"Plugin 'Shougo/deoplete-clangx'
-"Plugin 'racer-rust/vim-racer'
-"let g:deoplete#enable_at_startup = 1
-
+" Linting + Autocompletion (https://langserver.org/)
 Plugin 'w0rp/ale'
-Plugin 'Valloric/YouCompleteMe' " semantic auto-completion
-
-" Lang stuff
-Plugin 'nvie/vim-flake8'
-Plugin 'jnwhiteh/vim-golang'
-Plugin 'rust-lang/rust.vim'
-Plugin 'nsf/gocode', {'rtp': 'vim/'}
-Plugin 'jceb/vim-orgmode'
-" interface
+" Colorscheme tweaks
 Plugin 'chriskempson/base16-vim'
-Plugin 'matchit.zip'              " match fancier tags with %
-Plugin 'terryma/vim-expand-region'
-Plugin 'itchyny/lightline.vim'
+" Easy comments
 Plugin 'The-NERD-Commenter'
+" Used for exchanging windows
+Plugin 't9md/vim-choosewin'
+" Search for recently opened files
 Plugin 'Shougo/denite.nvim', {'do': ':UpdateRemotePlugins'}
 Plugin 'Shougo/neomru.vim'
-Plugin 'Shougo/defx.nvim'         " filesystem nav
-Plugin 't9md/vim-choosewin'       " move windows around
-Plugin 'Tabular'                  " text aligning
-Plugin 'Raimondi/delimitMate'     " automatically close ([...
-Plugin 'tpope/vim-obsession.git'  " session management
+" Autoclose matching parenthesis/braces/etc
+Plugin 'Raimondi/delimitMate'
+" Incremental visual-mode selection
+Plugin 'terryma/vim-expand-region'
+" Match enhanced text-objects
 Plugin 'wellle/targets.vim'
-Plugin 'easymotion/vim-easymotion'
+
+Plugin 'Tabular'                  " text aligning
 
 call vundle#end()
+" Toggle things on (after Vundle has loaded stuff)
 filetype plugin indent on
-" }
+syntax enable
 
-" * Colors and Fonts {
-colorscheme base16-tomorrow-night
-" make matching paren less disturbing
-hi MatchParen ctermfg=12 ctermbg=11 guifg=#b4b7b4 guibg=#575b61
-" }
 
-" * Plugin Config  {
-" YCM
-let g:ycm_min_num_identifier_candidate_chars = 3
-let g:ycm_error_symbol = 'x'
-let g:ycm_warning_symbol = '!'
-let g:ycm_confirm_extra_conf = 0
-nnoremap <leader>gd :YcmCompleter GoToDefinitionElseDeclaration<CR>
-" ALE
+" Plugin 'w0rp/ale'
+" - rust: rustup component add rls --toolchain nightly
+" - go:  go get -u github.com/sourcegraph/go-langserver
+" - cpp: clang-tools-extra has clangd
 let g:ale_sign_error = 'x'
 let g:ale_sign_warning = '!'
-" NERDCommenter
+let g:ale_completion_enabled = 1
+let g:ale_rust_rls_toolchain = 'stable'
+let g:ale_linters = {
+  \ 'rust': ['rls'],
+  \ 'go': ['golangserver', 'gofmt', 'golint', 'govet'],
+\ }
+nnoremap <Leader>ad :ALEGoToDefinition<CR>
+nnoremap <Leader>af :ALEFix<CR>
+nnoremap <Leader>ar :ALEFindReferences<CR>
+nnoremap <silent> K :ALEHover<CR>
+
+" Make Tab circle through autocomplete options in insert mode
+inoremap <silent><expr> <Tab> pumvisible() ? "\<C-n>" : "\<TAB>"
+inoremap <silent><expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-TAB>"
+
+" Plugin 'chriskempson/base16-vim'
+colorscheme base16-tomorrow-night
+
+" Plugin 'The-NERD-Commenter'
 let g:NERDCreateDefaultMappings = 0 " too polluting
 map # <Plug>NERDCommenterToggle
+
+" Plugin 't9md/vim-choosewin'
+let g:choosewin_overlay_enable = 0
+noremap <Leader>- :ChooseWinSwap<CR>
+
 " Denite
 nnoremap <leader>ff :Denite -buffer-name=any file buffer<CR>
 nnoremap <leader>fr :Denite -buffer-name=mru file_mru<CR>
 call denite#custom#map(
-      \ 'insert', '<Down>', '<denite:move_to_next_line>', 'noremap')
+  \ 'insert', '<Down>', '<denite:move_to_next_line>', 'noremap')
 call denite#custom#map(
-      \ 'insert', '<Up>', '<denite:move_to_previous_line>', 'noremap')
+  \ 'insert', '<Up>', '<denite:move_to_previous_line>', 'noremap')
 call denite#custom#source("_", "matchers", ["matcher/substring"])
 
-" vim-expand-region
+" Plugin 'terryma/vim-expand-region'
 vmap v <Plug>(expand_region_expand)
-" vimfiler/choosewin
-let g:vimfiler_as_default_explorer = 1
-nnoremap <silent> <leader>te :VimFilerExplorer<CR>
-let g:choosewin_overlay_enable = 0
-noremap <Leader>- :ChooseWinSwap<CR>
-""""" easy-motion
-" override easymotion killing my bindings
-map <Leader>l <Plug>(easymotion-lineforward)
-map <Leader>j <Plug>(easymotion-j)
-map <Leader>k <Plug>(easymotion-k)
-map <Leader>h <Plug>(easymotion-linebackward)
-let g:EasyMotion_startofline = 0 " keep cursor column when JK motion
-""""" easy-motion
-" }
+vmap V <Plug>(expand_region_shrink)
+let g:expand_region_text_objects = {
+  \ 'iw'  :0, 'iW'  :0,
+  \ 'i"'  :0, 'a"'  :0,
+  \ 'i''' :0, 'a''' :0,
+  \ 'i]'  :1, 'a]'  :1,
+  \ 'ib'  :1, 'ab'  :1,
+  \ 'iB'  :1, 'aB'  :1,
+  \ 'ip'  :0,
+  \ }
