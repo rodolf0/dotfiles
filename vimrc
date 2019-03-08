@@ -93,7 +93,7 @@ cnoremap <C-e> <End>
 " Toggle between jumping and resizing windows
 function ToggleMoveResize()
   let g:my_resizing_keys =
-        \ exists("g:my_resizing_keys") ? !g:my_resizing_keys : 0
+        \ exists("g:my_resizing_keys") ? !g:my_resizing_keys : 1
   if g:my_resizing_keys
     noremap <c-h> :verti resize -5<CR>
     noremap <c-j> :resize -5<CR>
