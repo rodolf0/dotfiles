@@ -120,7 +120,7 @@ nnoremap <leader>fx :%!xmllint --format --recover - 2>/dev/null<CR>
 nnoremap <leader>fj :%!python -m json.tool<CR>
 
 " View Blame of a file
-nnoremap <leader>vb :vnew | 0read! git blame # || hg blame -pu #<CR>
+nnoremap <leader>vb :vnew <bar> 0read! git blame # \|\| hg blame -pu #<CR>
 
 
 " Highlight column 80 (color set here because most themes don't specify it)
