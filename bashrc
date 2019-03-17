@@ -16,6 +16,7 @@ __aliases() {
   alias vim=nvim
   alias bpl="nc -l ${PIPEPORT:-27284}"  # back-pipe listen
   alias o=xdg-open
+  alias e=$EDITOR
   alias dm1='du --max-depth=1 -m'
   alias d.='du -sh .'
   f1() { find "${*:-.}" -mindepth 1 -maxdepth 1; }

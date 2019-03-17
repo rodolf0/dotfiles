@@ -11,6 +11,7 @@ Plugin 'VundleVim/Vundle.vim'
 Plugin 'w0rp/ale'
 " Colorscheme tweaks
 Plugin 'chriskempson/base16-vim'
+Plugin 'itchyny/lightline.vim'
 " Easy comments
 Plugin 'The-NERD-Commenter'
 " Used for exchanging windows
@@ -24,8 +25,8 @@ Plugin 'Raimondi/delimitMate'
 Plugin 'terryma/vim-expand-region'
 " Match enhanced text-objects
 Plugin 'wellle/targets.vim'
-
-Plugin 'Tabular'                  " text aligning
+" text aligning
+Plugin 'Tabular'
 
 call vundle#end()
 " Toggle things on (after Vundle has loaded stuff)
