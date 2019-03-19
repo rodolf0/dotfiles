@@ -45,7 +45,8 @@ __shell_setup() {
   export PS1=$PS1'\[\e[1;34m\]\w ' # working dir
   # exit code needs to be checked before any command to avoid loosing it
   export PS1=$PS1'$([[ ${PIPESTATUS[*]} =~ ^0( 0)*$ ]] && echo "\[\e[0;32m\]" || echo "\[\e[1;31m\]")${PIPESTATUS[*]} '
-  export PS1=$PS1'\$\[\e[m\] ' # prompt and color reset
+  # last char of prompt is NBSP: ^V + 160 to enable backsearch in tmux.conf
+  export PS1=$PS1'\$\[\e[m\] ' # prompt and color reset
 }
 __shell_setup
 
