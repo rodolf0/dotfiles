@@ -22,6 +22,24 @@ __aliases() {
   f1() { find "${*:-.}" -mindepth 1 -maxdepth 1; }
   f1f() { find "${*:-.}" -mindepth 1 -maxdepth 1 -type f; }
   f1d() { find "${*:-.}" -mindepth 1 -maxdepth 1 -type d; }
+  # Find in history
+  fh() {
+    local entry="$(HISTTIMEFORMAT= history | fzf +s --tac | sed 's/^[0-9]\+ *//')"
+    echo "$entry"
+  }
+  # Find directory and CD to it
+  cdf() {
+    local base="${1:-.}"
+    local path=$(command find "$base" \
+      \( -path '*/\.*' \
+      -o -name .git \
+      -o -name buck-out \
+      \) -prune \
+      -o -type d -print \
+      2>/dev/null |
+      fzf +m) &&
+    cd "$path"
+  }
 }
 __aliases
 
