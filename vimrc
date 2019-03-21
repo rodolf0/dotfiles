@@ -34,6 +34,8 @@ set shiftwidth=2               " spaces per indent
 set tabstop=2                  " spaces per tab in display
 set softtabstop=2              " spaces per tab when inserting
 set smartindent                " be smart about auto-indents and disable on #
+set foldmethod=syntax          " folds are defined by syntax
+set foldlevel=99               " keep folds open to max
 :inoremap # X#
 
 " Interface
@@ -50,17 +52,6 @@ set notimeout       " don't timeout on incomplete key-mappings
 set modelines=0               " ignore file-specific configs in headers
 set clipboard=unnamedplus     " use system clipboard
 set wildignore+=*.o,*~,*.so,.svn,CVS,.git,*.a,*.class,*.obj,*.la,*.swp
-
-
-" DEPRECATED to-be-removed once interface feels nice
-"set completeopt=menu   " menuone,preview,longest
-"set wildmenu           " show list instead of just completing
-"set wildmode=full      " open wildmenu matching first element
-"set foldmethod=syntax  " folds are defined by syntax
-"set magic               " make regex be like grep
-"set ttimeout        " timeout on key-code sequences
-"set ttimeoutlen=50
-
 
 " Key Mappings
 let mapleader = "\<Space>"
