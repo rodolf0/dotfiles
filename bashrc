@@ -24,7 +24,7 @@ __aliases() {
   f1d() { find "${*:-.}" -mindepth 1 -maxdepth 1 -type d; }
   # Find in history
   fh() {
-    local entry="$(HISTTIMEFORMAT= history | fzf +s --tac | sed 's/^[0-9]\+ *//')"
+    local entry="$(HISTTIMEFORMAT= history | fzf +s -e --tac | sed 's/^[0-9]\+ *//')"
     echo "$entry"
   }
   # Find directory and CD to it
@@ -37,7 +37,7 @@ __aliases() {
       \) -prune \
       -o -type d -print \
       2>/dev/null |
-      fzf +m) &&
+      fzf +m -e) &&
     cd "$path"
   }
 }
