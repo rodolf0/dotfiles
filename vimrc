@@ -10,7 +10,6 @@ set novisualbell
 set nowrap              " don't wrap lines
 set number              " number lines for reference
 set ruler               " always show cursor position
-set shortmess=tToO      " avoid annoying prompts
 set fillchars+=vert:│
 set listchars=eol:¬,tab:▸\ ,trail:•,extends:❯,precedes:❮
 set showbreak=↪\
