@@ -25,6 +25,8 @@ __aliases() {
   # Find in history
   fh() {
     local entry="$(HISTTIMEFORMAT= history | fzf +s -e --tac | sed 's/^[0-9]\+ *//')"
+    echo -n "$entry" | xclip -selection clipboard  &> /dev/null
+    tmux set-buffer "$entry" &> /dev/null
     echo "$entry"
   }
   # Find directory and CD to it
