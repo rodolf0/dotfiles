@@ -3,8 +3,8 @@ filetype off
 
 
 " Setup Vundle plugin manager
-set rtp+=~/.nvim/bundle/Vundle.vim,~/.vim/bundle/Vundle.vim
-call vundle#begin(has('nvim') ? expand("~/.nvim/bundle")
+set rtp+=~/.config/nvim/bundle/Vundle.vim,~/.vim/bundle/Vundle.vim
+call vundle#begin(has('nvim') ? expand("~/.config/nvim/bundle")
                             \ : expand("~/.vim/bundle"))
 Plugin 'VundleVim/Vundle.vim'
 " Linting + Autocompletion (https://langserver.org/)
