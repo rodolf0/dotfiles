@@ -67,13 +67,20 @@ let g:choosewin_overlay_enable = 0
 noremap <Leader>- :ChooseWinSwap<CR>
 
 " Denite
-nnoremap <leader>ff :Denite -buffer-name=any file buffer<CR>
-nnoremap <leader>fr :Denite -buffer-name=mru file_mru<CR>
-call denite#custom#map(
-  \ 'insert', '<Down>', '<denite:move_to_next_line>', 'noremap')
-call denite#custom#map(
-  \ 'insert', '<Up>', '<denite:move_to_previous_line>', 'noremap')
+nnoremap <leader>ff :Denite -start-filter -buffer-name=any file buffer<CR>
+nnoremap <leader>fr :Denite -start-filter -buffer-name=mru file_mru<CR>
 call denite#custom#source("_", "matchers", ["matcher/substring"])
+
+autocmd FileType denite-filter call s:denite_filter_my_settings()
+function! s:denite_filter_my_settings() abort
+  inoremap <silent><buffer><expr> <CR> denite#do_map('do_action')
+  inoremap <silent><buffer> <C-j>
+        \ <Esc><C-w>p:call cursor(line('.')+1,0)<CR><C-w>pA
+  inoremap <silent><buffer> <C-k>
+        \ <Esc><C-w>p:call cursor(line('.')-1,0)<CR><C-w>pA
+  inoremap <silent><buffer><expr> <C-c> denite#do_map('quit')
+  inoremap <silent><buffer><expr> <Esc> denite#do_map('quit')
+endfunction
 
 " Plugin 'terryma/vim-expand-region'
 vmap v <Plug>(expand_region_expand)
