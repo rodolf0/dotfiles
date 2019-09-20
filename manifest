@@ -2,8 +2,7 @@ bashrc       : .bashrc
 bash_profile : .bash_profile
 gitconfig    : .gitconfig
 pythonrc     : .pythonrc
-vimrc        : .vimrc
-vimrc        : .config/nvim/init.vim
+init.vim     : .config/nvim/init.vim
 tmux.conf    : .tmux.conf
 gdbinit      : .gdbinit
 inputrc      : .inputrc
