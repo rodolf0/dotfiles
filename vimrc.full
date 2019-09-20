@@ -34,7 +34,7 @@ filetype plugin indent on
 syntax enable
 
 
-" Plugin 'w0rp/ale'
+" Plugin 'dense-analysis/ale'
 " - rust: rustup component add rls --toolchain nightly
 " - go:  go get -u github.com/sourcegraph/go-langserver
 " - cpp: clang-tools-extra has clangd
@@ -46,9 +46,9 @@ let g:ale_linters = {
   \ 'rust': ['rls'],
   \ 'go': ['golangserver', 'gofmt', 'golint', 'govet'],
 \ }
-nnoremap <Leader>ad :ALEGoToDefinition<CR>
-nnoremap <Leader>af :ALEFix<CR>
+nnoremap <Leader>ad :ALEGoToTypeDefinitionInVSplit<CR>
 nnoremap <Leader>ar :ALEFindReferences<CR>
+nnoremap <Leader>af :ALEFix<CR>
 nnoremap <silent> K :ALEHover<CR>
 
 " Make Tab circle through autocomplete options in insert mode
