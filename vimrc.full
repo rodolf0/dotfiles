@@ -8,7 +8,7 @@ call vundle#begin(has('nvim') ? expand("~/.config/nvim/bundle")
                             \ : expand("~/.vim/bundle"))
 Plugin 'VundleVim/Vundle.vim'
 " Linting + Autocompletion (https://langserver.org/)
-Plugin 'w0rp/ale'
+Plugin 'dense-analysis/ale'
 " Colorscheme tweaks
 Plugin 'chriskempson/base16-vim'
 Plugin 'itchyny/lightline.vim'
