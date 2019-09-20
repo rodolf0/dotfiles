@@ -80,6 +80,11 @@ noremap <S-Tab> <C-w>W
 cnoremap <C-a> <Home>
 cnoremap <C-e> <End>
 
+" Tab handling
+nnoremap tn :tabnew<CR>
+nnoremap tk :tabnext<CR>
+nnoremap tj :tabprevious<CR>
+
 " Toggle between jumping and resizing windows
 function ToggleMoveResize()
   let g:my_resizing_keys =
