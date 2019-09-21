@@ -22,7 +22,7 @@ packenv() {
   cp ~/Source/dotfiles/stl-views.gdb "$dstrcdir/stl-views.gdb"
   # adjust vim files for remote environemnt
   mkdir -p "$dstrcdir/vimfiles"
-  cat ~/Source/dotfiles/vimrc |
+  cat ~/Source/dotfiles/init.vim |
     sed -e "s!~/Source/dotfiles/!${dstrcdir}/!" \
         -e "s!~/.vimfiles!${dstrcdir}/vimfiles!" \
     > "$dstrcdir/vimrc"
