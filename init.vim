@@ -160,6 +160,9 @@ if has("autocmd") && !exists("autocommands_loaded")
   au BufNewFile *.py 0put = '#!/usr/bin/env python' | norm G
 endif
 
+" netrw config
+let g:netrw_banner = 0
+au FileType netrw nmap <buffer> o <Plug>NetrwLocalBrowseCheck
 
 " Load more extensive config
 if !empty(glob("~/Source/dotfiles/vimrc.full"))

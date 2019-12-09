@@ -45,6 +45,7 @@ let g:ale_rust_rls_toolchain = 'stable'
 let g:ale_linters = {
   \ 'rust': ['rls'],
   \ 'go': ['golangserver', 'gofmt', 'golint', 'govet'],
+  \ 'python': ['pyre', 'pyls', 'flake8'],
 \ }
 nnoremap <Leader>ad :ALEGoToTypeDefinitionInVSplit<CR>
 nnoremap <Leader>ar :ALEFindReferences<CR>
