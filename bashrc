@@ -19,6 +19,7 @@ __aliases() {
   alias e=$EDITOR
   alias dm1='du --max-depth=1 -m'
   alias d.='du -sh .'
+  alias tr,="tr , '\n'"
   f1() { find "${*:-.}" -mindepth 1 -maxdepth 1; }
   f1f() { find "${*:-.}" -mindepth 1 -maxdepth 1 -type f; }
   f1d() { find "${*:-.}" -mindepth 1 -maxdepth 1 -type d; }
