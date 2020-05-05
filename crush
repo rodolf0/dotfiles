@@ -1,0 +1,356 @@
+#!/usr/bin/env python3
+
+# All credits and glory go to https://code.google.com/p/crush-tools
+# just keeping this python portable version handy for small inputs
+
+import itertools
+import sys, os, re, csv, math
+
+from collections import defaultdict
+
+
+def reorder(istream, fields):
+    "Select which fields from input stream are copied to output"
+    for inline in istream:
+        yield tuple(inline[f] for f in fields)
+
+
+def convdate(istream, datefields, outfmt, tz_in, tz_out):
+    from datetime import datetime, timezone
+    import pytz
+    AUTO_FORMATS = [
+        "%B %d, %Y at %I:%M%p",
+        "%a %b %d %H:%M:%S %Z %Y",
+        "%s",
+    ]
+    # parse input as if it were this timezone
+    tz_input = pytz.timezone(tz_in) if tz_in else None
+    # if input is timezone-aware, then format output in local-tz by default
+    tz_output = datetime.utcnow().astimezone().tzinfo if tz_input else None
+    # override default output-tz if we want something else than local
+    tz_output = pytz.timezone(tz_out) if tz_out else tz_output
+
+    # try multiple input formats
+    def tryparse(input_tm):
+        for fmt in AUTO_FORMATS:
+            try:
+                # ugly hack to parse timestamp
+                tm = (datetime.fromtimestamp(int(input_tm)) if fmt == "%s"
+                      else datetime.strptime(input_tm, fmt))
+                if tz_input:
+                    tm = tm.replace(tzinfo=tz_input)
+                if tz_output:
+                    tm = tm.astimezone(tz_output)
+                return tm.strftime(outfmt)
+            except ValueError:
+                pass
+        return "strptime-err"
+
+    # go through stream converting fields
+    for inline in istream:
+        yield tuple(tryparse(field) if i in datefields else field
+                    for i, field in enumerate(inline))
+
+
+def aggregate(istream, keys, pivots, aggregations, header):
+    "Aggregate values by keys, optionally break down by pivots"
+    header = header or ["col%d" % i for i in range(1, 50)]
+    aggfields = set.union(*[set(f) for f in aggregations.values()])
+    all_keys, all_pivots, values = set(), set(), defaultdict(list)
+    # aggregate lines
+    for line in istream:
+        key = tuple(line[k] for k in keys)
+        pivot = tuple(line[p] for p in pivots)
+        all_keys.add(key)
+        all_pivots.add(pivot)
+        for a in aggfields:
+            values[(key, pivot, a)].append(line[a])
+
+    all_keys, all_pivots = sorted(all_keys), sorted(all_pivots)
+    # pivot columns: combination of all observed values for all pivots
+    pivcols = tuple("+".join("%s=%s" % (header[p], pv[i])
+                             for i, p in enumerate(pivots))
+                    for pv in all_pivots)
+    # for each pivot column: build the aggregation columns we need
+    aggcols = tuple("%s%s%s" % (agg, "-" + header[aggcol]
+                                if agg != 'count' and len(aggcols) > 1 else '',
+                                '[' + pc + ']' if pc else '')
+                    for agg, aggcols in aggregations.items()
+                    for aggcol in aggcols
+                    for pc in pivcols)
+    yield tuple(header[k] for k in keys) + aggcols
+
+    # write aggregations
+    def _do_agg(fn, values):
+        if len(values) == 0: return '-'
+        if fn == 'avg': return "%.12g" % (sum(map(float, values)) / len(values))
+        if fn == 'count': return str(len(values))
+        if fn == 'uniq': return str(len(set(values)))
+        if fn == 'max': return "%.12g" % max(map(float, values))
+        if fn == 'min': return "%.12g" % min(map(float, values))
+        if fn == 'sum': return "%.12g" % sum(map(float, values))
+        if fn[0] == 'p':
+            pct = float(fn[1:])
+            values = sorted(map(float, values))
+            return "%.12g" % values[int(len(values) * pct/100.0 - 0.5)]
+
+    for k in all_keys:
+        yield k + tuple(_do_agg(fn, values[(k, p, a)])
+                        for fn, aggcols in aggregations.items()
+                        for a in aggcols
+                        for p in all_pivots)
+
+
+def calcfields(instream, calcspec, filter_rows, header):
+    "Calculate new columns using python, calcspec: [(expr, header)...]"
+    calcspec = list(calcspec)
+    if header:
+        yield header + ([] if filter_rows else [h for _, h in calcspec])
+    for line in instream:
+        exprs = [fn(*[line[i] for i in args]) for (fn, args), _ in calcspec]
+        if not filter_rows:
+            yield line + [str(x) for x in exprs]
+        elif all(exprs):
+            yield line
+
+
+def windows():
+    pass
+
+
+def splitstream(istream, splitspec, bucketfn, outpath, outpat, header, wrmaker):
+    "Split input stream into different files"
+    wrote_headers = set()
+
+    def _flush(bucket, stream):
+        outfile = os.path.join(outpath, outpat.replace("%", bucket))
+        with open(outfile, "a") as out:
+            if header and bucket not in wrote_headers:
+                wrote_headers.add(bucket)
+                stream = itertools.chain([header], stream)
+            wrmaker(out)(stream)
+
+    ostreams = defaultdict(list)
+    for line in istream:
+        # bucket function is called with 'splitspec' fields
+        # eg: -f 2,3  --->  lambda x, y: <bucket-logic>
+        b = bucketfn(*tuple(line[arg] for arg in splitspec))
+        stream = ostreams[b]
+        stream.append(line)
+        # flush to file if we've got enough rows
+        if len(stream) > 255:
+            _flush(b, stream)
+            del ostreams[b]
+    # flush pending data
+    for b, stream in ostreams.items():
+        _flush(b, stream)
+
+
+def parse_keyspec(keyspec, header):
+    "Expand keyspec into a list of fields, header are for named fields"
+    if not keyspec:
+        return []
+    idxs = []
+    for spec in keyspec.split(","):
+        if header:
+            if spec in header:
+                idxs.append(header.index(spec))
+            else:
+                print("unknown field: " + spec, file=sys.stderr)
+                sys.exit(1)
+        elif "-" in spec:
+            start, _, end = spec.partition("-")
+            start, end = int(start), int(end)
+            idxs.extend(range(start - 1, end))
+        else:
+            idxs.append(int(spec) - 1)
+    return idxs
+
+
+def build_reader(args):
+    "Check how to interpret input stream"
+    if args.csv:
+        return csv.reader(args.infile)
+    elif len(args.delim) == 1:
+        return (l.rstrip("\r\n\t ").split(args.delim) for l in args.infile)
+    _delim = re.compile(args.delim)
+    return (_delim.split(l.rstrip("\r\n\t ")) for l in args.infile)
+
+
+def build_writer(args, ostream):
+    "Return a function to write results"
+    if args.ocsv:
+        def _csv_writer(istream):
+            csv.writer(ostream).writerows(istream)
+            ostream.flush()
+        return _csv_writer
+    elif args.odelim:
+        def _odelim_writer(istream):
+            ostream.writelines(args.odelim.join(l) + "\n" for l in istream)
+            ostream.flush()
+        return _odelim_writer
+
+    # fixed-width column writer
+    def _fixed_width_writer(istream):
+        istream = iter(istream)  # treat lists and generators equally
+        normalized = list(itertools.islice(istream, 128))
+        istream = itertools.chain(normalized, istream)
+        widths = [len(f) for f in normalized[0]] if len(normalized) > 0 else []
+        # Don't print alignment if single column
+        if len(widths) == 1:
+            ostream.writelines(l[0] + "\n" for l in istream)
+            ostream.flush()
+            return
+        for line in normalized:
+            widths = [max(widths[i], len(col)) for i, col in enumerate(line)]
+        outfmt = '  '.join("{:<%d}" % w for i, w in enumerate(widths)) + "\n"
+        ostream.writelines(outfmt.format(*l) for l in istream)
+        ostream.flush()
+    return _fixed_width_writer
+
+
+# cmdline parsing
+def main():
+    import argparse
+    gp = argparse.ArgumentParser()
+    gp.add_argument("--delim", "-d", default=r"\s+")
+    gp.add_argument("--odelim", "-o", help="output field delimiter")
+    gp.add_argument("--csv", action="store_true")
+    gp.add_argument("--ocsv", action="store_true")
+    gp.add_argument("--header", "-H", action="store_true")
+    sp = gp.add_subparsers(dest="command")
+
+    p = sp.add_parser("cut")
+    p.add_argument("--fields", "-f", required=True)
+    p.add_argument("infile", type=argparse.FileType('r'),
+                   nargs="?", default=sys.stdin)
+
+    p = sp.add_parser("tm")
+    p.add_argument("--fields", "-f", required=True)
+    p.add_argument("--ofmt", "-o", default="%F %T%z",
+                   help="date output format")
+    p.add_argument("--itz", help="input timezone")
+    p.add_argument("--otz", help="output timezone")
+    p.add_argument("infile", type=argparse.FileType('r'),
+                   nargs="?", default=sys.stdin)
+
+    p = sp.add_parser("agg")
+    p.add_argument("--keys", "-k", metavar="{columns}")
+    p.add_argument("--pivots", "-p", metavar="{columns}")
+    p.add_argument("--count", action="store_const", const='1')
+    p.add_argument("--pct", metavar=('{pX}:{columns},...'), nargs='+')
+    for op in ['sum', 'avg', 'min', 'max', 'uniq']:  # 'mode', 'gmean', 'var'
+        p.add_argument("--%s" % op, metavar="{columns}")
+    p.add_argument("infile", type=argparse.FileType('r'),
+                   nargs="?", default=sys.stdin)
+
+    p = sp.add_parser("calc")
+    p.add_argument("--headers", "-H")
+    p.add_argument("--filter", "-f", action="store_true")
+    p.add_argument("exprs", nargs="+")
+    p.add_argument("infile", type=argparse.FileType('r'),
+                   nargs="?", default=sys.stdin)
+
+    p = sp.add_parser("split")
+    p.add_argument("--fields", "-f", required=True,
+                   help="arguments to the partition function")
+    p.add_argument("--bucket", "-b", default="lambda x: str(x)",
+                   help="bucket function eg: lambda x: str(abs(hash(x)) % 10)")
+    p.add_argument("--path", "-p", default=".")
+    p.add_argument("--outpat", "-o", default="%",
+                   help="Output filename pattern, %% is the bucket name")
+    p.add_argument("infile", type=argparse.FileType('r'),
+                   nargs="?", default=sys.stdin)
+
+    args = gp.parse_args()
+    if not args.command:
+        return gp.print_help()
+
+    # choose how we consume input / write output
+    istream = build_reader(args)
+    owriter = build_writer(args, sys.stdout)
+
+    # to address columns by name we need to say so explicitly
+    header = next(istream) if args.header else None
+
+    # dispatch subcommand
+    if args.command == "cut":
+        fields = parse_keyspec(args.fields, header)
+        if header:
+            istream = itertools.chain([header], istream)
+        owriter(reorder(istream, fields))
+
+    if args.command == "tm":
+        fields = parse_keyspec(args.fields, header)
+        if header:
+            istream = itertools.chain([header], istream)
+        owriter(convdate(istream, set(fields), args.ofmt, args.itz, args.otz))
+
+    elif args.command == "agg":
+        keys = parse_keyspec(args.keys, header) if args.keys else []
+        pivots = parse_keyspec(args.pivots, header) if args.pivots else []
+        aggregations = {
+            'avg': parse_keyspec(args.avg, header),
+            'count': [0] if args.count else [],
+            # 'gmean': parse_keyspec(args.gmean, header),
+            'max': parse_keyspec(args.max, header),
+            'min': parse_keyspec(args.min, header),
+            # 'mode': parse_keyspec(args.mode, header),
+            'sum': parse_keyspec(args.sum, header),
+            'uniq': parse_keyspec(args.uniq, header),
+            # 'var': parse_keyspec(args.var, header),
+        }
+        if args.pct:
+            for px in args.pct:
+                px, columns = px.split(":")
+                aggregations['p%s' % px] = parse_keyspec(columns, header)
+        owriter(aggregate(istream, keys, pivots, aggregations, header))
+
+    elif args.command == "calc":
+        argre = re.compile(r"(?:{[^}]+})")
+        calcfuncs = []
+        # for each expression we need to build a lambda that calculates it
+        for expr in args.exprs:
+            # find all references to fields within the expression
+            reffields = argre.findall(expr)
+            # resolve field references into indexes
+            fieldspec = ",".join(f.strip("{}") for f in reffields)
+            fieldspec = parse_keyspec(fieldspec, header)
+            # make anonymous variable for each referenced field
+            varnames = ["__x%d" % i for i in fieldspec]
+            # re-write expression to use variables
+            for field, var in zip(reffields, varnames):
+                expr = expr.replace(field, var)
+            # evaluate text into a function object
+            try:
+                expr = eval("lambda %s: %s" % (", ".join(varnames), expr))
+            except SyntaxError:
+                print("failed to parse: " + expr, file=sys.stderr)
+                sys.exit(1)
+            calcfuncs.append((expr, fieldspec))
+        exprheaders = args.headers.split(",") if args.headers else args.exprs
+        assert args.headers is None or len(exprheaders) == len(args.exprs)
+        calcspec = zip(calcfuncs, exprheaders)
+        owriter(calcfields(istream, calcspec, args.filter, header))
+
+    elif args.command == "split":
+        splitspec = parse_keyspec(args.fields, header)
+        try:
+            bucketfn = eval(args.bucket)
+        except SyntaxError:
+            print("failed to parse: " + args.bucket, file=sys.stderr)
+            sys.exit(1)
+        splitstream(istream, splitspec, bucketfn,
+                    args.path, args.outpat, header,
+                    lambda ostream: build_writer(args, ostream))
+
+
+if __name__ == "__main__":
+    try:
+        main()
+    except IOError as e:
+        import errno
+        if e.errno == errno.EPIPE:
+            pass
+    sys.stderr.close()
+    sys.stdout.close()
