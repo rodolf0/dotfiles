@@ -10,12 +10,12 @@ packenv() {
   mkdir -p "$dstrcdir"
   # setup bash remote environment
   cat ~/Source/dotfiles/bashrc |
-    sed "s!~/Source/shlibs/!${dstrcdir}/!" > "$dstrcdir/bashrc"
+    sed "s!~/Source/dotfiles/!${dstrcdir}/!" > "$dstrcdir/bashrc"
   cp ~/Source/dotfiles/inputrc "$dstrcdir/inputrc"
   cat ~/Source/dotfiles/tmux.conf |
     sed "s!default-command ''!default-command 'bash --rcfile $dstrcdir/sshrc'!" \
     > "$dstrcdir/tmux.conf"
-  cp ~/Source/shlibs/*.lib.sh "$dstrcdir/" &>/dev/null
+  cp ~/Source/dotfiles/*.lib.sh "$dstrcdir/" &>/dev/null
   # setup gdb
   cat ~/Source/dotfiles/gdbinit |
     sed "s!~/Source/dotfiles/!${dstrcdir}/!" > "$dstrcdir/gdbinit"
@@ -28,10 +28,10 @@ packenv() {
     > "$dstrcdir/vimrc"
   # copy some binaries
   mkdir -p "$dstrcdir/bin"
-  cp ~/Source/shlibs/csv2d \
-     ~/Source/shlibs/d2fw \
-     ~/Source/shlibs/l2f \
-     ~/Source/shlibs/crush \
+  cp ~/Source/dotfiles/csv2d \
+     ~/Source/dotfiles/d2fw \
+     ~/Source/dotfiles/l2f \
+     ~/Source/dotfiles/crush \
   "$dstrcdir/bin/"
   # remote startup script
   cat > "$dstrcdir/sshrc" <<-EOF

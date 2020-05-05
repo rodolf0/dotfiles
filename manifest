@@ -1,10 +1,11 @@
-bashrc       : .bashrc
 bash_profile : .bash_profile
-gitconfig    : .gitconfig
-pythonrc     : .pythonrc
-init.vim     : .config/nvim/init.vim
-tmux.conf    : .tmux.conf
+bashrc       : .bashrc
+crush        : bin/crush
 gdbinit      : .gdbinit
+gitconfig    : .gitconfig
+init.vim     : .config/nvim/init.vim
 inputrc      : .inputrc
-sshrc        : bin/sshrc
 npmrc        : .npmrc
+pythonrc     : .pythonrc
+sshrc        : bin/sshrc
+tmux.conf    : .tmux.conf

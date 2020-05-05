@@ -99,7 +99,7 @@ __setup_langs() {
 }
 __setup_langs
 
-for s in ~/Source/shlibs/*.lib.sh; do [ -f "$s" ] && source "$s"; done
+for s in ~/Source/dotfiles/*.lib.sh; do [ -f "$s" ] && source "$s"; done
 
 # stuff not to be tracked by git goes here
 [ -f ~/.bashrc.priv.post ] && source ~/.bashrc.priv.post || true
