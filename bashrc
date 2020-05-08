@@ -59,7 +59,7 @@ __shell_setup() {
   shopt -s histappend
   export HISTCONTROL=ignoreboth
   export HISTIGNORE='hg diff:hg sl:git diff:hg status:hg:ls *:ls:jobs:cd:fg'
-  export HISTSIZE=100000
+  export HISTSIZE=-1
   export HISTFILESIZE=1048576
   export PROMPT_DIRTRIM=3
   # the \[ braketing needs to be there so readline can calculate line length
