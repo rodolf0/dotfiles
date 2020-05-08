@@ -60,7 +60,7 @@ __shell_setup() {
   export HISTCONTROL=ignoreboth
   export HISTIGNORE='hg diff:hg sl:git diff:hg status:hg:ls *:ls:jobs:cd:fg'
   export HISTSIZE=-1
-  export HISTFILESIZE=1048576
+  export HISTFILESIZE=80000
   export PROMPT_DIRTRIM=3
   # the \[ braketing needs to be there so readline can calculate line length
   export PS1='\[\e[1;30m\]\t ' # time
