@@ -179,12 +179,18 @@ def parse_keyspec(keyspec, header):
 
 def build_reader(args):
     "Check how to interpret input stream"
+    istream = None
+    # Figure out how to split the input stream
     if args.csv:
-        return csv.reader(args.infile)
+        istream = csv.reader(args.infile)
     elif len(args.delim) == 1:
-        return (l.strip().split(args.delim) for l in args.infile)
-    _delim = re.compile(args.delim)
-    return (_delim.split(l.strip()) for l in args.infile)
+        istream = (l.strip().split(args.delim) for l in args.infile)
+    else:
+        _delim = re.compile(args.delim)
+        istream = (_delim.split(l.strip()) for l in args.infile)
+    # TODO: limit the amount of splitting based on header?
+    header = next(istream) if args.header else None
+    return header, istream
 
 
 def build_writer(args, ostream):
@@ -285,12 +291,10 @@ def main():
     if not args.command:
         return gp.print_help()
 
+    # header: to address columns by name we need to say so explicitly
     # choose how we consume input / write output
-    istream = build_reader(args)
+    header, istream = build_reader(args)
     owriter = build_writer(args, sys.stdout)
-
-    # to address columns by name we need to say so explicitly
-    header = next(istream) if args.header else None
 
     # dispatch subcommand
     if args.command == "cut":
