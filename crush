@@ -148,26 +148,68 @@ class Aggregator:
                              for pf in pivot_values)
 
 
-def calcfields(instream, calcspec, filter_rows, header):
+class Evaler:
     "Calculate new columns using python, calcspec: [(expr, header), ...]"
-    calcspec = list(calcspec)
-    if header:
-        yield header + ([] if filter_rows else [h for _, h in calcspec])
-    for line in instream:
-        exprs = [fn(*[line[i] for i in args]) for (fn, args), _ in calcspec]
-        if not filter_rows:
-            yield line + [str(x) for x in exprs]
-        elif all(exprs):
-            yield line
+    def __init__(self, args, header, istream):
+        self.header = header
+        self.istream = istream
+        argre = re.compile(r"(?:{[^}]+})")
+        # for each expression we need to build a lambda that calculates it
+        self.exprs = [self._compile_expr(argre, e, header) for e in args.exprs]
+
+    @staticmethod
+    def _compile_expr(field_regex, expr, header):
+        # find all column references within expr and resolve to indexes
+        expr_refs = field_regex.findall(expr)
+        expr_fields = ",".join(f.strip("{}") for f in expr_refs)
+        expr_fields = parse_keyspec(expr_fields, header)
+        # make anonymous variables for each column reference
+        varnames = ["__x%d" % i for i in expr_fields]
+        # re-write expression to use variables
+        for field, var in zip(expr_refs, varnames):
+            expr = expr.replace(field, var)
+        # evaluate expression into a function
+        try:
+            expr = eval("lambda %s: %s" % (", ".join(varnames), expr))
+        except SyntaxError:
+            print("failed to parse: " + expr, file=sys.stderr)
+            sys.exit(1)
+        return (expr, expr_fields)
 
 
-def sortfields(instream, sortspec, reverse, header):
+class Calculator(Evaler):
     "Sort input by python expression, sortspec: [expr, ...]"
-    sortspec = list(sortspec)
-    if header:
-        yield header
-    yield from sorted(instream, reverse=reverse, key=lambda line: tuple(
-        fn(*[line[i] for i in args]) for fn, args in sortspec))
+    def __init__(self, args, header, istream):
+        super().__init__(args, header, istream)
+        self.filter = args.filter
+        # build header labels
+        self.eheaders = args.headers.split(",") if args.headers else args.exprs
+        assert args.headers is None or len(self.eheaders) == len(args.exprs)
+
+    def __iter__(self):
+        if self.header:
+            yield self.header + ([] if self.filter else self.eheaders)
+        for line in self.istream:
+            exprs = [fn(*[line[i] for i in args]) for (fn, args) in self.exprs]
+            if not self.filter:
+                yield line + [str(x) for x in exprs]
+            elif all(exprs):
+                yield line
+
+
+class Sorter(Evaler):
+    "Sort input by python expression, sortspec: [expr, ...]"
+    def __init__(self, args, header, istream):
+        super().__init__(args, header, istream)
+        self.reverse = args.reverse
+
+    def __iter__(self):
+        if self.header:
+            yield self.header
+        yield from sorted(
+                self.istream, reverse=self.reverse,
+                key=lambda line:
+                tuple(fn(*[line[i] for i in args]) for fn, args in self.exprs))
 
 
 def splitstream(istream, splitspec, bucketfn, outpath, outpat, header, wrmaker):
@@ -349,55 +391,10 @@ def main():
         owriter(Aggregator(args, header, istream))
 
     elif args.command == "calc":
-        argre = re.compile(r"(?:{[^}]+})")
-        calcfuncs = []
-        # for each expression we need to build a lambda that calculates it
-        for expr in args.exprs:
-            # find all references to fields within the expression
-            reffields = argre.findall(expr)
-            # resolve field references into indexes
-            fieldspec = ",".join(f.strip("{}") for f in reffields)
-            fieldspec = parse_keyspec(fieldspec, header)
-            # make anonymous variable for each referenced field
-            varnames = ["__x%d" % i for i in fieldspec]
-            # re-write expression to use variables
-            for field, var in zip(reffields, varnames):
-                expr = expr.replace(field, var)
-            # evaluate text into a function object
-            try:
-                expr = eval("lambda %s: %s" % (", ".join(varnames), expr))
-            except SyntaxError:
-                print("failed to parse: " + expr, file=sys.stderr)
-                sys.exit(1)
-            calcfuncs.append((expr, fieldspec))
-        exprheaders = args.headers.split(",") if args.headers else args.exprs
-        assert args.headers is None or len(exprheaders) == len(args.exprs)
-        calcspec = zip(calcfuncs, exprheaders)
-        owriter(calcfields(istream, calcspec, args.filter, header))
+        owriter(Calculator(args, header, istream))
 
     elif args.command == "sortby":
-        argre = re.compile(r"(?:{[^}]+})")
-        sortfuncs = []
-        # for each expression we need to build a lambda that calculates it
-        for expr in args.exprs:
-            # find all references to fields within the expression
-            reffields = argre.findall(expr)
-            # resolve field references into indexes
-            fieldspec = ",".join(f.strip("{}") for f in reffields)
-            fieldspec = parse_keyspec(fieldspec, header)
-            # make anonymous variable for each referenced field
-            varnames = ["__x%d" % i for i in fieldspec]
-            # re-write expression to use variables
-            for field, var in zip(reffields, varnames):
-                expr = expr.replace(field, var)
-            # evaluate text into a function object
-            try:
-                expr = eval("lambda %s: %s" % (", ".join(varnames), expr))
-            except SyntaxError:
-                print("failed to parse: " + expr, file=sys.stderr)
-                sys.exit(1)
-            sortfuncs.append((expr, fieldspec))
-        owriter(sortfields(istream, sortfuncs, args.reverse, header))
+        owriter(Sorter(args, header, istream))
 
     elif args.command == "split":
         splitspec = parse_keyspec(args.fields, header)
