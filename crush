@@ -73,6 +73,7 @@ class Aggregator:
         self.keys = parse_keyspec(args.keys, header) if args.keys else []
         self.pivots = parse_keyspec(args.pivots, header) if args.pivots else []
         self.aggregations = self._parse_aggregations(args, header)
+        # list of all columns we need aggregations for
         self.aggfields = set.union(*[set(f) for f in self.aggregations.values()])
 
     def _parse_aggregations(self, args, header):
@@ -92,16 +93,17 @@ class Aggregator:
         return aggregations
 
     def _collect(self):
-        all_keys, all_pivots, values = set(), set(), defaultdict(list)
+        key_values, pivot_values, = set(), set()
+        groups = defaultdict(list)
         # aggregate lines
         for line in self.istream:
             key = tuple(line[k] for k in self.keys)
             pivot = tuple(line[p] for p in self.pivots)
-            all_keys.add(key)
-            all_pivots.add(pivot)
+            key_values.add(key)
+            pivot_values.add(pivot)
             for a in self.aggfields:
-                values[(key, pivot, a)].append(line[a])
-        return all_keys, all_pivots, values
+                groups[(key, pivot, a)].append(line[a])
+        return sorted(key_values), sorted(pivot_values), groups
 
     @staticmethod
     def _do_agg(fn, values):
@@ -117,29 +119,33 @@ class Aggregator:
             values = sorted(map(float, values))
             return "%.12g" % values[int(len(values) * pct/100.0 - 0.5)]
 
-    def __iter__(self):
-        all_keys, all_pivots, values = self._collect()
+    def _columns(self, pivot_values):
         # pivot columns: combination of all observed values for all pivots
-        pivcols = tuple("+".join("%s=%s" % (self.header[p], pv[i])
-                                 for i, p in enumerate(self.pivots))
-                        for pv in all_pivots)
+        pivot_templates = tuple(
+            "+".join("{pivot}={val}".format(pivot=self.header[piv], val=pv[i])
+                     for i, piv in enumerate(self.pivots))
+            for pv in pivot_values)
         # for each pivot column: build the aggregation columns we need
-        aggcols = tuple("{aggtype}{aggcol}{pivcolumn}".format(
-            aggtype=agg,
-            aggcol=("-" + self.header[aggcol] if agg != 'count' and len(aggcols) > 1 else ''),
-            pivcolumn=('[' + pc + ']' if pc else ''))
-                        for agg, aggcols in self.aggregations.items()
-                        for aggcol in aggcols
-                        for pc in pivcols)
+        columns = tuple("{aggtype}{aggcol}{pivinfo}".format(
+            aggtype=aggtype,
+            aggcol=("-" + self.header[af] if len(aggfields) > 1 else ''),
+            pivinfo=('[{}]'.format(pt) if pt else ''))
+                     for aggtype, aggfields in self.aggregations.items()
+                     for af in aggfields
+                     for pt in pivot_templates)
+        return columns
 
-        # Finaly yield the header
-        yield tuple(self.header[k] for k in self.keys) + aggcols
+    def __iter__(self):
+        key_values, pivot_values, groups = self._collect()
+        # yield the header
+        columns = self._columns(pivot_values)
+        yield tuple(self.header[k] for k in self.keys) + columns
         # write aggregations
-        for k in all_keys:
-            yield k + tuple(self._do_agg(fn, values[(k, p, a)])
-                            for fn, aggcols in self.aggregations.items()
-                            for a in aggcols
-                            for p in all_pivots)
+        for kf in key_values:
+            yield kf + tuple(self._do_agg(fn, groups[(kf, pf, af)])
+                             for fn, aggcols in self.aggregations.items()
+                             for af in aggcols
+                             for pf in pivot_values)
 
 
 def calcfields(instream, calcspec, filter_rows, header):
