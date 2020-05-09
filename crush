@@ -2,6 +2,7 @@
 
 # All credits and glory go to https://code.google.com/p/crush-tools
 # just keeping this python portable version handy for small inputs
+# inspiration from https://github.com/sharkdp/shell-functools
 
 import itertools
 import sys, os, re, csv, math
@@ -102,7 +103,7 @@ def aggregate(istream, keys, pivots, aggregations, header):
 
 
 def calcfields(instream, calcspec, filter_rows, header):
-    "Calculate new columns using python, calcspec: [(expr, header)...]"
+    "Calculate new columns using python, calcspec: [(expr, header), ...]"
     calcspec = list(calcspec)
     if header:
         yield header + ([] if filter_rows else [h for _, h in calcspec])
@@ -112,6 +113,15 @@ def calcfields(instream, calcspec, filter_rows, header):
             yield line + [str(x) for x in exprs]
         elif all(exprs):
             yield line
+
+
+def sortfields(instream, sortspec, reverse, header):
+    "Sort input by python expression, sortspec: [expr, ...]"
+    sortspec = list(sortspec)
+    if header:
+        yield header
+    yield from sorted(instream, reverse=reverse, key=lambda line: tuple(
+        fn(*[line[i] for i in args]) for fn, args in sortspec))
 
 
 def windows():
@@ -195,15 +205,18 @@ def build_writer(args, ostream):
         istream = iter(istream)  # treat lists and generators equally
         normalized = list(itertools.islice(istream, 128))
         istream = itertools.chain(normalized, istream)
-        widths = [len(f) for f in normalized[0]] if len(normalized) > 0 else []
+        widths = ({i: len(f) for i, f in enumerate(normalized[0])}
+                  if len(normalized) > 0 else {})
         # Don't print alignment if single column
         if len(widths) == 1:
             ostream.writelines(l[0] + "\n" for l in istream)
             ostream.flush()
             return
         for line in normalized:
-            widths = [max(widths[i], len(col)) for i, col in enumerate(line)]
-        outfmt = '  '.join("{:<%d}" % w for i, w in enumerate(widths)) + "\n"
+            widths = {
+                i: max(widths.get(i, 0), len(col)) for i, col in enumerate(line)
+            }
+        outfmt = '  '.join("{:<%d}" % w for i, w in enumerate(widths.values())) + "\n"
         ostream.writelines(outfmt.format(*l) for l in istream)
         ostream.flush()
     return _fixed_width_writer
@@ -247,6 +260,12 @@ def main():
     p = sp.add_parser("calc")
     p.add_argument("--headers", "-H")
     p.add_argument("--filter", "-f", action="store_true")
+    p.add_argument("exprs", nargs="+")
+    p.add_argument("infile", type=argparse.FileType('r'),
+                   nargs="?", default=sys.stdin)
+
+    p = sp.add_parser("sortby")
+    p.add_argument("--reverse", "-r", action="store_true")
     p.add_argument("exprs", nargs="+")
     p.add_argument("infile", type=argparse.FileType('r'),
                    nargs="?", default=sys.stdin)
@@ -332,6 +351,30 @@ def main():
         assert args.headers is None or len(exprheaders) == len(args.exprs)
         calcspec = zip(calcfuncs, exprheaders)
         owriter(calcfields(istream, calcspec, args.filter, header))
+
+    elif args.command == "sortby":
+        argre = re.compile(r"(?:{[^}]+})")
+        sortfuncs = []
+        # for each expression we need to build a lambda that calculates it
+        for expr in args.exprs:
+            # find all references to fields within the expression
+            reffields = argre.findall(expr)
+            # resolve field references into indexes
+            fieldspec = ",".join(f.strip("{}") for f in reffields)
+            fieldspec = parse_keyspec(fieldspec, header)
+            # make anonymous variable for each referenced field
+            varnames = ["__x%d" % i for i in fieldspec]
+            # re-write expression to use variables
+            for field, var in zip(reffields, varnames):
+                expr = expr.replace(field, var)
+            # evaluate text into a function object
+            try:
+                expr = eval("lambda %s: %s" % (", ".join(varnames), expr))
+            except SyntaxError:
+                print("failed to parse: " + expr, file=sys.stderr)
+                sys.exit(1)
+            sortfuncs.append((expr, fieldspec))
+        owriter(sortfields(istream, sortfuncs, args.reverse, header))
 
     elif args.command == "split":
         splitspec = parse_keyspec(args.fields, header)
