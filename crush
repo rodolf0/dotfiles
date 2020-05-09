@@ -6,82 +6,104 @@
 
 import itertools
 import sys, os, re, csv, math
-
 from collections import defaultdict
+from datetime import datetime
 
 
-def reorder(istream, fields):
-    "Select which fields from input stream are copied to output"
-    for inline in istream:
-        yield tuple(inline[f] for f in fields)
+class Cutter:
+    def __init__(self, args, header, istream):
+        self.fields = parse_keyspec(args.fields, header)
+        self.istream = \
+            itertools.chain([header], istream) if header else istream
+
+    def __iter__(self):
+        yield from (tuple(l[f] for f in self.fields) for l in self.istream)
 
 
-def convdate(istream, datefields, outfmt, tz_in, tz_out):
-    from datetime import datetime, timezone
-    import pytz
+class DateConverter:
     AUTO_FORMATS = [
         "%B %d, %Y at %I:%M%p",
         "%a %b %d %H:%M:%S %Z %Y",
         "%s",
     ]
-    # parse input as if it were this timezone
-    tz_input = pytz.timezone(tz_in) if tz_in else None
-    # if input is timezone-aware, then format output in local-tz by default
-    tz_output = datetime.utcnow().astimezone().tzinfo if tz_input else None
-    # override default output-tz if we want something else than local
-    tz_output = pytz.timezone(tz_out) if tz_out else tz_output
+
+    def __init__(self, args, header, istream):
+        self.fields = parse_keyspec(args.fields, header)
+        self.datefields = set(self.fields)
+        self.header = header
+        self.istream = istream
+        self.outfmt = args.ofmt
+
+        import pytz
+        # parse input as if it were this timezone
+        tz_input = pytz.timezone(args.itz) if args.itz else None
+        # if input is timezone-aware, then format output in local-tz by default
+        tz_output = datetime.utcnow().astimezone().tzinfo if tz_input else None
+        # override default output-tz if we want something else than local
+        tz_output = pytz.timezone(args.otz) if args.otz else tz_output
+        self.tz_input, self.tz_output = tz_input, tz_output
 
     # try multiple input formats
-    def tryparse(input_tm):
-        for fmt in AUTO_FORMATS:
+    def _tryparse(self, input_tm):
+        for fmt in DateConverter.AUTO_FORMATS:
             try:
                 # ugly hack to parse timestamp
                 tm = (datetime.fromtimestamp(int(input_tm)) if fmt == "%s"
                       else datetime.strptime(input_tm, fmt))
-                if tz_input:
-                    tm = tm.replace(tzinfo=tz_input)
-                if tz_output:
-                    tm = tm.astimezone(tz_output)
-                return tm.strftime(outfmt)
+                if self.tz_input:
+                    tm = tm.replace(tzinfo=self.tz_input)
+                if self.tz_output:
+                    tm = tm.astimezone(self.tz_output)
+                return tm.strftime(self.outfmt)
             except ValueError:
                 pass
         return "strptime-err"
 
-    # go through stream converting fields
-    for inline in istream:
-        yield tuple(tryparse(field) if i in datefields else field
-                    for i, field in enumerate(inline))
+    def __iter__(self):
+        if self.header:
+            yield self.header
+        yield from (tuple(self._tryparse(f) if i in self.datefields else f
+                    for i, f in enumerate(l)) for l in self.istream)
 
 
-def aggregate(istream, keys, pivots, aggregations, header):
-    "Aggregate values by keys, optionally break down by pivots"
-    header = header or ["col%d" % i for i in range(1, 50)]
-    aggfields = set.union(*[set(f) for f in aggregations.values()])
-    all_keys, all_pivots, values = set(), set(), defaultdict(list)
-    # aggregate lines
-    for line in istream:
-        key = tuple(line[k] for k in keys)
-        pivot = tuple(line[p] for p in pivots)
-        all_keys.add(key)
-        all_pivots.add(pivot)
-        for a in aggfields:
-            values[(key, pivot, a)].append(line[a])
+class Aggregator:
+    def __init__(self, args, header, istream):
+        self.header = header or ["col%d" % i for i in range(1, 50)]
+        self.istream = istream
+        self.keys = parse_keyspec(args.keys, header) if args.keys else []
+        self.pivots = parse_keyspec(args.pivots, header) if args.pivots else []
+        self.aggregations = self._parse_aggregations(args, header)
+        self.aggfields = set.union(*[set(f) for f in self.aggregations.values()])
 
-    all_keys, all_pivots = sorted(all_keys), sorted(all_pivots)
-    # pivot columns: combination of all observed values for all pivots
-    pivcols = tuple("+".join("%s=%s" % (header[p], pv[i])
-                             for i, p in enumerate(pivots))
-                    for pv in all_pivots)
-    # for each pivot column: build the aggregation columns we need
-    aggcols = tuple("%s%s%s" % (agg, "-" + header[aggcol]
-                                if agg != 'count' and len(aggcols) > 1 else '',
-                                '[' + pc + ']' if pc else '')
-                    for agg, aggcols in aggregations.items()
-                    for aggcol in aggcols
-                    for pc in pivcols)
-    yield tuple(header[k] for k in keys) + aggcols
+    def _parse_aggregations(self, args, header):
+        # Parse which aggregation to build
+        aggregations = {
+            'avg': parse_keyspec(args.avg, header),
+            'count': [0] if args.count else [],
+            'max': parse_keyspec(args.max, header),
+            'min': parse_keyspec(args.min, header),
+            'sum': parse_keyspec(args.sum, header),
+            'uniq': parse_keyspec(args.uniq, header),
+        }
+        if args.pct:
+            for px in args.pct:
+                px, columns = px.split(":")
+                aggregations['p%s' % px] = parse_keyspec(columns, header)
+        return aggregations
 
-    # write aggregations
+    def _collect(self):
+        all_keys, all_pivots, values = set(), set(), defaultdict(list)
+        # aggregate lines
+        for line in self.istream:
+            key = tuple(line[k] for k in self.keys)
+            pivot = tuple(line[p] for p in self.pivots)
+            all_keys.add(key)
+            all_pivots.add(pivot)
+            for a in self.aggfields:
+                values[(key, pivot, a)].append(line[a])
+        return all_keys, all_pivots, values
+
+    @staticmethod
     def _do_agg(fn, values):
         if len(values) == 0: return '-'
         if fn == 'avg': return "%.12g" % (sum(map(float, values)) / len(values))
@@ -95,11 +117,29 @@ def aggregate(istream, keys, pivots, aggregations, header):
             values = sorted(map(float, values))
             return "%.12g" % values[int(len(values) * pct/100.0 - 0.5)]
 
-    for k in all_keys:
-        yield k + tuple(_do_agg(fn, values[(k, p, a)])
-                        for fn, aggcols in aggregations.items()
-                        for a in aggcols
-                        for p in all_pivots)
+    def __iter__(self):
+        all_keys, all_pivots, values = self._collect()
+        # pivot columns: combination of all observed values for all pivots
+        pivcols = tuple("+".join("%s=%s" % (self.header[p], pv[i])
+                                 for i, p in enumerate(self.pivots))
+                        for pv in all_pivots)
+        # for each pivot column: build the aggregation columns we need
+        aggcols = tuple("{aggtype}{aggcol}{pivcolumn}".format(
+            aggtype=agg,
+            aggcol=("-" + self.header[aggcol] if agg != 'count' and len(aggcols) > 1 else ''),
+            pivcolumn=('[' + pc + ']' if pc else ''))
+                        for agg, aggcols in self.aggregations.items()
+                        for aggcol in aggcols
+                        for pc in pivcols)
+
+        # Finaly yield the header
+        yield tuple(self.header[k] for k in self.keys) + aggcols
+        # write aggregations
+        for k in all_keys:
+            yield k + tuple(self._do_agg(fn, values[(k, p, a)])
+                            for fn, aggcols in self.aggregations.items()
+                            for a in aggcols
+                            for p in all_pivots)
 
 
 def calcfields(instream, calcspec, filter_rows, header):
@@ -122,10 +162,6 @@ def sortfields(instream, sortspec, reverse, header):
         yield header
     yield from sorted(instream, reverse=reverse, key=lambda line: tuple(
         fn(*[line[i] for i in args]) for fn, args in sortspec))
-
-
-def windows():
-    pass
 
 
 def splitstream(istream, splitspec, bucketfn, outpath, outpat, header, wrmaker):
@@ -298,36 +334,13 @@ def main():
 
     # dispatch subcommand
     if args.command == "cut":
-        fields = parse_keyspec(args.fields, header)
-        if header:
-            istream = itertools.chain([header], istream)
-        owriter(reorder(istream, fields))
+        owriter(Cutter(args, header, istream))
 
     if args.command == "tm":
-        fields = parse_keyspec(args.fields, header)
-        if header:
-            istream = itertools.chain([header], istream)
-        owriter(convdate(istream, set(fields), args.ofmt, args.itz, args.otz))
+        owriter(DateConverter(args, header, istream))
 
     elif args.command == "agg":
-        keys = parse_keyspec(args.keys, header) if args.keys else []
-        pivots = parse_keyspec(args.pivots, header) if args.pivots else []
-        aggregations = {
-            'avg': parse_keyspec(args.avg, header),
-            'count': [0] if args.count else [],
-            # 'gmean': parse_keyspec(args.gmean, header),
-            'max': parse_keyspec(args.max, header),
-            'min': parse_keyspec(args.min, header),
-            # 'mode': parse_keyspec(args.mode, header),
-            'sum': parse_keyspec(args.sum, header),
-            'uniq': parse_keyspec(args.uniq, header),
-            # 'var': parse_keyspec(args.var, header),
-        }
-        if args.pct:
-            for px in args.pct:
-                px, columns = px.split(":")
-                aggregations['p%s' % px] = parse_keyspec(columns, header)
-        owriter(aggregate(istream, keys, pivots, aggregations, header))
+        owriter(Aggregator(args, header, istream))
 
     elif args.command == "calc":
         argre = re.compile(r"(?:{[^}]+})")
