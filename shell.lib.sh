@@ -132,6 +132,11 @@ g() {
 /bin/mv ~/.dirtree_cache.tmp ~/.dirtree_cache"
     return 1
   fi
-  local dest_path=$(cat "$HOME/.dirtree_cache" | fzf +m -q "$*")
+  if [ $# -gt 0 ]; then
+    local dest_path=$(cat "$HOME/.dirtree_cache" | fzf +m -f "$*" | head -1)
+    [ -d "$dest_path" ] && cd "$dest_path" || cd "$(dirname "$dest_path")"
+    return 0
+  fi
+  local dest_path=$(cat "$HOME/.dirtree_cache" | fzf +m --height 15 -q "$*")
   [ -d "$dest_path" ] && cd "$dest_path" || cd "$(dirname "$dest_path")"
 }
