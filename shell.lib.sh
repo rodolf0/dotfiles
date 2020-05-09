@@ -140,3 +140,8 @@ g() {
   local dest_path=$(cat "$HOME/.dirtree_cache" | fzf +m --height 15 -q "$*")
   [ -d "$dest_path" ] && cd "$dest_path" || cd "$(dirname "$dest_path")"
 }
+
+pf() {
+  ps -eo pid,user,start,state,wchan,rss,vsz,%mem,%cpu,nlwp,args |
+    fzf --header-lines=1
+}

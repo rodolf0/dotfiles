@@ -30,19 +30,6 @@ __aliases() {
     tmux set-buffer "$entry" &> /dev/null
     echo "$entry"
   }
-  # Find directory and CD to it
-  cdf() {
-    local base="${1:-.}"
-    local path=$(command find "$base" \
-      \( -path '*/\.*' \
-      -o -name .git \
-      -o -name buck-out \
-      \) -prune \
-      -o -type d -print \
-      2>/dev/null |
-      fzf +m -e) &&
-    cd "$path"
-  }
 }
 __aliases
 
