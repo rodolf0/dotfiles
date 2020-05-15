@@ -6,7 +6,6 @@
 [ -f ~/.bashrc.priv ] && source ~/.bashrc.priv
 
 __aliases() {
-  alias diff=colordiff
   alias which="type -path"
   alias rm="rm -i"
   alias mv="mv -i"
