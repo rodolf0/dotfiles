@@ -17,7 +17,8 @@ class Cutter:
             itertools.chain([header], istream) if header else istream
 
     def __iter__(self):
-        yield from (tuple(l[f] for f in self.fields) for l in self.istream)
+        yield from (tuple(l[f] if len(l) > f else ""
+                          for f in self.fields) for l in self.istream)
 
 
 class DateConverter:
