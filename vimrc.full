@@ -1,40 +1,34 @@
-" Need to toggle custom filetype detections (required for Vundle)
-filetype off
-
-
-" Setup Vundle plugin manager
-set rtp+=~/.config/nvim/bundle/Vundle.vim,~/.vim/bundle/Vundle.vim
-call vundle#begin(has('nvim') ? expand("~/.config/nvim/bundle")
+" Setup vim-plug (https://github.com/junegunn/vim-plug)
+call plug#begin(has('nvim') ? expand("~/.config/nvim/bundle")
                             \ : expand("~/.vim/bundle"))
-Plugin 'VundleVim/Vundle.vim'
 " Linting + Autocompletion (https://langserver.org/)
-Plugin 'dense-analysis/ale'
+" Plug 'dense-analysis/ale'
+" NOTE: CocInstall coc-python, coc-rust-analyzer
+Plug 'neoclide/coc.nvim', {'branch': 'release'}
 " Colorscheme tweaks
-Plugin 'chriskempson/base16-vim'
-Plugin 'itchyny/lightline.vim'
+Plug 'sainnhe/sonokai'
+Plug 'itchyny/lightline.vim'
 " Easy comments
-Plugin 'The-NERD-Commenter'
+Plug 'tpope/vim-commentary'
 " Used for exchanging windows
-Plugin 't9md/vim-choosewin'
+Plug 't9md/vim-choosewin'
 " Search for recently opened files
-Plugin 'Shougo/denite.nvim', {'do': ':UpdateRemotePlugins'}
-Plugin 'Shougo/neomru.vim'
+Plug 'Shougo/denite.nvim', {'do': ':UpdateRemotePlugins'}
+Plug 'Shougo/neomru.vim'
 " Autoclose matching parenthesis/braces/etc
-Plugin 'Raimondi/delimitMate'
+Plug 'Raimondi/delimitMate'
 " Incremental visual-mode selection
-Plugin 'terryma/vim-expand-region'
+Plug 'terryma/vim-expand-region'
 " Match enhanced text-objects
-Plugin 'wellle/targets.vim'
-" text aligning
-Plugin 'Tabular'
-
-call vundle#end()
-" Toggle things on (after Vundle has loaded stuff)
-filetype plugin indent on
-syntax enable
+Plug 'wellle/targets.vim'
+" Rust syntax
+Plug 'rust-lang/rust.vim'
+" Jump around
+Plug 'zsugabubus/vim-jumpmotion'
+call plug#end()
 
 
-" Plugin 'dense-analysis/ale'
+" Plug 'dense-analysis/ale'
 " - rust: rustup component add rls --toolchain nightly
 " - go:  go get -u github.com/sourcegraph/go-langserver
 " - cpp: clang-tools-extra has clangd
@@ -47,23 +41,29 @@ let g:ale_linters = {
   \ 'go': ['golangserver', 'gofmt', 'golint', 'govet'],
   \ 'python': ['pyls', 'flake8', 'pyre'],
 \ }
-nnoremap <Leader>ad :ALEGoToDefinition -vsplit<CR>
-nnoremap <Leader>ar :ALEFindReferences<CR>
-nnoremap <Leader>af :ALEFix<CR>
-nnoremap <silent> K :ALEHover<CR>
+" nnoremap <Leader>ad :ALEGoToDefinition -vsplit<CR>
+" nnoremap <Leader>ar :ALEFindReferences<CR>
+" nnoremap <Leader>af :ALEFix<CR>
+" nnoremap <silent> K :ALEHover<CR>
+
+nmap <silent> <leader>ad <Plug>(coc-definition)
+nmap <silent> <leader>ai <Plug>(coc-implementation)
+nmap <silent> <leader>ar <Plug>(coc-references)
 
 " Make Tab circle through autocomplete options in insert mode
 inoremap <silent><expr> <Tab> pumvisible() ? "\<C-n>" : "\<TAB>"
 inoremap <silent><expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-TAB>"
 
-" Plugin 'chriskempson/base16-vim'
-colorscheme base16-tomorrow-night
+colorscheme sonokai
 
-" Plugin 'The-NERD-Commenter'
-let g:NERDCreateDefaultMappings = 0 " too polluting
-map # <Plug>NERDCommenterToggle
+" Plug 'tpope/vim-commentary'
+nmap # gcc
+vmap # gc
 
-" Plugin 't9md/vim-choosewin'
+" jumpmotion
+map <Space> <Plug>(JumpMotion)
+
+" Plug 't9md/vim-choosewin'
 let g:choosewin_overlay_enable = 0
 noremap <Leader>- :ChooseWinSwap<CR>
 
@@ -83,7 +83,7 @@ function! s:denite_filter_my_settings() abort
   inoremap <silent><buffer><expr> <Esc> denite#do_map('quit')
 endfunction
 
-" Plugin 'terryma/vim-expand-region'
+" Plug 'terryma/vim-expand-region'
 vmap v <Plug>(expand_region_expand)
 vmap V <Plug>(expand_region_shrink)
 let g:expand_region_text_objects = {
