@@ -1,0 +1,8 @@
+{
+    "python.formatting.provider": "autopep8",
+    "python.linting.enabled": true,
+    "python.linting.mypyEnabled": true,
+    "coc.preferences.formatOnType": true,
+    "coc.preferences.formatOnSaveFiletypes": ["python"],
+
+}

@@ -30,6 +30,8 @@ __aliases() {
     tmux set-buffer "$entry" &> /dev/null
     echo "$entry"
   }
+  [ -f /usr/share/fzf/shell/key-bindings.bash ] &&
+    source /usr/share/fzf/shell/key-bindings.bash
 }
 __aliases
 
