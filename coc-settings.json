@@ -4,5 +4,4 @@
     "python.linting.mypyEnabled": true,
     "coc.preferences.formatOnType": true,
     "coc.preferences.formatOnSaveFiletypes": ["python"],
-
 }

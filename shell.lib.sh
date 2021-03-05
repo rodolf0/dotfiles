@@ -9,7 +9,7 @@ gkill() {
 # attach to existing tmux session or create a new one
 tux() {
   local __tmuxsesid="$USER_$(hostname -s)"
-  TERM=screen-256color tmux -2 -u new-session -AD -s "$__tmuxsesid"
+  tmux -2 -u new-session -AD -s "$__tmuxsesid"
 }
 
 # build a tmux session with notes, jupyter, etc...
