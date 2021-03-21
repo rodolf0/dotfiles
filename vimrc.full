@@ -3,7 +3,7 @@ call plug#begin(has('nvim') ? expand("~/.config/nvim/bundle")
                             \ : expand("~/.vim/bundle"))
 " Linting + Autocompletion (https://langserver.org/)
 " Plug 'dense-analysis/ale'
-" NOTE: CocInstall coc-python, coc-rust-analyzer
+" NOTE: CocInstall coc-pyright, coc-rust-analyzer, coc-go
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
 " Colorscheme tweaks
 Plug 'sainnhe/sonokai'
