@@ -25,27 +25,15 @@ Plug 'wellle/targets.vim'
 Plug 'rust-lang/rust.vim'
 " Jump around
 Plug 'zsugabubus/vim-jumpmotion'
+" File explorer
+Plug 'kyazdani42/nvim-web-devicons' " for file icons
+Plug 'kyazdani42/nvim-tree.lua'
 call plug#end()
 
+" nvim-tree.lua
+nnoremap <C-n> :NvimTreeToggle<CR>
 
-" Plug 'dense-analysis/ale'
-" - rust: rustup component add rls --toolchain nightly
-" - go:  go get -u github.com/sourcegraph/go-langserver
-" - cpp: clang-tools-extra has clangd
-let g:ale_sign_error = 'x'
-let g:ale_sign_warning = '!'
-let g:ale_completion_enabled = 1
-let g:ale_rust_rls_toolchain = 'stable'
-let g:ale_linters = {
-  \ 'rust': ['rls'],
-  \ 'go': ['golangserver', 'gofmt', 'golint', 'govet'],
-  \ 'python': ['pyls', 'flake8', 'pyre'],
-\ }
-" nnoremap <Leader>ad :ALEGoToDefinition -vsplit<CR>
-" nnoremap <Leader>ar :ALEFindReferences<CR>
-" nnoremap <Leader>af :ALEFix<CR>
-" nnoremap <silent> K :ALEHover<CR>
-
+" Coc
 nmap <silent> <leader>ad <Plug>(coc-definition)
 nmap <silent> <leader>ai <Plug>(coc-implementation)
 nmap <silent> <leader>ar <Plug>(coc-references)
