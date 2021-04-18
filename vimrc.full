@@ -38,9 +38,20 @@ nmap <silent> <leader>ad <Plug>(coc-definition)
 nmap <silent> <leader>ai <Plug>(coc-implementation)
 nmap <silent> <leader>ar <Plug>(coc-references)
 
-" Make Tab circle through autocomplete options in insert mode
-inoremap <silent><expr> <Tab> pumvisible() ? "\<C-n>" : "\<TAB>"
+" Better interaction with popup menu
+" inoremap <silent><expr> <Tab> pumvisible() ? "\<C-n>" : "\<TAB>"
+" On <Tab> circle the menu if open, otherwise exit matched pair if in pair
+inoremap <silent><expr> <Tab> pumvisible()
+  \ ? "\<C-n>"
+  \ : delimitMate#ShouldJump()
+    \ ? delimitMate#JumpAny()
+    \ : "\<TAB>"
 inoremap <silent><expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-TAB>"
+inoremap <silent><expr> <CR>       pumvisible() ? "\<Space>" : "\<CR>"
+
+" Plug 'Raimondi/delimitMate'
+let g:delimitMate_expand_cr = 1
+let g:delimitMate_expand_space = 1
 
 colorscheme sonokai
 
