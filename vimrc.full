@@ -47,7 +47,6 @@ inoremap <silent><expr> <Tab> pumvisible()
     \ ? delimitMate#JumpAny()
     \ : "\<TAB>"
 inoremap <silent><expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-TAB>"
-inoremap <silent><expr> <CR>       pumvisible() ? "\<Space>" : "\<CR>"
 
 " Plug 'Raimondi/delimitMate'
 let g:delimitMate_expand_cr = 1
