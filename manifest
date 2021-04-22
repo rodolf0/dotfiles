@@ -10,3 +10,4 @@ npmrc               : .npmrc
 pythonrc            : .pythonrc
 sshrc               : bin/sshrc
 tmux.conf           : .tmux.conf
+wezterm.lua         : .config/wezterm/wezterm.lua
