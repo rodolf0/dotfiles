@@ -25,13 +25,7 @@ Plug 'wellle/targets.vim'
 Plug 'rust-lang/rust.vim'
 " Jump around
 Plug 'zsugabubus/vim-jumpmotion'
-" File explorer
-Plug 'kyazdani42/nvim-web-devicons' " for file icons
-Plug 'kyazdani42/nvim-tree.lua'
 call plug#end()
-
-" nvim-tree.lua
-nnoremap <C-n> :NvimTreeToggle<CR>
 
 " Coc
 nmap <silent> <leader>ad <Plug>(coc-definition)
