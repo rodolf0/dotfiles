@@ -60,18 +60,9 @@ let g:choosewin_overlay_enable = 0
 noremap <Leader>- :ChooseWinSwap<CR>
 
 " Denite
+nnoremap <leader>ff :Denite -start-filter -buffer-name=file file<CR>
 nnoremap <leader>fr :Denite -start-filter -buffer-name=mru file_mru<CR>
 call denite#custom#source("_", "matchers", ["matcher/substring"])
-
-" Shortcut to edit files from pre-built cache
-" nnoremap <leader>ff :Denite -start-filter -buffer-name=any file buffer<CR>
-nnoremap <leader>ff :Denite -start-filter -default-action=outopen output:!cat\ ~/.filelist_cache<CR>
-function! s:edit_from_output_source(context)
-  let path = fnameescape(a:context['targets'][0]['word'])
-  execute('edit ' . path)
-  return {}
-endfunction
-call denite#custom#action('source/output', 'outopen', function('s:edit_from_output_source'))
 
 autocmd FileType denite-filter call s:denite_filter_my_settings()
 function! s:denite_filter_my_settings() abort
