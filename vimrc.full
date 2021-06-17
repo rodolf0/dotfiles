@@ -12,6 +12,8 @@ Plug 'itchyny/lightline.vim'
 Plug 'tpope/vim-commentary'
 " Used for exchanging windows
 Plug 't9md/vim-choosewin'
+" Highlight jump targets for f F t T
+Plug 'unblevable/quick-scope'
 " Search for recently opened files
 Plug 'Shougo/denite.nvim', {'do': ':UpdateRemotePlugins'}
 Plug 'Shougo/neomru.vim'
