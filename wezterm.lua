@@ -11,10 +11,10 @@ return {
   -- freetype_load_target = "HorizontalLcd",
   -- freetype_load_flags = "FORCE_AUTOHINT",
 
-  keys = {
+  -- keys = {
     -- search for things that look like git hashes
-    {key="H", mods="SHIFT|CTRL", action=wezterm.action{Search={Regex="[a-f0-9]{6,}"}}},
-  },
+    -- {key="H", mods="SHIFT|CTRL", action=wezterm.action{Search={Regex="[a-f0-9]{6,}"}}},
+  -- },
 
   mouse_bindings = {
     -- Change the default click behavior to only selects text, not to open hyperlinks
@@ -25,6 +25,7 @@ return {
     },
     -- and make CTRL-Click open hyperlinks
     {event={Up={streak=1, button="Left"}}, mods="CTRL", action="OpenLinkAtMouseCursor"},
+    {event={Down={streak=1, button="Left"}}, mods="CTRL", action="Nop"},
   },
 
   hyperlink_rules = {
@@ -37,6 +38,11 @@ return {
     {
       regex = "\\bfbcode/([^[:space:]:$'\"]+)",
       format = "https://www.internalfb.com/intern/diffusion/FBS/browse/master/fbcode/$1",
+    },
+    -- fbcode stack-traces
+    {
+      regex = "\\./((?:zookeeper|delos|delos_core|thrift|zeus|folly)/[^:]+\\.(?:cpp|h|py|cc|hpp)):?([0-9]+|)\\b",
+      format = "https://www.internalfb.com/intern/diffusion/FBS/browse/master/fbcode/$1?lines=$2",
     },
     -- Pastes
     {
