@@ -16,7 +16,7 @@ return {
     -- {key="H", mods="SHIFT|CTRL", action=wezterm.action{Search={Regex="[a-f0-9]{6,}"}}},
   -- },
 
-  selection_word_boundary = "\t\n{}[]()\"'`,;:",
+  selection_word_boundary = " \t\n{}[]()\"'`,;:",
 
   mouse_bindings = {
     -- Change the default click behavior to only selects text, not to open hyperlinks
