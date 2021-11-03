@@ -8,6 +8,7 @@ return {
   -- fonts
   font = wezterm.font("JetBrains Mono", {weight="Light"}),
   font_size = 10.5,
+  warn_about_missing_glyphs = false,
   -- freetype_load_target = "HorizontalLcd",
   -- freetype_load_flags = "FORCE_AUTOHINT",
 

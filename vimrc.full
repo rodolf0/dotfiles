@@ -27,6 +27,8 @@ Plug 'wellle/targets.vim'
 Plug 'rust-lang/rust.vim'
 " Jump around
 Plug 'zsugabubus/vim-jumpmotion'
+" Github Copilot
+Plug 'github/copilot.vim'
 call plug#end()
 
 " Coc
