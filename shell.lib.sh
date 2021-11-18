@@ -151,7 +151,7 @@ gh() {
     [ -d "$dest_path" ] && cd "$dest_path" || cd "$(dirname "$dest_path")"
     return 0
   fi
-  local dest_path=$(cat "$HOME/.dirhist" | fzf +m --height 15 -q "$*")
+  local dest_path=$(cat "$HOME/.dirhist" | hl configerator fbcode / | fzf --ansi +m --height 15 -q "$*")
   [ -d "$dest_path" ] && cd "$dest_path" || cd "$(dirname "$dest_path")"
 }
 
