@@ -141,6 +141,20 @@ g() {
   [ -d "$dest_path" ] && cd "$dest_path" || cd "$(dirname "$dest_path")"
 }
 
+gh() {
+  if ! [ -f "$HOME/.dirhist" ]; then
+    echo "Missing ~/.dirhist" >&2
+    return 1
+  fi
+  if [ $# -gt 0 ]; then
+    local dest_path=$(cat "$HOME/.dirhist" | fzf +m -f "$*" | head -1)
+    [ -d "$dest_path" ] && cd "$dest_path" || cd "$(dirname "$dest_path")"
+    return 0
+  fi
+  local dest_path=$(cat "$HOME/.dirhist" | fzf +m --height 15 -q "$*")
+  [ -d "$dest_path" ] && cd "$dest_path" || cd "$(dirname "$dest_path")"
+}
+
 pf() {
   ps -eo pid,user,start,state,wchan,rss,vsz,%mem,%cpu,nlwp,args |
     fzf --header-lines=1
