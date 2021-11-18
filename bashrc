@@ -57,6 +57,8 @@ __shell_setup() {
   export PS1=$PS1'\[\e[1;34m\]\w ' # working dir
   # exit code needs to be checked before any command to avoid loosing it
   export PS1=$PS1'$([[ ${PIPESTATUS[*]} =~ ^0( 0)*$ ]] && echo "\[\e[0;32m\]" || echo "\[\e[1;31m\]")${PIPESTATUS[*]} '
+  # Keep some history of the last working directories for later jumping
+  export PS1=$PS1'$({ cat ~/.dirhist 2>/dev/null; pwd; } | uniq | tail -1000 > ~/.dirhist.tmp && mv -f ~/.dirhist{.tmp,})'
   # last char of prompt is NBSP: ^V + 160 to enable backsearch in tmux.conf
   export PS1=$PS1'\$\[\e[m\] ' # prompt and color reset
 }

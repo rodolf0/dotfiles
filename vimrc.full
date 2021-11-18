@@ -25,6 +25,7 @@ Plug 'terryma/vim-expand-region'
 Plug 'wellle/targets.vim'
 " Rust syntax
 Plug 'rust-lang/rust.vim'
+Plug 'hashivim/vim-terraform'
 " Jump around
 Plug 'zsugabubus/vim-jumpmotion'
 " Github Copilot

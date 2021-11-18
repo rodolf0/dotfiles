@@ -1,0 +1,9 @@
+# Collect working-directory history to ease jumping around
+[custom.dirhist]
+shell = ["/bin/sh"]
+command = "{ cat ~/.dirhist 2>/dev/null; pwd; } | uniq | tail -1000 > ~/.dirhist.tmp && mv -f ~/.dirhist{.tmp,}"
+when = "true"
+os = "linux"
+
+[time]
+disabled = false

@@ -9,5 +9,6 @@ coc-settings.json   : .config/nvim/coc-settings.json
 npmrc               : .npmrc
 pythonrc            : .pythonrc
 sshrc               : bin/sshrc
+starship.toml       : .config/starship.toml
 tmux.conf           : .tmux.conf
 wezterm.lua         : .config/wezterm/wezterm.lua
