@@ -146,7 +146,7 @@ gd() {
     echo "Missing ~/.dirhist" >&2
     return 1
   fi
-  local dest_path=$(cat "$HOME/.dirhist" | sed "s,${HOME},~," | hl configerator fbcode / | fzf --ansi +m --height 15 -q "$*")
+  local dest_path=$(cat "$HOME/.dirhist" | sed "s,${HOME},~," | hl configerator fbcode / | fzf --ansi --exact +m --height 15 -q "$*")
   # Expand tilde
   dest_path="${dest_path/\~/$HOME}"
   echo $dest_path
