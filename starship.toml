@@ -7,3 +7,7 @@ os = "linux"
 
 [time]
 disabled = false
+
+[character]
+# last char of prompt is NBSP: ^V + 160 to enable backsearch in tmux.conf
+format = "$symbol "

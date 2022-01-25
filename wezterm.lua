@@ -6,7 +6,7 @@ return {
   initial_cols = 140,
   initial_rows = 40,
   -- fonts
-  font = wezterm.font("JetBrains Mono", {weight="Light"}),
+  font = wezterm.font("JetBrains Mono"), --, {weight="Light"}),
   font_size = 10.5,
   warn_about_missing_glyphs = false,
   -- freetype_load_target = "HorizontalLcd",
