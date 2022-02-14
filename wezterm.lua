@@ -5,6 +5,9 @@ return {
   color_scheme = "Cobalt2",
   initial_cols = 140,
   initial_rows = 40,
+  hide_tab_bar_if_only_one_tab = true,
+  window_padding = { left = 1, right = 1, top = 0, bottom = 0, },
+
   -- fonts
   font = wezterm.font("JetBrains Mono"), --, {weight="Light"}),
   font_size = 10.5,
