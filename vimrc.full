@@ -5,6 +5,7 @@ call plug#begin(has('nvim') ? expand("~/.config/nvim/bundle")
 " Plug 'dense-analysis/ale'
 " NOTE: CocInstall coc-pyright, coc-rust-analyzer, coc-go
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
+Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
 " Colorscheme tweaks
 Plug 'sainnhe/sonokai'
 Plug 'itchyny/lightline.vim'
