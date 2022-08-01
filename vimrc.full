@@ -107,3 +107,19 @@ let g:expand_region_text_objects = {
   \ 'iB'  :1, 'aB'  :1,
   \ 'ip'  :0,
   \ }
+
+" Plug 'itchyny/lightline.vim'
+let g:lightline = {
+  \ 'mode_map':{'n':'N','i':'I','R':'R','v':'V','V':'VL',"\<C-v>":'VB','c':'C','s':'S','S':'SL',"\<C-s>":'SB','t':'T',},
+  \ 'active': {
+  \   'left': [['mode', 'paste'], ['readonly', 'filepath', 'modified']],
+  \   'right': [['percent'], ['line'], ['charvaluehex']],
+  \ },
+  \ 'component': {'charvaluehex': '0x%B'},
+  \ 'component_function': {'filepath': 'LightlineFilePath'},
+  \ }
+" Show full file path if possible (try relative to home) else filename
+function! LightlineFilePath()
+  return winwidth(0) > 25 + len(expand('%:p:~')) ? expand('%:p:~') : expand('%:t')
+endfunction
+set noshowmode
