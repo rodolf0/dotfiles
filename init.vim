@@ -79,6 +79,8 @@ noremap <Tab> <C-w>w
 noremap <S-Tab> <C-w>W
 cnoremap <C-a> <Home>
 cnoremap <C-e> <End>
+" Make current window 90 columns
+noremap <C-w>. :verti resize 110<CR>
 " Fix paste. Reselect (gv) and re-yank text that is pasted in visual mode
 " https://stackoverflow.com/questions/290465/how-to-paste-over-without-overwriting-register
 xnoremap p pgvy
@@ -107,10 +109,6 @@ function ToggleMoveResize()
 endfunction
 :call ToggleMoveResize()
 noremap <Leader>w :call ToggleMoveResize()<CR>
-
-" Make current window 90 columns
-noremap <C-w>. :verti resize 90<CR>
-
 
 " Format selection
 nnoremap <leader>fg :%!gofmt<CR>
