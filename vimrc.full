@@ -57,10 +57,12 @@ lua <<EOF
 require("nvim-tree").setup({
   on_attach=function(bufnr)
     local nt_api = require("nvim-tree.api")
-    local bufopts = { noremap=true, silent=true, buffer=bufnr }
+    local bufopts = {noremap=true, silent=true, buffer=bufnr}
     vim.keymap.set("n", "<Esc>", nt_api.tree.close, bufopts)
+    vim.keymap.set("n", "/", nt_api.live_filter.start, bufopts)
   end,
-  -- remove_keymaps={"<Tab>"},
+  remove_keymaps={"<Tab>"},
+  live_filter={always_show_folders=false},
 })
 EOF
 " Mappings https://github.com/kyazdani42/nvim-tree.lua/blob/master/doc/nvim-tree-lua.txt#L1077
