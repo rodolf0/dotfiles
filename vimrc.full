@@ -1,42 +1,73 @@
 " Setup vim-plug (https://github.com/junegunn/vim-plug)
 call plug#begin(has('nvim') ? expand("~/.config/nvim/bundle")
                             \ : expand("~/.vim/bundle"))
-" Linting + Autocompletion (https://langserver.org/)
-" Plug 'dense-analysis/ale'
-" NOTE: CocInstall coc-pyright, coc-rust-analyzer, coc-go
-Plug 'neoclide/coc.nvim', {'branch': 'release'}
-Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
-" Colorscheme tweaks
+" Telescope
+Plug 'nvim-lua/plenary.nvim' " required for Telescope
+Plug 'kyazdani42/nvim-web-devicons' " Optional but nice
+Plug 'nvim-telescope/telescope-fzf-native.nvim', { 'do': 'make' } " multiple words filter
+Plug 'nvim-telescope/telescope.nvim', { 'tag': '0.1.0' } " TODO: check tag
+
+" Aesthetics
 Plug 'sainnhe/sonokai'
 Plug 'itchyny/lightline.vim'
+
+" Tree file explorer
+Plug 'kyazdani42/nvim-tree.lua'
+
 " Easy comments
 Plug 'tpope/vim-commentary'
 " Used for exchanging windows
 Plug 't9md/vim-choosewin'
 " Highlight jump targets for f F t T
 Plug 'unblevable/quick-scope'
-" Search for recently opened files
-Plug 'Shougo/denite.nvim', {'do': ':UpdateRemotePlugins'}
-Plug 'Shougo/neomru.vim'
 " Autoclose matching parenthesis/braces/etc
 Plug 'Raimondi/delimitMate'
 " Incremental visual-mode selection
 Plug 'terryma/vim-expand-region'
 " Match enhanced text-objects
 Plug 'wellle/targets.vim'
-" Rust syntax
+
+" Syntax plugins
 Plug 'rust-lang/rust.vim'
 Plug 'hashivim/vim-terraform'
-" Jump around
-Plug 'zsugabubus/vim-jumpmotion'
-" Github Copilot
-Plug 'github/copilot.vim'
 call plug#end()
 
-" Coc
-nmap <silent> <leader>ad <Plug>(coc-definition)
-nmap <silent> <leader>ai <Plug>(coc-implementation)
-nmap <silent> <leader>ar <Plug>(coc-references)
+" ############ Telescope ############
+lua <<EOF
+local actions = require('telescope.actions')
+require("telescope").setup({
+  defaults={
+    mappings={
+      i={ ["<esc>"]=actions.close, ["<C-u>"]=false, },
+      n={ ["<esc>"]=actions.close, },
+    },
+  }
+})
+require('telescope').load_extension('fzf')
+EOF
+nnoremap <leader>fr :Telescope oldfiles<CR>
+nnoremap <leader>fb :Telescope buffers<CR>
+nnoremap <leader>ff :Telescope find_files<CR>
+nnoremap <leader>fs :Telescope live_grep<CR>  " requires ripgrep
+" ###################################
+
+
+" ############ nvim-tree ############
+lua <<EOF
+require("nvim-tree").setup({
+  on_attach=function(bufnr)
+    local nt_api = require("nvim-tree.api")
+    local bufopts = { noremap=true, silent=true, buffer=bufnr }
+    vim.keymap.set("n", "<Esc>", nt_api.tree.close, bufopts)
+  end,
+  -- remove_keymaps={"<Tab>"},
+})
+EOF
+" Mappings https://github.com/kyazdani42/nvim-tree.lua/blob/master/doc/nvim-tree-lua.txt#L1077
+nnoremap <leader>e :NvimTreeFocus<CR>
+" ###################################
+
+
 
 " Better interaction with popup menu
 " inoremap <silent><expr> <Tab> pumvisible() ? "\<C-n>" : "\<TAB>"
@@ -58,28 +89,9 @@ colorscheme sonokai
 nmap # gcc
 vmap # gc
 
-" jumpmotion
-map <Space> <Plug>(JumpMotion)
-
 " Plug 't9md/vim-choosewin'
 let g:choosewin_overlay_enable = 0
 noremap <Leader>- :ChooseWinSwap<CR>
-
-" Denite
-nnoremap <leader>ff :Denite -start-filter -buffer-name=file file<CR>
-nnoremap <leader>fr :Denite -start-filter -buffer-name=mru file_mru<CR>
-call denite#custom#source("_", "matchers", ["matcher/substring"])
-
-autocmd FileType denite-filter call s:denite_filter_my_settings()
-function! s:denite_filter_my_settings() abort
-  inoremap <silent><buffer><expr> <CR> denite#do_map('do_action')
-  inoremap <silent><buffer> <C-j>
-        \ <Esc><C-w>p:call cursor(line('.')+1,0)<CR><C-w>pA
-  inoremap <silent><buffer> <C-k>
-        \ <Esc><C-w>p:call cursor(line('.')-1,0)<CR><C-w>pA
-  inoremap <silent><buffer><expr> <C-c> denite#do_map('quit')
-  inoremap <silent><buffer><expr> <Esc> denite#do_map('quit')
-endfunction
 
 " Plug 'terryma/vim-expand-region'
 vmap v <Plug>(expand_region_expand)

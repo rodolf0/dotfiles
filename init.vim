@@ -79,6 +79,10 @@ noremap <Tab> <C-w>w
 noremap <S-Tab> <C-w>W
 cnoremap <C-a> <Home>
 cnoremap <C-e> <End>
+" Fix paste. Reselect (gv) and re-yank text that is pasted in visual mode
+" https://stackoverflow.com/questions/290465/how-to-paste-over-without-overwriting-register
+xnoremap p pgvy
+
 
 " Tab handling
 nnoremap tn :tabnew<CR>
