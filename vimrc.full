@@ -120,6 +120,7 @@ let g:lightline = {
   \ }
 " Show full file path if possible (try relative to home) else filename
 function! LightlineFilePath()
-  return winwidth(0) > 25 + len(expand('%:p:~')) ? expand('%:p:~') : expand('%:t')
+  let fname = expand('%:p:~:s?/data/users/rudolph/fbsource?~?')
+  return winwidth(0) > 25 + len(fname) ? fname : expand('%:t')
 endfunction
 set noshowmode
