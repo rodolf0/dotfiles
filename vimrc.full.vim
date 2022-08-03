@@ -10,18 +10,18 @@ Plug 'nvim-telescope/telescope.nvim', { 'tag': '0.1.0' } " TODO: check tag
 " Aesthetics
 Plug 'sainnhe/sonokai'
 Plug 'itchyny/lightline.vim'
-
+" focus on the code you're editing
+Plug 'folke/twilight.nvim'
 " Tree file explorer
 Plug 'kyazdani42/nvim-tree.lua'
-
+" Autoclose matching parenthesis/braces/etc
+Plug 'windwp/nvim-autopairs'
 " Easy comments
 Plug 'tpope/vim-commentary'
 " Used for exchanging windows
 Plug 't9md/vim-choosewin'
 " Highlight jump targets for f F t T
 Plug 'unblevable/quick-scope'
-" Autoclose matching parenthesis/braces/etc
-Plug 'Raimondi/delimitMate'
 " Incremental visual-mode selection
 Plug 'terryma/vim-expand-region'
 " Match enhanced text-objects
@@ -31,6 +31,7 @@ Plug 'wellle/targets.vim'
 Plug 'rust-lang/rust.vim'
 Plug 'hashivim/vim-terraform'
 call plug#end()
+
 
 " ############ Telescope ############
 lua <<EOF
@@ -51,7 +52,6 @@ nnoremap <leader>ff :Telescope find_files<CR>
 nnoremap <leader>fs :Telescope live_grep<CR>  " requires ripgrep
 " ###################################
 
-
 " ############ nvim-tree ############
 lua <<EOF
 require("nvim-tree").setup({
@@ -69,23 +69,18 @@ EOF
 nnoremap <leader>e :NvimTreeFocus<CR>
 " ###################################
 
+" ############ twilight #############
+lua << EOF
+  require("twilight").setup {}
+EOF
+nnoremap <silent> <leader>tt :Twilight<CR>
+" ###################################
 
-
-" Better interaction with popup menu
-" inoremap <silent><expr> <Tab> pumvisible() ? "\<C-n>" : "\<TAB>"
-" On <Tab> circle the menu if open, otherwise exit matched pair if in pair
-inoremap <silent><expr> <Tab> pumvisible()
-  \ ? "\<C-n>"
-  \ : delimitMate#ShouldJump()
-    \ ? delimitMate#JumpAny()
-    \ : "\<TAB>"
-inoremap <silent><expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-TAB>"
-
-" Plug 'Raimondi/delimitMate'
-let g:delimitMate_expand_cr = 1
-let g:delimitMate_expand_space = 1
-
-colorscheme sonokai
+" ####### nvim-autopairs ############
+lua << EOF
+require("nvim-autopairs").setup {}
+EOF
+" ###################################
 
 " Plug 'tpope/vim-commentary'
 nmap # gcc
@@ -124,3 +119,5 @@ function! LightlineFilePath()
   return winwidth(0) > 25 + len(fname) ? fname : expand('%:t')
 endfunction
 set noshowmode
+
+colorscheme sonokai

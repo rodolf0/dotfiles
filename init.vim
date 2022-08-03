@@ -85,40 +85,19 @@ noremap <C-w>. :verti resize 110<CR>
 " https://stackoverflow.com/questions/290465/how-to-paste-over-without-overwriting-register
 xnoremap p pgvy
 
-
-" Tab handling
-nnoremap tn :tabnew<CR>
-nnoremap tk :tabnext<CR>
-nnoremap tj :tabprevious<CR>
-
-" Toggle between jumping and resizing windows
-function ToggleMoveResize()
-  let g:my_resizing_keys =
-        \ exists("g:my_resizing_keys") ? !g:my_resizing_keys : 1
-  if g:my_resizing_keys
-    noremap <c-h> :verti resize -5<CR>
-    noremap <c-j> :resize -5<CR>
-    noremap <c-k> :resize +5<CR>
-    noremap <c-l> :verti resize +5<CR>
-  else
-    noremap <c-h> <C-w>h
-    noremap <c-j> <C-w>j
-    noremap <c-k> <C-w>k
-    noremap <c-l> <C-w>l
-  endif
-endfunction
-:call ToggleMoveResize()
-noremap <Leader>w :call ToggleMoveResize()<CR>
-
-" Format selection
-nnoremap <leader>fg :%!gofmt<CR>
-nnoremap <leader>fc :%!clang-format<CR>
-nnoremap <leader>fx :%!xmllint --format --recover - 2>/dev/null<CR>
-nnoremap <leader>fj :%!python -m json.tool<CR>
+" Resize buffers with C-*
+noremap <c-h> :verti resize -5<CR>
+noremap <c-j> :resize -5<CR>
+noremap <c-k> :resize +5<CR>
+noremap <c-l> :verti resize +5<CR>
+" Jump to buffers with M-*
+noremap <M-h> <C-w>h
+noremap <M-j> <C-w>j
+noremap <M-k> <C-w>k
+noremap <M-l> <C-w>l
 
 " View Blame of a file
 nnoremap <leader>vb :vnew <bar> 0read! git blame # \|\| hg blame -pu #<CR>
-
 
 " Highlight column 80 (color set here because most themes don't specify it)
 set colorcolumn=80,100
@@ -167,6 +146,6 @@ let g:netrw_banner = 0
 au FileType netrw nmap <buffer> o <Plug>NetrwLocalBrowseCheck
 
 " Load more extensive config
-if !empty(glob("~/Source/dotfiles/vimrc.full"))
-  source ~/Source/dotfiles/vimrc.full
+if !empty(glob("~/Source/dotfiles/vimrc.full.vim"))
+  source ~/Source/dotfiles/vimrc.full.vim
 endif
