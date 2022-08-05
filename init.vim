@@ -80,7 +80,7 @@ noremap <S-Tab> <C-w>W
 cnoremap <C-a> <Home>
 cnoremap <C-e> <End>
 " Make current window 90 columns
-noremap <C-w>. :verti resize 110<CR>
+noremap <C-w>. :verti resize 110<CR>:resize 999<CR>
 " Fix paste. Reselect (gv) and re-yank text that is pasted in visual mode
 " https://stackoverflow.com/questions/290465/how-to-paste-over-without-overwriting-register
 xnoremap p pgvy
