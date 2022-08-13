@@ -30,6 +30,12 @@ Plug 'wellle/targets.vim'
 " Syntax plugins
 Plug 'rust-lang/rust.vim'
 Plug 'hashivim/vim-terraform'
+
+" LSP - https://github.com/neovim/nvim-lspconfig/wiki/Autocompletion
+Plug 'nvim-treesitter/nvim-treesitter'
+Plug 'neovim/nvim-lspconfig'  " config for LSP client
+Plug 'ms-jpq/coq_nvim', {'branch': 'coq'} " auto-completion
+
 call plug#end()
 
 
@@ -52,6 +58,42 @@ nnoremap <leader>ff :Telescope find_files<CR>
 nnoremap <leader>fs :Telescope live_grep<CR>  " requires ripgrep
 " ###################################
 
+" ############## LSP ################
+lua <<EOF
+-- https://github.com/neovim/nvim-lspconfig/blob/master/doc/server_configurations.md
+local servers = {
+  "pylsp", -- https://github.com/python-lsp/python-lsp-server
+  -- "pyre", --  python -m pip install --user pyre-check
+  "pyright", -- https://github.com/microsoft/pyright
+  "clangd", -- https://clangd.llvm.org/installation#compile_commandsjson
+  "rust_analyzer", -- https://rust-analyzer.github.io/manual.html
+  "gopls", -- https://github.com/golang/tools/tree/master/gopls
+}
+local on_attach = function(client, bufnr)
+  -- Enable completion triggered by <c-x><c-o>
+  vim.api.nvim_buf_set_option(bufnr, 'omnifunc', 'v:lua.vim.lsp.omnifunc')
+  local bufopts = { noremap=true, silent=true, buffer=bufnr }
+  vim.keymap.set('n', 'gd', vim.lsp.buf.definition, bufopts)
+  vim.keymap.set('n', 'K', vim.lsp.buf.hover, bufopts)
+  vim.keymap.set('n', 'gr', vim.lsp.buf.references, bufopts)
+  vim.keymap.set('n', '<space>f', vim.lsp.buf.formatting, bufopts)
+  vim.keymap.set('n', '<space>rn', vim.lsp.buf.rename, bufopts)
+  vim.keymap.set('n', '<space>ca', vim.lsp.buf.code_action, bufopts)
+end
+-- Automatically start coq
+vim.g.coq_settings = { auto_start = 'shut-up' }  -- before require("qoc")
+-- LSP config. NOTE: coq wraps on_attach config for LSP to enhance it
+for _, lsp in ipairs(servers) do
+  require("lspconfig")[lsp].setup(
+    -- add auto-completion via coq
+    require('coq').lsp_ensure_capabilities({
+      on_attach = on_attach,
+    })
+  )
+end
+EOF
+" ###################################
+
 " ############ nvim-tree ############
 lua <<EOF
 require("nvim-tree").setup({
@@ -71,7 +113,7 @@ nnoremap <leader>e :NvimTreeFocus<CR>
 
 " ############ twilight #############
 lua << EOF
-  require("twilight").setup {}
+require("twilight").setup {}
 EOF
 nnoremap <silent> <leader>tt :Twilight<CR>
 " ###################################

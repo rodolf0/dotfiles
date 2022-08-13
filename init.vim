@@ -51,6 +51,7 @@ set notimeout       " don't timeout on incomplete key-mappings
 set modelines=0               " ignore file-specific configs in headers
 set clipboard=unnamedplus     " use system clipboard
 set wildignore+=*.o,*~,*.so,.svn,CVS,.git,*.a,*.class,*.obj,*.la,*.swp
+set autochdir                 " change pwd to current buffer
 
 " Key Mappings
 let mapleader = "\<Space>"
