@@ -17,7 +17,7 @@ Plug 'kyazdani42/nvim-tree.lua'
 " Autoclose matching parenthesis/braces/etc
 Plug 'windwp/nvim-autopairs'
 " Easy comments
-Plug 'tpope/vim-commentary'
+Plug 'numToStr/Comment.nvim'
 " Used for exchanging windows
 Plug 't9md/vim-choosewin'
 " Highlight jump targets for f F t T
@@ -26,6 +26,8 @@ Plug 'unblevable/quick-scope'
 Plug 'terryma/vim-expand-region'
 " Match enhanced text-objects
 Plug 'wellle/targets.vim'
+" Jump around
+Plug 'ggandor/leap.nvim'
 
 " Syntax plugins
 Plug 'rust-lang/rust.vim'
@@ -124,9 +126,21 @@ require("nvim-autopairs").setup {}
 EOF
 " ###################################
 
-" Plug 'tpope/vim-commentary'
-nmap # gcc
-vmap # gc
+" ########## Comment.vim ############
+lua << EOF
+require("Comment").setup({
+  toggler = {line = '#'},
+  opleader = {line = '#'},
+})
+EOF
+" ###################################
+
+" ########## leap.vim ###############
+lua << EOF
+require("leap").setup{}
+require("leap").set_default_keymaps()
+EOF
+" ###################################
 
 " Plug 't9md/vim-choosewin'
 let g:choosewin_overlay_enable = 0
