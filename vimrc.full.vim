@@ -20,8 +20,6 @@ Plug 'windwp/nvim-autopairs'
 Plug 'numToStr/Comment.nvim'
 " Used for exchanging windows
 Plug 't9md/vim-choosewin'
-" Highlight jump targets for f F t T
-Plug 'unblevable/quick-scope'
 " Incremental visual-mode selection
 Plug 'terryma/vim-expand-region'
 " Match enhanced text-objects
@@ -82,8 +80,17 @@ local on_attach = function(client, bufnr)
   vim.keymap.set('n', '<space>rn', vim.lsp.buf.rename, bufopts)
   vim.keymap.set('n', '<space>ca', vim.lsp.buf.code_action, bufopts)
 end
--- Automatically start coq
-vim.g.coq_settings = { auto_start = 'shut-up' }  -- before require("qoc")
+-- Automatically start coq. NOTE: run before require("qoc")
+vim.g.coq_settings = {
+  auto_start = 'shut-up',
+  keymap = { -- https://github.com/ms-jpq/coq_nvim/blob/coq/docs/KEYBIND.md
+    jump_to_mark = '',
+    pre_select = true,
+    bigger_preview = '',
+    recommended = false,
+  },
+  display={ghost_text={enabled=false}},
+}
 -- LSP config. NOTE: coq wraps on_attach config for LSP to enhance it
 for _, lsp in ipairs(servers) do
   require("lspconfig")[lsp].setup(
@@ -94,6 +101,16 @@ for _, lsp in ipairs(servers) do
   )
 end
 EOF
+" ###################################
+
+" ######## COQ key-bindings ########
+" NOTE: complemented with coq_settings above
+ino <silent><expr> <C-j>   pumvisible() ? "\<C-n>" : "\<C-j>"
+ino <silent><expr> <C-k>   pumvisible() ? "\<C-p>" : "\<C-k>"
+ino <silent><expr> <Tab>   pumvisible() ? (complete_info().selected == -1 ? "\<C-e><CR>" : "\<C-y>") : "\<CR>"
+ino <silent><expr> <CR>   pumvisible() ? (complete_info().selected == -1 ? "\<C-e><CR>" : "\<C-y>") : "\<CR>"
+ino <silent><expr> <Esc>   pumvisible() ? "\<C-e><Esc>" : "\<Esc>"
+ino <silent><expr> <BS>    pumvisible() ? "\<C-e><BS>"  : "\<BS>"
 " ###################################
 
 " ############ nvim-tree ############
@@ -136,10 +153,9 @@ EOF
 " ###################################
 
 " ########## leap.vim ###############
-lua << EOF
-require("leap").setup{}
-require("leap").set_default_keymaps()
-EOF
+lua require("leap").setup{}
+nno f <Plug>(leap-forward)
+nno F <Plug>(leap-backward)
 " ###################################
 
 " Plug 't9md/vim-choosewin'
