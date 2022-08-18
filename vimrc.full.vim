@@ -107,7 +107,7 @@ EOF
 " NOTE: complemented with coq_settings above
 ino <silent><expr> <C-j>   pumvisible() ? "\<C-n>" : "\<C-j>"
 ino <silent><expr> <C-k>   pumvisible() ? "\<C-p>" : "\<C-k>"
-ino <silent><expr> <Tab>   pumvisible() ? (complete_info().selected == -1 ? "\<C-e><CR>" : "\<C-y>") : "\<CR>"
+ino <silent><expr> <Tab>   pumvisible() ? (complete_info().selected == -1 ? "\<C-e><CR>" : "\<C-y>") : "\<Tab>"
 ino <silent><expr> <CR>   pumvisible() ? (complete_info().selected == -1 ? "\<C-e><CR>" : "\<C-y>") : "\<CR>"
 ino <silent><expr> <Esc>   pumvisible() ? "\<C-e><Esc>" : "\<Esc>"
 ino <silent><expr> <BS>    pumvisible() ? "\<C-e><BS>"  : "\<BS>"
