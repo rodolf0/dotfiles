@@ -52,6 +52,7 @@ set modelines=0               " ignore file-specific configs in headers
 set clipboard=unnamedplus     " use system clipboard
 set wildignore+=*.o,*~,*.so,.svn,CVS,.git,*.a,*.class,*.obj,*.la,*.swp
 set autochdir                 " change pwd to current buffer
+set shada=!,'1000,<50,s10,h   " Default shada, but remember 1k oldfiles
 
 " Key Mappings
 let mapleader = "\<Space>"
