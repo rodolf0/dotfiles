@@ -17,7 +17,6 @@ set showcmd             " show partial commands on status line
 set showmatch           " show matching brackets/parenthesis
 set showmode            " show what mode we're in
 set termguicolors       " enable true color
-set shortmess=a         " disable all the hit Enter prompting
 
 " Search
 set hlsearch            " highlight search terms
