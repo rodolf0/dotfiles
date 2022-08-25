@@ -31,8 +31,8 @@ return {
       action=wezterm.action{CompleteSelection="PrimarySelection"},
     },
     -- and make CTRL-Click open hyperlinks
-    {event={Up={streak=1, button="Left"}}, mods="CTRL", action="OpenLinkAtMouseCursor"},
-    {event={Down={streak=1, button="Left"}}, mods="CTRL", action="Nop"},
+    {event={Up={streak=1, button="Left"}}, mods="CTRL", action="OpenLinkAtMouseCursor", mouse_reporting=true},
+    {event={Down={streak=1, button="Left"}}, mods="CTRL", action="Nop", mouse_reporting=true},
   },
 
   hyperlink_rules = {
