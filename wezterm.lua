@@ -28,9 +28,9 @@ return {
     -- Default behavior is to follow open links. Disable, just select text.
     {event={Up={streak=1, button="Left"}}, mods="NONE", action=wezterm.action{CompleteSelection="PrimarySelection"}},
     -- and make CTRL-Click open hyperlinks
-    {event={Up={streak=1, button="Left"}}, mods="CTRL", action="OpenLinkAtMouseCursor", mouse_reporting=true},
+    {event={Up={streak=1, button="Left"}}, mods="CTRL", action="OpenLinkAtMouseCursor"}, --, mouse_reporting=true},
     -- Since we capture the 'Up' event, Disable 'Down' of ctrl-click to avoid programs from receiving it
-    {event={Down={streak=1, button="Left"}}, mods="CTRL", action="Nop", mouse_reporting=true},
+    {event={Down={streak=1, button="Left"}}, mods="CTRL", action="Nop"}, --, mouse_reporting=true},
   },
 
   hyperlink_rules = {
