@@ -47,7 +47,7 @@ __shell_setup() {
   shopt -s checkwinsize
   shopt -s histappend
   export HISTCONTROL=ignoreboth
-  export HISTIGNORE='hg diff:hg sl:git diff:hg status:hg:ls:jobs:cd:fg'
+  export HISTIGNORE='ls:jobs:cd:fg'
   export HISTSIZE=-1
   export HISTFILESIZE=80000
   export PROMPT_DIRTRIM=3
