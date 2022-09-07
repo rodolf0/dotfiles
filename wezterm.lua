@@ -1,14 +1,20 @@
 local wezterm = require 'wezterm';
-local act = wezterm.action;
 
 return {
   -- enable_wayland = false,
+  window_frame = {
+    border_left_width = '0.2cell', border_left_color = 'grey',
+    border_right_width = '0.2cell', border_right_color = 'grey',
+    border_top_height = '0.1cell', border_top_color = 'grey',
+    border_bottom_height = '0.1cell', border_bottom_color = 'grey',
+  },
+  window_padding = { left = 0, right = 0, top = 0, bottom = 0, },
+
   exit_behavior = "Close",
   color_scheme = "Cobalt2",
   initial_cols = 140,
   initial_rows = 40,
   hide_tab_bar_if_only_one_tab = true,
-  window_padding = { left = 1, right = 1, top = 0, bottom = 0, },
 
   -- fonts
   font = wezterm.font("JetBrains Mono"), --, {weight="Light"}),
@@ -26,11 +32,12 @@ return {
 
   mouse_bindings = {
     -- Default behavior is to follow open links. Disable, just select text.
-    {event={Up={streak=1, button="Left"}}, mods="NONE", action=wezterm.action{CompleteSelection="PrimarySelection"}},
-    -- and make CTRL-Click open hyperlinks
-    {event={Up={streak=1, button="Left"}}, mods="CTRL", action="OpenLinkAtMouseCursor"}, --, mouse_reporting=true},
+    {event={Up={streak=1, button="Left"}}, mods="NONE", action=wezterm.action.CompleteSelection("PrimarySelection")},
+    -- and make CTRL-Click open hyperlinks (even when mouse reporting)
+    {event={Up={streak=1, button="Left"}}, mods="CTRL", action="OpenLinkAtMouseCursor", mouse_reporting=true},
+    {event={Up={streak=1, button="Left"}}, mods="CTRL", action="OpenLinkAtMouseCursor"},
     -- Since we capture the 'Up' event, Disable 'Down' of ctrl-click to avoid programs from receiving it
-    {event={Down={streak=1, button="Left"}}, mods="CTRL", action="Nop"}, --, mouse_reporting=true},
+    {event={Down={streak=1, button="Left"}}, mods="CTRL", action="Nop", mouse_reporting=true},
   },
 
   hyperlink_rules = {
