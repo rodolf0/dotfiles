@@ -3,10 +3,10 @@ local wezterm = require 'wezterm';
 return {
   -- enable_wayland = false,
   window_frame = {
-    border_left_width = '0.2cell', border_left_color = 'grey',
-    border_right_width = '0.2cell', border_right_color = 'grey',
-    border_top_height = '0.1cell', border_top_color = 'grey',
-    border_bottom_height = '0.1cell', border_bottom_color = 'grey',
+    border_left_width = '0.2cell', border_left_color = 'yellow',
+    border_right_width = '0.2cell', border_right_color = 'blue',
+    border_top_height = '0.1cell', border_top_color = 'green',
+    border_bottom_height = '0.1cell', border_bottom_color = 'red',
   },
   window_padding = { left = 0, right = 0, top = 0, bottom = 0, },
 

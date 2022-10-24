@@ -12,6 +12,11 @@ tux() {
   tmux -2 -u new-session -AD -s "$__tmuxsesid"
 }
 
+# output tmux highlight to stdout
+tb() {
+  tmux save-buffer -;
+}
+
 # build a tmux session with notes, jupyter, etc...
 ctx() {
   # terminal control: http://invisible-island.net/xterm/ctlseqs/ctlseqs.html
