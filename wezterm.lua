@@ -3,15 +3,15 @@ local wezterm = require 'wezterm';
 return {
   -- enable_wayland = false,
   window_frame = {
-    border_left_width = '0.2cell', border_left_color = 'yellow',
-    border_right_width = '0.2cell', border_right_color = 'blue',
-    border_top_height = '0.1cell', border_top_color = 'green',
-    border_bottom_height = '0.1cell', border_bottom_color = 'red',
+    border_left_width = '0.2cell', border_left_color = '#4267b2',
+    border_right_width = '0.2cell', border_right_color = '#4267b2',
+    border_top_height = '0.1cell', border_top_color = '#4267b2',
+    border_bottom_height = '0.1cell', border_bottom_color = '#4267b2',
   },
   window_padding = { left = 0, right = 0, top = 0, bottom = 0, },
 
   exit_behavior = "Close",
-  color_scheme = "Cobalt2",
+  color_scheme = "Elio (Gogh)",
   initial_cols = 140,
   initial_rows = 40,
   hide_tab_bar_if_only_one_tab = true,
