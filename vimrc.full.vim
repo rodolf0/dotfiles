@@ -36,6 +36,8 @@ Plug 'nvim-treesitter/nvim-treesitter'
 Plug 'neovim/nvim-lspconfig'  " config for LSP client
 Plug 'ms-jpq/coq_nvim', {'branch': 'coq'} " auto-completion
 
+" AI code completion
+Plug 'Exafunction/codeium.vim'
 call plug#end()
 
 
