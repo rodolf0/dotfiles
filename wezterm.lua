@@ -17,7 +17,7 @@ return {
   hide_tab_bar_if_only_one_tab = true,
 
   -- fonts
-  font = wezterm.font("JetBrains Mono"), --, {weight="Light"}),
+  font = wezterm.font("JetBrains Mono NL", {weight="Medium"}),
   font_size = 10.5,
   warn_about_missing_glyphs = false,
   -- freetype_load_target = "HorizontalLcd",
