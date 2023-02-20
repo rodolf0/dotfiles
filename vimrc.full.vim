@@ -63,25 +63,26 @@ nnoremap <leader>fs :Telescope live_grep<CR>  " requires ripgrep
 " ############## LSP ################
 lua <<EOF
 -- https://github.com/neovim/nvim-lspconfig/blob/master/doc/server_configurations.md
+vim.keymap.set('n', '<space>d', vim.diagnostic.open_float, {noremap=true, silent=true})
 local servers = {
   "pylsp", -- https://github.com/python-lsp/python-lsp-server
-  -- "pyre", --  python -m pip install --user pyre-check
   "pyright", -- https://github.com/microsoft/pyright
   "clangd", -- https://clangd.llvm.org/installation#compile_commandsjson
   "rust_analyzer", -- https://rust-analyzer.github.io/manual.html
   "gopls", -- https://github.com/golang/tools/tree/master/gopls
+  "html", "eslint",
 }
 local on_attach = function(client, bufnr)
   -- Enable completion triggered by <c-x><c-o>
+  local keymap_opts = { noremap=true, silent=true, buffer=bufnr }
   vim.api.nvim_buf_set_option(bufnr, 'omnifunc', 'v:lua.vim.lsp.omnifunc')
-  local bufopts = { noremap=true, silent=true, buffer=bufnr }
-  vim.keymap.set('n', 'gd', vim.lsp.buf.definition, bufopts)
-  vim.keymap.set('n', 'K', vim.lsp.buf.hover, bufopts)
-  vim.keymap.set('n', 'gr', vim.lsp.buf.references, bufopts)
-  vim.keymap.set('n', '<space>f', vim.lsp.buf.format, bufopts)
-  vim.keymap.set('n', '<space>rn', vim.lsp.buf.rename, bufopts)
-  vim.keymap.set('n', '<space>ca', vim.lsp.buf.code_action, bufopts)
+  vim.keymap.set('n', 'gd', vim.lsp.buf.definition, keymap_opts)
+  vim.keymap.set('n', 'K', vim.lsp.buf.hover, keymap_opts)
+  vim.keymap.set('n', 'gr', vim.lsp.buf.references, keymap_opts)
+  vim.keymap.set('n', '<space>f', function() vim.lsp.buf.format { async = true } end, keymap_opts)
+  vim.keymap.set('n', '<space>ca', vim.lsp.buf.code_action, keymap_opts)
 end
+
 -- Automatically start coq. NOTE: run before require("qoc")
 vim.g.coq_settings = {
   auto_start = 'shut-up',
@@ -94,8 +95,8 @@ vim.g.coq_settings = {
   display={ghost_text={enabled=false}},
 }
 -- LSP config. NOTE: coq wraps on_attach config for LSP to enhance it
-for _, lsp in ipairs(servers) do
-  require("lspconfig")[lsp].setup(
+for _, server in ipairs(servers) do
+  require("lspconfig")[server].setup(
     -- add auto-completion via coq
     require('coq').lsp_ensure_capabilities({
       on_attach = on_attach,
