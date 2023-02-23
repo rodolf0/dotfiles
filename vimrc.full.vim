@@ -12,8 +12,6 @@ Plug 'sainnhe/sonokai'
 Plug 'itchyny/lightline.vim'
 " focus on the code you're editing
 Plug 'folke/twilight.nvim'
-" Tree file explorer
-Plug 'kyazdani42/nvim-tree.lua'
 " Autoclose matching parenthesis/braces/etc
 Plug 'windwp/nvim-autopairs'
 " Easy comments
@@ -32,7 +30,7 @@ Plug 'rust-lang/rust.vim'
 Plug 'hashivim/vim-terraform'
 
 " LSP - https://github.com/neovim/nvim-lspconfig/wiki/Autocompletion
-Plug 'nvim-treesitter/nvim-treesitter'
+Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
 Plug 'neovim/nvim-lspconfig'  " config for LSP client
 Plug 'ms-jpq/coq_nvim', {'branch': 'coq'} " auto-completion
 
@@ -114,23 +112,6 @@ ino <silent><expr> <Tab>   pumvisible() ? (complete_info().selected == -1 ? "\<C
 ino <silent><expr> <CR>   pumvisible() ? (complete_info().selected == -1 ? "\<C-e><CR>" : "\<C-y>") : "\<CR>"
 ino <silent><expr> <Esc>   pumvisible() ? "\<C-e><Esc>" : "\<Esc>"
 ino <silent><expr> <BS>    pumvisible() ? "\<C-e><BS>"  : "\<BS>"
-" ###################################
-
-" ############ nvim-tree ############
-lua <<EOF
-require("nvim-tree").setup({
-  on_attach=function(bufnr)
-    local nt_api = require("nvim-tree.api")
-    local bufopts = {noremap=true, silent=true, buffer=bufnr}
-    vim.keymap.set("n", "<Esc>", nt_api.tree.close, bufopts)
-    vim.keymap.set("n", "/", nt_api.live_filter.start, bufopts)
-  end,
-  remove_keymaps={"<Tab>"},
-  live_filter={always_show_folders=false},
-})
-EOF
-" Mappings https://github.com/kyazdani42/nvim-tree.lua/blob/master/doc/nvim-tree-lua.txt#L1077
-nnoremap <leader>e :NvimTreeFocus<CR>
 " ###################################
 
 " ############ twilight #############
