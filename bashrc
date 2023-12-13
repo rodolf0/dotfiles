@@ -53,7 +53,7 @@ __shell_setup() {
   export PROMPT_DIRTRIM=3
   # the \[ braketing needs to be there so readline can calculate line length
   export PS1='\[\e[1;30m\]\t ' # time
-  [ "$SSH_TTY" ] && export PS1=$PS1'\[\e[1;33m\]\h ' # hostname
+  [ "$SSH_CONNECTION" ] && export PS1=$PS1'\[\e[1;33m\]\h ' # hostname
   export PS1=$PS1'\[\e[1;34m\]\w ' # working dir
   # exit code needs to be checked before any command to avoid loosing it
   export PS1=$PS1'$([[ ${PIPESTATUS[*]} =~ ^0( 0)*$ ]] && echo "\[\e[0;32m\]" || echo "\[\e[1;31m\]")${PIPESTATUS[*]} '
