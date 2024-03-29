@@ -162,3 +162,7 @@ pf() {
   ps -eo pid,user,start,state,wchan,rss,vsz,%mem,%cpu,nlwp,args |
     fzf --header-lines=1
 }
+
+vimf() {
+  vim -O $(sed 's,:.*$,,' | sort -u)
+}
