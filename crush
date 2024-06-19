@@ -5,9 +5,14 @@
 # inspiration from https://github.com/sharkdp/shell-functools
 
 import itertools
-import sys, os, re, csv, math
+import sys
+import os
+import re
+import csv
+import math  # import it for eval
 from collections import defaultdict
-from datetime import datetime
+from datetime import datetime, timezone
+from zoneinfo import ZoneInfo
 
 
 class Cutter:
@@ -17,8 +22,8 @@ class Cutter:
             itertools.chain([header], istream) if header else istream
 
     def __iter__(self):
-        yield from (tuple(l[f] if len(l) > f else ""
-                          for f in self.fields) for l in self.istream)
+        yield from (tuple(li[f] if len(li) > f else ""
+                          for f in self.fields) for li in self.istream)
 
 
 class DateConverter:
@@ -35,13 +40,13 @@ class DateConverter:
         self.istream = istream
         self.outfmt = args.ofmt
 
-        import pytz
         # parse input as if it were this timezone
-        tz_input = pytz.timezone(args.itz) if args.itz else None
+        tz_input = ZoneInfo(args.itz) if args.itz else None
         # if input is timezone-aware, then format output in local-tz by default
-        tz_output = datetime.utcnow().astimezone().tzinfo if tz_input else None
+        tz_output = datetime.now(
+            timezone.utc).astimezone().tzinfo if tz_input else None
         # override default output-tz if we want something else than local
-        tz_output = pytz.timezone(args.otz) if args.otz else tz_output
+        tz_output = ZoneInfo(args.otz) if args.otz else tz_output
         self.tz_input, self.tz_output = tz_input, tz_output
 
     # try multiple input formats
@@ -64,7 +69,7 @@ class DateConverter:
         if self.header:
             yield self.header
         yield from (tuple(self._tryparse(f) if i in self.datefields else f
-                    for i, f in enumerate(l)) for l in self.istream)
+                    for i, f in enumerate(li)) for li in self.istream)
 
 
 class Aggregator:
@@ -75,7 +80,8 @@ class Aggregator:
         self.pivots = parse_keyspec(args.pivots, header) if args.pivots else []
         self.aggregations = self._parse_aggregations(args, header)
         # list of all columns we need aggregations for
-        self.aggfields = set.union(*[set(f) for f in self.aggregations.values()])
+        self.aggfields = set.union(*[set(f)
+                                   for f in self.aggregations.values()])
 
     def _parse_aggregations(self, args, header):
         # Parse which aggregation to build
@@ -108,13 +114,20 @@ class Aggregator:
 
     @staticmethod
     def _do_agg(fn, values):
-        if len(values) == 0: return '-'
-        if fn == 'avg': return "%.12g" % (sum(map(float, values)) / len(values))
-        if fn == 'count': return str(len(values))
-        if fn == 'uniq': return str(len(set(values)))
-        if fn == 'max': return "%.12g" % max(map(float, values))
-        if fn == 'min': return "%.12g" % min(map(float, values))
-        if fn == 'sum': return "%.12g" % sum(map(float, values))
+        if len(values) == 0:
+            return '-'
+        if fn == 'avg':
+            return "%.12g" % (sum(map(float, values)) / len(values))
+        if fn == 'count':
+            return str(len(values))
+        if fn == 'uniq':
+            return str(len(set(values)))
+        if fn == 'max':
+            return "%.12g" % max(map(float, values))
+        if fn == 'min':
+            return "%.12g" % min(map(float, values))
+        if fn == 'sum':
+            return "%.12g" % sum(map(float, values))
         if fn[0] == 'p':
             pct = float(fn[1:])
             values = sorted(map(float, values))
@@ -131,9 +144,9 @@ class Aggregator:
             aggtype=aggtype,
             aggcol=("-" + self.header[af] if len(aggfields) > 1 else ''),
             pivinfo=('[{}]'.format(pt) if pt else ''))
-                     for aggtype, aggfields in self.aggregations.items()
-                     for af in aggfields
-                     for pt in pivot_templates)
+            for aggtype, aggfields in self.aggregations.items()
+            for af in aggfields
+            for pt in pivot_templates)
         return columns
 
     def __iter__(self):
@@ -151,6 +164,7 @@ class Aggregator:
 
 class Evaler:
     "Calculate new columns using python, calcspec: [(expr, header), ...]"
+
     def __init__(self, args, header, istream):
         self.header = header
         self.istream = istream
@@ -161,7 +175,7 @@ class Evaler:
     @staticmethod
     def _compile_expr(field_regex, expr, header):
         # find all column references within expr and resolve to indexes
-        expr_refs = field_regex.findall(expr)
+        expr_refs = set(field_regex.findall(expr))
         expr_fields = ",".join(f.strip("{}") for f in expr_refs)
         expr_fields = parse_keyspec(expr_fields, header)
         # make anonymous variables for each column reference
@@ -172,14 +186,15 @@ class Evaler:
         # evaluate expression into a function
         try:
             expr = eval("lambda %s: %s" % (", ".join(varnames), expr))
-        except SyntaxError:
-            print("failed to parse: " + expr, file=sys.stderr)
+        except SyntaxError as ex:
+            print(f"failed to parse: {expr}. Ex: {ex}", file=sys.stderr)
             sys.exit(1)
         return (expr, expr_fields)
 
 
 class Calculator(Evaler):
-    "Sort input by python expression, sortspec: [expr, ...]"
+    "Calculate fields by python expression, calcspec: [expr, ...]"
+
     def __init__(self, args, header, istream):
         super().__init__(args, header, istream)
         self.filter = args.filter
@@ -200,6 +215,7 @@ class Calculator(Evaler):
 
 class Sorter(Evaler):
     "Sort input by python expression, sortspec: [expr, ...]"
+
     def __init__(self, args, header, istream):
         super().__init__(args, header, istream)
         self.reverse = args.reverse
@@ -208,9 +224,9 @@ class Sorter(Evaler):
         if self.header:
             yield self.header
         yield from sorted(
-                self.istream, reverse=self.reverse,
-                key=lambda line:
-                tuple(fn(*[line[i] for i in args]) for fn, args in self.exprs))
+            self.istream, reverse=self.reverse,
+            key=lambda line:
+            tuple(fn(*[line[i] for i in args]) for fn, args in self.exprs))
 
 
 def splitstream(istream, splitspec, bucketfn, outpath, outpat, header, wrmaker):
@@ -269,10 +285,10 @@ def build_reader(args):
     if args.csv:
         istream = csv.reader(args.infile)
     elif len(args.delim) == 1:
-        istream = (l.strip().split(args.delim) for l in args.infile)
+        istream = (li.strip().split(args.delim) for li in args.infile)
     else:
         _delim = re.compile(args.delim)
-        istream = (_delim.split(l.strip()) for l in args.infile)
+        istream = (_delim.split(li.strip()) for li in args.infile)
     # TODO: limit the amount of splitting based on header?
     header = next(istream) if args.header else None
     return header, istream
@@ -287,7 +303,7 @@ def build_writer(args, ostream):
         return _csv_writer
     elif args.odelim:
         def _odelim_writer(istream):
-            ostream.writelines(args.odelim.join(l) + "\n" for l in istream)
+            ostream.writelines(args.odelim.join(li) + "\n" for li in istream)
             ostream.flush()
         return _odelim_writer
 
@@ -300,15 +316,15 @@ def build_writer(args, ostream):
                   if len(normalized) > 0 else {})
         # Don't print alignment if single column
         if len(widths) == 1:
-            ostream.writelines(l[0] + "\n" for l in istream)
+            ostream.writelines(li[0] + "\n" for li in istream)
             ostream.flush()
             return
         for line in normalized:
             widths = {
                 i: max(widths.get(i, 0), len(col)) for i, col in enumerate(line)
             }
-        outfmt = '  '.join("{:<%d}" % w for i, w in enumerate(widths.values())) + "\n"
-        ostream.writelines(outfmt.format(*l) for l in istream)
+        outfmt = '  '.join("{:<%d}" % w for w in widths.values()) + "\n"
+        ostream.writelines(outfmt.format(*li) for li in istream)
         ostream.flush()
     return _fixed_width_writer
 
@@ -401,8 +417,8 @@ def main():
         splitspec = parse_keyspec(args.fields, header)
         try:
             bucketfn = eval(args.bucket)
-        except SyntaxError:
-            print("failed to parse: " + args.bucket, file=sys.stderr)
+        except SyntaxError as ex:
+            print(f"failed to parse: {args.bucket}. Ex: {ex}", file=sys.stderr)
             sys.exit(1)
         splitstream(istream, splitspec, bucketfn,
                     args.path, args.outpat, header,
