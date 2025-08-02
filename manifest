@@ -3,12 +3,10 @@ bashrc              : .bashrc
 crush               : bin/crush
 gdbinit             : .gdbinit
 gitconfig           : .gitconfig
-init.vim            : .config/nvim/init.vim
+init.lua            : .config/nvim/init.lua
 inputrc             : .inputrc
-coc-settings.json   : .config/nvim/coc-settings.json
 npmrc               : .npmrc
 pythonrc            : .pythonrc
 sshrc               : bin/sshrc
-starship.toml       : .config/starship.toml
 tmux.conf           : .tmux.conf
 wezterm.lua         : .config/wezterm/wezterm.lua
