@@ -534,6 +534,12 @@ require("lazy").setup({
 			dependencies = { "nvim-treesitter/nvim-treesitter", "nvim-tree/nvim-web-devicons" }, -- if you prefer nvim-web-devicons
 			opts = {},
 		},
+		-- Auto-insert relevant parens
+		{
+			"windwp/nvim-autopairs",
+			event = "InsertEnter",
+			config = true,
+		},
 	},
 })
 
