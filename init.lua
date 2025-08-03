@@ -267,6 +267,12 @@ require("lazy").setup({
 		{
 			"folke/tokyonight.nvim",
 			priority = 1000, -- Make sure to load this before all the other start plugins.
+			opts = {
+				style = "night",
+				on_highlights = function(hi, colors)
+					hi.WinSeparator.fg = colors.comment
+				end,
+			},
 			init = function()
 				vim.cmd.colorscheme("tokyonight-night")
 			end,
