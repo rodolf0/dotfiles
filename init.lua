@@ -383,6 +383,18 @@ require("lazy").setup({
 								vim.lsp.inlay_hint.enable(not vim.lsp.inlay_hint.is_enabled({ bufnr = event.buf }))
 							end, "[T]oggle Inlay [H]ints")
 						end
+
+						-- Automatically open a float window with diagnostics on CursorHold
+						vim.api.nvim_create_autocmd("CursorHold", {
+							group = vim.api.nvim_create_augroup("LspDiagnostics", { clear = true }),
+							callback = function()
+								vim.diagnostic.open_float({
+									scope = "cursor",
+									focusable = false,
+									close_events = { "CursorMoved", "InsertCharPre", "BufLeave", "WinClosed" },
+								})
+							end,
+						})
 					end,
 				})
 
