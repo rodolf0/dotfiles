@@ -63,7 +63,15 @@ vim.keymap.set("n", "j", "gj") -- Easier move on wrapped lines
 vim.keymap.set("n", "k", "gk")
 vim.keymap.set("n", "'", "`") -- remember column position on marks
 vim.keymap.set("n", "<leader>z", ":ZenMode<CR>") -- Enter focus mode
-vim.keymap.set("n", "<leader>q", vim.diagnostic.setloclist, { desc = "Open diagnostic [Q]uickfix list" })
+vim.keymap.set("n", "<leader>q", function()
+	vim.diagnostic.open_float({
+		scope = "cursor",
+		focusable = false,
+		close_events = { "CursorMoved", "InsertCharPre", "BufLeave", "WinClosed" },
+	})
+end, {
+	desc = "Open diagnostic [Q]uickfix list",
+})
 
 --
 -- Search config -----------------------------------------------
@@ -383,18 +391,6 @@ require("lazy").setup({
 								vim.lsp.inlay_hint.enable(not vim.lsp.inlay_hint.is_enabled({ bufnr = event.buf }))
 							end, "[T]oggle Inlay [H]ints")
 						end
-
-						-- Automatically open a float window with diagnostics on CursorHold
-						vim.api.nvim_create_autocmd("CursorHold", {
-							group = vim.api.nvim_create_augroup("LspDiagnostics", { clear = true }),
-							callback = function()
-								vim.diagnostic.open_float({
-									scope = "cursor",
-									focusable = false,
-									close_events = { "CursorMoved", "InsertCharPre", "BufLeave", "WinClosed" },
-								})
-							end,
-						})
 					end,
 				})
 
