@@ -41,6 +41,9 @@ vim.api.nvim_create_autocmd("InsertLeave", {
 		vim.opt.list = false
 	end,
 })
+-- Sets border for diagnostic popups
+-- vim.diagnostic.config({ float = { border = "rounded" } })
+vim.opt.winborder = "rounded" -- affects all floating windows
 
 --
 -- Key maps ----------------------------------------------------
@@ -97,7 +100,7 @@ vim.opt.rtp:prepend(lazypath)
 
 require("lazy").setup({
 	-- auto check for plugin updates
-	checker = { enabled = true },
+	checker = { enabled = true, notify = false },
 	spec = {
 		-- Detect tabstop and shiftwidth automatically
 		"tpope/vim-sleuth",
@@ -533,6 +536,8 @@ require("lazy").setup({
 						{ name = "luasnip" },
 						-- { name = "codeium" },
 					},
+					-- make hover window have borders
+					window = { completion = { border = "rounded" }, documentation = { border = "rounded" } },
 				})
 			end,
 		},
