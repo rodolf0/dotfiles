@@ -273,7 +273,13 @@ require("lazy").setup({
 			},
 		},
 		-- "nvim-treesitter/nvim-treesitter-textobjects", -- TODO: configure
-		"nvim-treesitter/nvim-treesitter-context", -- show context on scroll
+		{
+			"nvim-treesitter/nvim-treesitter-context", -- show context on scroll
+			opts = {
+				max_lines = 5, -- How many lines the window should span. Values <= 0 mean no limit.
+				min_window_height = 45, -- Minimum editor window height to enable context. Values <= 0 mean no limit.
+			},
+		},
 		-- colorscheme
 		{
 			"folke/tokyonight.nvim",
@@ -557,6 +563,24 @@ require("lazy").setup({
 		{
 			"github/copilot.vim",
 		},
+		-- Show git / mercurial / etc changes in sign column
+		{
+			"mhinz/vim-signify",
+			event = "VeryLazy", -- Loads nicely after startup
+			init = function()
+				-- Optional: faster update time (default is 4000ms, which is slow)
+				-- vim.opt.updatetime = 100
+			end,
+			config = function()
+				-- Optional: Custom settings if needed
+				-- By default, it just works.
+				-- 'hg' is enabled automatically if an .hg folder is found.
+				-- Example: Limit to only Mercurial and Git to save resources
+				vim.g.signify_vcs_list = { "hg", "git" }
+			end,
+		},
+		--  The following allows loading external plugins `lua/custom/plugins/*.lua`
+		-- { import = "custom.plugins" },
 	},
 })
 
