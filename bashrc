@@ -95,3 +95,6 @@ for s in ~/Source/dotfiles/*.lib.sh; do [ -f "$s" ] && source "$s"; done
 
 # stuff not to be tracked by git goes here
 [ -f ~/.bashrc.priv.post ] && source ~/.bashrc.priv.post || true
+
+# opencode
+export PATH=/home/rudolph/.opencode/bin:$PATH
