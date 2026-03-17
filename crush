@@ -263,18 +263,18 @@ def parse_keyspec(keyspec, header):
         return []
     idxs = []
     for spec in keyspec.split(","):
-        if header:
-            if spec in header:
-                idxs.append(header.index(spec))
-            else:
-                print("unknown field: " + spec, file=sys.stderr)
-                sys.exit(1)
+        if header and spec in header:
+            idxs.append(header.index(spec))
         elif "-" in spec:
             start, _, end = spec.partition("-")
             start, end = int(start), int(end)
             idxs.extend(range(start - 1, end))
         else:
-            idxs.append(int(spec) - 1)
+            try:
+                idxs.append(int(spec) - 1)
+            except ValueError:
+                print("unknown field: " + spec, file=sys.stderr)
+                sys.exit(1)
     return idxs
 
 
@@ -307,6 +307,13 @@ def build_writer(args, ostream):
             ostream.flush()
         return _odelim_writer
 
+    if not ostream.isatty():
+        def _tab_writer(istream):
+            ostream.writelines("\t".join(str(x)
+                               for x in li) + "\n" for li in istream)
+            ostream.flush()
+        return _tab_writer
+
     # fixed-width column writer
     def _fixed_width_writer(istream):
         istream = iter(istream)  # treat lists and generators equally
@@ -332,12 +339,14 @@ def build_writer(args, ostream):
 # cmdline parsing
 def main():
     import argparse
-    gp = argparse.ArgumentParser()
-    gp.add_argument("--delim", "-d", default=r"\s+")
-    gp.add_argument("--odelim", "-o", help="output field delimiter")
-    gp.add_argument("--csv", action="store_true")
-    gp.add_argument("--ocsv", action="store_true")
-    gp.add_argument("--header", "-H", action="store_true")
+    gp_global = argparse.ArgumentParser(add_help=False)
+    gp_global.add_argument("--delim", "-d", default=r"\s+")
+    gp_global.add_argument("--odelim", "-o", help="output field delimiter")
+    gp_global.add_argument("--csv", action="store_true")
+    gp_global.add_argument("--ocsv", action="store_true")
+    gp_global.add_argument("--header", "-H", action="store_true")
+
+    gp = argparse.ArgumentParser(parents=[gp_global])
     sp = gp.add_subparsers(dest="command")
 
     p = sp.add_parser("cut")
@@ -388,7 +397,8 @@ def main():
     p.add_argument("infile", type=argparse.FileType('r'),
                    nargs="?", default=sys.stdin)
 
-    args = gp.parse_args()
+    global_args, rest = gp_global.parse_known_intermixed_args()
+    args = gp.parse_args(rest, namespace=global_args)
     if not args.command:
         return gp.print_help()
 
