@@ -42,6 +42,16 @@ __crush_alias() {
 }
 __crush_alias
 
+
+__hostname_color() {
+    # Get a numeric hash of the hostname
+    local hash=$(printf "%s" "$HOSTNAME" | cksum | cut -f 1 -d ' ')
+    # Map it to the 256-color range (avoiding 0-15 as they are often too dark/dim)
+    # This picks a color between 16 and 255
+    local color_code=$(( (hash % 239) + 16 ))
+    echo "$color_code"
+}
+
 __shell_setup() {
   shopt -s extglob
   shopt -s checkwinsize
@@ -53,7 +63,8 @@ __shell_setup() {
   export PROMPT_DIRTRIM=3
   # the \[ braketing needs to be there so readline can calculate line length
   export PS1='\[\e[1;30m\]\t ' # time
-  [ "$SSH_CONNECTION" ] && export PS1=$PS1'\[\e[1;33m\]\h ' # hostname
+  # [ "$SSH_CONNECTION" ] && export PS1=$PS1'\[\e[1;33m\]\h ' # hostname
+  [ "$SSH_CONNECTION" ] && export PS1="$PS1\[\e[38;5;$(__hostname_color)m\]\h " # hostname
   export PS1=$PS1'\[\e[1;34m\]\w ' # working dir
   # exit code needs to be checked before any command to avoid loosing it
   export PS1=$PS1'$([[ ${PIPESTATUS[*]} =~ ^0( 0)*$ ]] && echo "\[\e[0;32m\]" || echo "\[\e[1;31m\]")${PIPESTATUS[*]} '
