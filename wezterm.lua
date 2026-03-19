@@ -32,7 +32,7 @@ return {
 	-- {key="H", mods="SHIFT|CTRL", action=wezterm.action{Search={Regex="[a-f0-9]{6,}"}}},
 	-- },
 
-	selection_word_boundary = " \t\n{}[]()<>\"'`,;:=",
+	selection_word_boundary = " \t\n{}[]()<>\"'`,;:=│┃┆┇┊┋╎╏║",
 
 	mouse_bindings = {
 		-- Default behavior is to follow open links. Disable, just select text.
@@ -86,8 +86,8 @@ return {
 		},
 		-- SEVs
 		{
-			regex = "\\b[sS][0-9]{5,7}\\b",
-			format = "https://www.internalfb.com/intern/sevmanager/view/s/$0/",
+			regex = "\\b[sS]([0-9]{5,7})\\b",
+			format = "https://www.internalfb.com/intern/sevmanager/view/s/$1/",
 		},
 		-- TW jobs
 		{
