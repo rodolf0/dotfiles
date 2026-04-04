@@ -116,22 +116,31 @@ class Aggregator:
     def _do_agg(fn, values):
         if len(values) == 0:
             return '-'
-        if fn == 'avg':
-            return "%.12g" % (sum(map(float, values)) / len(values))
         if fn == 'count':
             return str(len(values))
         if fn == 'uniq':
             return str(len(set(values)))
+        # Filter to only numeric values
+        numeric = []
+        for v in values:
+            try:
+                numeric.append(float(v))
+            except (ValueError, TypeError):
+                pass
+        if not numeric:
+            return '-'
+        if fn == 'avg':
+            return "%.12g" % (sum(numeric) / len(numeric))
         if fn == 'max':
-            return "%.12g" % max(map(float, values))
+            return "%.12g" % max(numeric)
         if fn == 'min':
-            return "%.12g" % min(map(float, values))
+            return "%.12g" % min(numeric)
         if fn == 'sum':
-            return "%.12g" % sum(map(float, values))
+            return "%.12g" % sum(numeric)
         if fn[0] == 'p':
             pct = float(fn[1:])
-            values = sorted(map(float, values))
-            return "%.12g" % values[int(len(values) * pct/100.0 - 0.5)]
+            numeric = sorted(numeric)
+            return "%.12g" % numeric[int(len(numeric) * pct/100.0 - 0.5)]
 
     def _columns(self, pivot_values):
         # pivot columns: combination of all observed values for all pivots
