@@ -12,6 +12,22 @@ tux() {
   tmux -2 -u new-session -AD -s "$__tmuxsesid"
 }
 
+tcopy() {
+    # Ensure raw binary data is processed cleanly without line-breaks
+    local b64=$(printf "%s" "$*" | base64 | tr -d '\n\r')
+    if [ -n "$TMUX" ]; then
+        # Tmux handles transmission natively via -w flag
+        printf "%s" "$*" | tmux load-buffer -w - 2>/dev/null
+    elif [ -n "$SSH_TTY" ]; then
+        # Over SSH direct: Explicit target path required for network boundaries
+        printf "\033]52;c;%s\007" "$b64" > "$SSH_TTY"
+    else
+        # Local Native Terminal (WezTerm/Alacritty/Kitty): 
+        # Emitting to standard output allows the emulator to intercept directly
+        printf "\033]52;c;%s\007" "$b64"
+    fi
+}
+
 # output tmux highlight to stdout
 tb() {
   tmux save-buffer -;
