@@ -32,6 +32,26 @@ return {
 	-- {key="H", mods="SHIFT|CTRL", action=wezterm.action{Search={Regex="[a-f0-9]{6,}"}}},
 	-- },
 
+	keys = {
+		-- 1. Jump up and down between previous command prompts
+		{ key = "UpArrow", mods = "SHIFT", action = wezterm.action.ScrollToPrompt(-1) },
+		{ key = "DownArrow", mods = "SHIFT", action = wezterm.action.ScrollToPrompt(1) },
+
+		-- 2. Instant-copy the output of the exact last command to your clipboard
+		{
+			key = "x",
+			mods = "CMD",
+			action = wezterm.action_callback(function(win, pane)
+				local zones = pane:get_semantic_zones("Output")
+				if #zones > 0 then
+					-- Grab the very last output zone recorded
+					local last_output = pane:get_text_from_semantic_zone(zones[#zones])
+					win:copy_to_clipboard(last_output, "Clipboard")
+				end
+			end),
+		},
+	},
+
 	selection_word_boundary = " \t\n{}[]()<>\"'`,;:=│┃┆┇┊┋╎╏║",
 
 	mouse_bindings = {
