@@ -349,11 +349,11 @@ def build_writer(args, ostream):
 def main():
     import argparse
     gp_global = argparse.ArgumentParser(add_help=False)
-    gp_global.add_argument("--delim", "-d", default=r"\s+")
+    gp_global.add_argument("--delim", "-d", default=r"\t| {2,}")
     gp_global.add_argument("--odelim", "-o", help="output field delimiter")
     gp_global.add_argument("--csv", action="store_true")
     gp_global.add_argument("--ocsv", action="store_true")
-    gp_global.add_argument("--header", "-H", action="store_true")
+    gp_global.add_argument("--no-header", "-n", dest="header", action="store_false", default=True)
 
     gp = argparse.ArgumentParser(parents=[gp_global])
     sp = gp.add_subparsers(dest="command")
@@ -399,7 +399,7 @@ def main():
     p.add_argument("--fields", "-f", required=True,
                    help="arguments to the partition function")
     p.add_argument("--bucket", "-b", default="lambda x: str(x)",
-                   help="bucket function eg: lambda x: str(abs(hash(x)) % 10)")
+                   help="bucket function eg: lambda x: str(abs(hash(x)) %% 10)")
     p.add_argument("--path", "-p", default=".")
     p.add_argument("--outpat", "-o", default="%",
                    help="Output filename pattern, %% is the bucket name")
